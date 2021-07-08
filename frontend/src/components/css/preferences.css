@@ -1,0 +1,65 @@
+.choiceList {
+    margin-top: 50px;
+    text-align: center;
+
+}
+
+.preferenceChoice {
+    display: inline;
+}
+
+.optionButton:hover {
+    background-color: rgb(182, 182, 182);
+}
+
+
+
+#welcomeMessage {
+    text-align: center;
+}
+
+#welcomeParagraph {
+    text-align: center;
+}
+
+.table {
+    display: inline-table;
+    font-size: 24px;
+    text-align: left;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 15px;
+    padding-right: 25px;
+}
+
+td {
+    border-bottom: 1px solid black;
+    position: relative;
+    left: 10px;
+}
+
+#interestHeader {
+    position: relative;
+    left: 10px;
+}
+
+#submitButtonContainer {
+    display: inline;
+    text-align: center;
+}
+
+#submitSelections {
+    position: absolute;
+    padding: 10px;
+    height: 40px;
+    width: 15%;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin-inline: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    left: 42.25%;
+}
