@@ -6,6 +6,7 @@ const users = require("./routes/api/users");
 const app = express();
 
 const path = require('path');
+mongoose.set( "useUnifiedTopology", true)
 
 // Bodyparser middleware
 app.use(
