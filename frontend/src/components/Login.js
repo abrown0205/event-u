@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './css/login.css';
 import axios from 'axios';
 
-
-function Inputs() {
+function Login()
+{
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
 
@@ -31,7 +31,7 @@ function Inputs() {
             data: js
         }
 
-
+        console.log(bp.buildPath('api/users/login'));
         axios(config)
             .then(function (response) {
                 var res = response.data;
@@ -57,22 +57,15 @@ function Inputs() {
     };
 
     return(
-        <div className="loginDiv">
-            <h1 id="title">Welcome Back!</h1>
-            <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /> <br />
-            <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c}/><br />
-            <input type="submit" id="loginButton" value="Sign In" onClick={doLogin} />
-            <span id="loginResult">{message}</span>
-            <h3 id="redirectText">Don't have an account?<a href="/signup" id="redirectButton"> Sign Up!</a></h3>
-        </div>
-    );
-};
-
-function Login()
-{
-    return(
         <div className="LoginPage">
-            <Inputs />
+            <div className="loginDiv">
+                <h1 id="title">Welcome Back!</h1>
+                <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /> <br />
+                <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c}/><br />
+                <input type="submit" id="loginButton" value="Sign In" onClick={doLogin} />
+                <span id="loginResult">{message}</span>
+                <h3 id="redirectText">Don't have an account?<a href="/signup" id="redirectButton"> Sign Up!</a></h3>
+            </div>
         </div>
     );
 };

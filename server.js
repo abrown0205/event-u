@@ -1,11 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 const passport = require("passport");
 const users = require("./routes/api/users");
 const app = express();
 
 const path = require('path');
+mongoose.set('useUnifiedTopology', true);
 
 // Bodyparser middleware
 app.use(
@@ -14,6 +16,20 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+app.use(cors());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Origin-Allow', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, DELETE, OPTIONS'
+  );
+  next();
+})
 // DB Config
 const db = require("./config/keys").mongoURI;
 // Connect to MongoDB

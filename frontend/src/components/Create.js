@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import './css/login.css';
 
+
 function Inputs() {
+    var bp = require('./Path.js');
+
     var createName;
     var createPassword;
     var lname;
@@ -21,7 +24,7 @@ function Inputs() {
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/signup', 
+            const response = await fetch('/api/register', 
                 {method:'POST',body:js,headers:{'Content-Type':'application/json'}});
                 
             var res = JSON.parse(await response.text());
