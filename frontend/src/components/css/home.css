@@ -1,0 +1,161 @@
+* {
+    overflow: hidden;
+}
+
+.HomePage {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: white;
+}
+
+.topBar {
+    position: relative;
+    height: 50px;
+    border-bottom: 2px solid #9D8D8F;
+    background: #fff;
+    overflow: hidden;
+    width: 100%;
+}
+
+.linkContainer {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.topBarLink {
+    color: #9D8D8F;
+    font-size: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: ease-in;
+    text-align: center;
+    margin-inline: 75px;
+    transition: color .7s ease-in-out;
+}
+
+.topBarLink:hover {
+    color: #46344E;
+}
+
+#fabars {
+    position: relative;
+    top: 13px;
+    float: right;
+}
+
+.currentIcon {
+    color: #46344E;
+}
+
+.myEvents {
+    display: block;
+    margin-left: 55px;
+}
+
+.nearbyEvents {
+
+    margin-left: 55px;
+}
+
+#eventsHeader {
+    font-size: 35px;
+    color: #000;
+    position: relative;
+    top: 0px;
+}
+
+#postContainer {
+    float: left;
+    margin-left: 15px;
+    margin-bottom: 50px;
+}
+
+#postButton {
+    margin-top: 10px;
+    border: 1px solid black;
+    height: 125px;
+    width: 125px;
+    border-radius: 10px;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.vl {
+    border-right: 2px solid #9D8D8F;
+    height: 130px;
+    float: left;
+    margin-top: 7.5px;
+    margin-left: 15px;
+    
+}
+
+.eventItem {
+    height: 122.5px;
+    width: 125px;
+    border-radius: 10px;
+    border: 1px solid black;
+    float: left;
+    list-style: none;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+#feed {
+    position: relative;
+    left: 35px;
+    font-size: 35px;
+}
+
+#ongoing {
+    font-size: 35px;
+}
+
+.notification-box {
+    display: none;
+}
+
+.notification-active {
+    display: block;
+    background-color: white;
+    border: 5px solid rgb(209, 209, 209);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /* position: absolute; */
+    position: relative;
+    width: 250px;
+    top: 40px;
+    z-index: 1;
+    float: right;
+}
+
+.searchBar {
+    font-size: 20px;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+#searchIcon {
+    position: relative;
+    float: right;
+}
+
+.searchContainer {
+    text-align: center;
+    width: 100%;
+}
+
+#searchInput {
+    border-radius: 25px;
+    border: 2px solid black;
+    margin-top: 10px;
+    width: 25%;
+}
