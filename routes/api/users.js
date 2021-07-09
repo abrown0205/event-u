@@ -3,6 +3,9 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+//load sendGrid for welcome email
+const sgMail = require('@sendgrid/mail');
+const { sendWelcomeEmail } = require("./welcome_emailer");
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -20,7 +23,7 @@ const { errors, isValid } = validateRegisterInput(req.body);
   }
 User.findOne({ username: req.body.username }).then(user => {
     if (user) {
-      return res.status(400).json({ uaername: "User already exists" });
+      return res.status(400).json({ username: "User already exists" });
     } else {
       const newUser = new User({
         username: req.body.username,
@@ -40,6 +43,7 @@ User.findOne({ username: req.body.username }).then(user => {
             .save()
             .then(user => res.json(user))
             .catch(err => console.log(err));
+            sendWelcomeEmail(req.body.email, req.body.firstName, req.body.lastName, req.body.username);
         });
       });
     }
