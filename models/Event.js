@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+// const formatISO = require("date-fns/formatISO");
+// const currentDate = formatISO(new Date());
 
 const EventSchema = new mongoose.Schema(
     {
@@ -23,14 +25,17 @@ const EventSchema = new mongoose.Schema(
             require: true,
         },
         startTime: {
-            type: Date,
+            type: String,
             // require: true,
         },
         endTime: {
-            type: Date,
+            type: String,
             // require: true,
         },
-        createdBy: mongoose.ObjectId,
+        createdby: {
+            type: String,
+            description: ""
+        },
         description: {
             type: String,
         },
@@ -42,8 +47,8 @@ const EventSchema = new mongoose.Schema(
         capacity: {
             type: Number,
             require: true,
-            min: 1,
-            max: 20,
+            // min: 1,
+            // max: 20,
         }
     },
     // {timestamps: true}
