@@ -3,34 +3,41 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
+
 // Load User model
 const User = require("../../models/User");
+
 // @route POST api/users/register
 // @desc Register user
 // @access Public
 router.post("/register", (req, res) => {
+
   // Form validation
 const { errors, isValid } = validateRegisterInput(req.body);
+
 // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
+
 User.findOne({ username: req.body.username }).then(user => {
     if (user) {
       return res.status(400).json({ uaername: "User already exists" });
     } else {
       const newUser = new User({
         username: req.body.username,
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
+		    firstName: req.body.firstName,
+		    lastName: req.body.lastName,
         password: req.body.password,
-		email: req.body.email,
-		phone: req.body.phone,
-		notifications: true
+		    email: req.body.email,
+		    phone: req.body.phone,
+		    notifications: true
       });
+
 // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -45,24 +52,31 @@ User.findOne({ username: req.body.username }).then(user => {
     }
   });
 });
+
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
 router.post("/login", (req, res) => {
+
   // Form validation
 const { errors, isValid } = validateLoginInput(req.body);
+
 // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
+
 const username = req.body.username;
-  const password = req.body.password;
+const password = req.body.password;
+
 // Find user by email
   User.findOne({ username }).then(user => {
+
     // Check if user exists
     if (!user) {
       return res.status(404).json({ emailnotfound: "User not found" });
     }
+
 // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
@@ -94,4 +108,5 @@ const username = req.body.username;
     });
   });
 });
+
 module.exports = router;

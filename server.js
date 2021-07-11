@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const users = require("./routes/api/users");
 const app = express();
+const eventRoute = require("./routes/api/events");
 
 const path = require('path');
 mongoose.set( "useUnifiedTopology", true)
@@ -14,9 +15,12 @@ app.use(
     extended: false
   })
 );
+
 app.use(bodyParser.json());
+
 // DB Config
 const db = require("./config/keys").mongoURI;
+
 // Connect to MongoDB
 mongoose
   .connect(
@@ -25,12 +29,17 @@ mongoose
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
+
 // Passport middleware
 app.use(passport.initialize());
+
 // Passport config
 require("./config/passport")(passport);
+
 // Routes
 app.use("/api/users", users);
+app.use("/api/events", eventRoute);
+
 const port = process.env.PORT || 5000;
 
 app.set('port', (process.env.PORT || 5000));
