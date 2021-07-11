@@ -38,17 +38,24 @@ const UserSchema = new Schema({
         type: 'string',
         description: 'must be a string'
       },
-      attendedEvents: {
+	  createdEvents: {
         type: 'array',
         items: {
-          type: 'int',
+          type: 'objectId',
           description: 'must be an eventId of a corresponding event'
         }
       },
-	        likedEvents: {
+      attendedEvents: {
         type: 'array',
         items: {
-          type: 'int',
+          type: 'objectId',
+          description: 'must be an eventId of a corresponding event'
+        }
+      },
+	  likedEvents: {
+        type: 'array',
+        items: {
+          type: 'objectId',
           description: 'must be an eventId of a corresponding event'
         }
       },
