@@ -14,17 +14,17 @@ router.post("/", async (req, res) => {
     }
 })
 
-// router.get("/", async (req, res) => {
-//     try {
-//         // Gets all the events stored in the database
-//         // Passes a code of 200 if successful
-//         const events = await Event.find();
-//         res.status(200).json(events);
+router.get("/", async (req, res) => {
+    try {
+        // Gets all the events stored in the database
+        // Passes a code of 200 if successful
+        const events = await Event.find();
+        res.status(200).json(events);
 
-//     } catch(err) {
-//         res.status(500).json(err);
-//     }
-// })
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
 
 
 module.exports = router;
