@@ -31,17 +31,17 @@ function Login()
             data: js
         }
 
-        console.log(bp.buildPath('api/users/login'));
         axios(config)
             .then(function (response) {
                 var res = response.data;
+                console.log(res);
                 if(res.error) {
                     setMessage('User/Password combination incorrect');
                 }
                 else {
                     storage.storeToken(res);
                     var jwt = require('jsonwebtoken');
-
+                    
                     var ud = jwt.decode(storage.retrieveToken(),{complete:true});
                     var firstName = ud.payload.firstName;
                     var lastName = ud.payload.lastName;
