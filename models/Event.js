@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const EventSchema = new mongoose.Schema(
     {
-        name: {
+        title: {
             type: String,
             require: true,
         },
@@ -32,7 +32,7 @@ const EventSchema = new mongoose.Schema(
             type: String,
             // require: true,
         },
-        createdby: {
+        createdBy: {
             type: String,
             description: ""
         },
