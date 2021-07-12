@@ -1,4 +1,223 @@
-.map {
+body {
     padding: 0;
     margin: 0;
 }
+
+.card {
+    width: 250px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.info {
+    width: max-content;
+    color: tomato;
+    font-size: 13px;
+    border-bottom: .5px solid  tomato;
+    margin: 3px 0;
+}
+
+.desc {
+    font-size: 14px;
+}
+
+.star {
+    color: gold;
+}
+
+.username {
+    font-size: 14px;
+}
+
+.date {
+    font-size: 12px;
+}
+
+.addEvent-form {
+    width: 450px;
+    height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+ .mapboxgl-popup-close-button {
+     font-size: 40px;
+     width: 40px;
+ }
+
+.form-header {
+    font-size: 35px;
+    text-align: center;
+}
+
+.label {
+    /* display: inline-block; */
+    /* width: 350px; */
+    /* text-align: right; */
+    margin: 5px;
+    width: max-content;
+    
+}
+
+/* .input-field {
+    border: none;
+    margin: 5px;
+    padding: 5px;
+    display: inline-block;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+} */
+
+input[type="text"] {
+    padding: 10px;
+    margin: 10px;
+}
+
+#name-label {
+    position: relative;
+    top: -15px;
+    /* width: 320px; */
+}
+
+#name-input {
+    position: relative;
+    left: 0px;
+    width: 300px;
+    font-size: 17px;
+}
+
+#cat-label {
+    /* width: 158px; */
+    /* float: left; */
+    position: relative;
+    top: -30px;
+    width: 350px;
+}
+
+#options-list {
+    margin: 5px;
+    padding: 5px;
+    width: 250px;
+    font-size: 16px;
+    background-color: tomato;
+    border: none;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    cursor: pointer;
+}
+
+#add-label {
+    position: relative;
+    top: -40px;    
+}
+
+#add-input {
+    font-size: 17px;
+    width: 300px;
+}
+
+#startTime-label {
+    position: relative;
+    top: -55px;
+    margin: 5px;
+}
+
+#endTime-label {
+    position: relative;
+    top: -55px;
+}
+
+.time {
+    padding: 5px;
+    position: relative;
+    left: 0px;
+    margin: 1px;
+    width: 90px;
+}
+
+#desc-label {
+    position: relative;
+    top: -55px;
+}
+
+#comment-box {
+    position: relative;
+    top: -55px;
+    font-size: 15px;
+}
+
+#cap-label {
+    position: relative;
+    top: -55px;
+}
+
+#cap-input {
+    margin: 5px;
+    padding: 5px;
+    width: 45px;
+}
+
+#submit-btn {
+    height: 60px;
+    background-color: tomato;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+}
+
+/* #cat-label {
+    dis
+} */
+
+/*input, textarea {
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+input::placeholder, textarea::placeholder {
+    font-size: 12px;
+    color: rgb(144, 143, 143)
+}
+
+.submitButton {
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: tomato;
+    cursor: pointer;
+}
+
+.button {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+#logout {
+    background-color: tomato;
+}
+
+#login {
+    background-color: teal;
+}
+
+#register {
+    background-color: slateblue;
+}
+
+.buttons,.logout {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+} */
