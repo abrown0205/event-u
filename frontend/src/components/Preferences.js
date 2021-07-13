@@ -141,7 +141,7 @@ const SubmitButton = ({}) => {
         const interestPayload = [];
         for(var i = 0; i < interestArr.length; i++) {
             if(interestArr[i].select == true) {
-                interestPayload.push(interestArr.interest);
+                interestPayload.push(interestArr[i].interest);
             }
         }
         console.log(interestPayload);

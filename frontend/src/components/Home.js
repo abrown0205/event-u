@@ -10,8 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);
-var fname = ud.firstName;
-var lname = ud.lastName;
 
 const initialList = [];
 
