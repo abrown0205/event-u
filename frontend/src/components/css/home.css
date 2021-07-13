@@ -1,14 +1,21 @@
-* {
-    overflow: hidden;
-}
+
 
 .HomePage {
+    overflow: hidden;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     background: white;
+    height: 400%;
+}
+
+.topContainer {
+    position: fixed;
+    width: 100%;
+    background: white;
+    z-index: 2;
 }
 
 .topBar {
@@ -36,7 +43,7 @@
     cursor: pointer;
     transition: ease-in;
     text-align: center;
-    margin-inline: 75px;
+    margin-inline: 55px;
     transition: color .7s ease-in-out;
 }
 
@@ -44,10 +51,10 @@
     color: #46344E;
 }
 
-#fabars {
+#notifications {
     position: relative;
-    top: 13px;
-    float: right;
+    top: 10px;
+    float: left;
 }
 
 .currentIcon {
@@ -55,20 +62,22 @@
 }
 
 .myEvents {
+    position: relative;
+    clear: both;
     display: block;
     margin-left: 55px;
 }
 
 .nearbyEvents {
-
+    clear: both;
+    position: relative;
+    display: block;
     margin-left: 55px;
 }
 
 #eventsHeader {
     font-size: 35px;
     color: #000;
-    position: relative;
-    top: 0px;
 }
 
 #postContainer {
@@ -80,8 +89,8 @@
 #postButton {
     margin-top: 10px;
     border: 1px solid black;
-    height: 125px;
-    width: 125px;
+    height: 175px;
+    width: 175px;
     border-radius: 10px;
     font-size: 35px;
     cursor: pointer;
@@ -89,7 +98,7 @@
 
 .vl {
     border-right: 2px solid #9D8D8F;
-    height: 130px;
+    height: 180px;
     float: left;
     margin-top: 7.5px;
     margin-left: 15px;
@@ -97,8 +106,8 @@
 }
 
 .eventItem {
-    height: 122.5px;
-    width: 125px;
+    height: 175px;
+    width: 175px;
     border-radius: 10px;
     border: 1px solid black;
     float: left;
@@ -130,17 +139,20 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     /* position: absolute; */
-    position: relative;
+    position: fixed;
     width: 250px;
-    top: 40px;
+    top: 52px;
     z-index: 1;
     float: right;
+    left: 40px;
 }
 
 .searchBar {
+    clear: both;
     font-size: 20px;
     border: 1px solid black;
-    display: inline-block;
+    position: relative;
+    display: block;
 }
 
 #searchIcon {
@@ -149,6 +161,7 @@
 }
 
 .searchContainer {
+    clear: both;
     text-align: center;
     width: 100%;
 }
@@ -158,4 +171,66 @@
     border: 2px solid black;
     margin-top: 10px;
     width: 25%;
+}
+
+.eventList {
+    display: block;
+}
+
+.eventForm {
+    text-align: center;
+    background-color: #46344E;
+    width: 55%;
+    border-radius: 40px;
+    height: 525px;
+    box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .25);
+}
+
+.addEvent {
+    clear: both;
+}
+
+.addEvent input {
+    padding: 10px;
+    margin-top: 20px;
+    width: 40%;
+    border: 2px solid black;
+    border-radius: 25px;
+}
+
+#calInput {
+    text-align: center;
+    cursor: pointer;
+}
+
+#eventFormHead {
+    color: white;
+    padding: 15px;
+    display: block;
+}
+
+.eventCatBtn {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin-inline: 10px;
+    width: 175px;
+    cursor: pointer;
+}
+
+#submitEvent {
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid black;
+    width: 150px;
+    margin-inline: 10px;
+    cursor: pointer;
+}
+
+.separator {
+    color: white;
+    font-size: 20px;
+    margin-top: 30px;
 }

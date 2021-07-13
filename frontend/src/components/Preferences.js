@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import './css/preferences.css';
 import { useSpring, animated } from 'react-spring';
+import axios from 'axios';
 
 var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);
-//var firstName = ud.firstName;
-//var lastName = ud.lastName;
+var firstName = ud.firstName;
+var lastName = ud.lastName;
 
-var firstName = "martin";
-var lastName = "mccarthy";
+var interestArr;
 
-var totalSelected = 0;
 
 function ListElements() {
-
     const [interestState, setInterestState] = useState([]);
 
     useEffect(() => {
         let interestState = [
             {interest: "Music"},
-            {interest: "Hiking"},
-            {interest: "Biking"},
-            {interest: "Video Games"},
-            {interest: "Coffee"},
-            {interest: "Board Games"},
-            {interest: "Beach"},
+            {interest: "Studying"},
+            {interest: "Arts & Culture"},
             {interest: "Shopping"},
-            {interest: "Movies"},
-            {interest: "Partying"},
+            {interest: "Science"},
             {interest: "Sports"},
-            {interest: "Food and Drink"}
         ];
 
         setInterestState(
@@ -41,7 +33,14 @@ function ListElements() {
             })
         );
     }, []);
-    
+    //'sports',
+    // 'music',
+    // 'studying',
+    // 'arts & culture',
+    // 'shopping',
+    // 'science'
+    interestArr = interestState;
+
     return(
         <div>
             <table className="table table-bordered">
@@ -53,7 +52,6 @@ function ListElements() {
                                 setInterestState(
                                     interestState.map(d => {
                                         d.select = checked;
-                                        totalSelected = 12;
                                         return d;
                                     })
                                 );
@@ -73,7 +71,6 @@ function ListElements() {
                                         interestState.map(data => {
                                             if(d.interest === data.interest) {
                                                 data.select = checked;
-                                                totalSelected++;
                                             }
                                             return data;
                                         })
@@ -95,7 +92,7 @@ function ListElements() {
 function Options() {
     const props = useSpring({
         from: { y: 700, opacity: 0 },
-        to: {y: 50, opacity: 1},        
+        to: {y: 45, opacity: 1},        
     })
 
     return(
@@ -115,28 +112,96 @@ const HeaderText = ({}) => {
     return <animated.h1 style={props} id="welcomeMessage">Welcome {firstName} {lastName}!</animated.h1>
 };
 
+const SkipOption = ({}) => {
+    const props = useSpring({
+        from: { y: 700, opacity: 0 },
+        to: {y: 5, opacity: 1}
+    });
+    return<animated.h2 style={props} id="skipMessage">Not interested? <a href='/home'>Skip this step.</a></animated.h2>;
+}
+
 const HeaderText2 = ({}) => {
     const props = useSpring({
         from: { y: 700, opacity: 0 },
         to: {y: 75, opacity: 1}
     });
-    return<animated.h2 style={props} id="welcomeParagraph">Let's get to know you better, select at least 3 of the following general interests:</animated.h2>;
+    return<animated.h2 style={props} id="welcomeParagraph">Let's get to know you better, select some of the following general interests:</animated.h2>;
 };
 
 const SubmitButton = ({}) => {
+    var bp = require('./Path.js');
+    var storage = require('../tokenStorage.js');
+
+    var preferences;
+
+    const [message,setMessage] = useState('');
+
+    const addPreferences = async event =>
+    {
+        const interestPayload = [];
+        for(var i = 0; i < interestArr.length; i++) {
+            if(interestArr[i].select == true) {
+                interestPayload.push(interestArr.interest);
+            }
+        }
+        console.log(interestPayload);
+
+        event.preventDefault();
+        
+        var obj = {};
+        var js = JSON.stringify(obj);
+
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/users/preferences'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+
+        axios(config)
+            .then(function (response) {
+                var res = response.data;
+                if(res.error) {
+                    setMessage('Unable to submit, try again');
+                }
+                else {
+                    storage.storeToken(res);
+                    var jwt = require('jsonwebtoken');
+                    
+                    var ud = jwt.decode(storage.retrieveToken(),{complete:true});
+                    
+                    var firstName = ud.payload.firstName;
+                    var lastName = ud.payload.lastName;
+
+                    var user = {firstName:firstName,lastName:lastName};
+                    localStorage.setItem('user_data', JSON.stringify(user));
+                    window.location.href = '/home';
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+
+            });
+    }
+
     const props = useSpring({
-        from: {y: 1000, opacity: 0},
-        to: {y: 60, opacity: 1}
+        from: {y: 700, opacity: 0},
+        to: {y: 0, opacity: 1}
     });
+
     return(
         <div id="submitButtonContainer">
-            <animated.button style={props} id="submitSelections">Submit</animated.button>
+            <animated.button style={props} onClick={addPreferences} id="submitSelections">Submit</animated.button>
         </div>
     );
 };
 
 function Preferences() {
-    const[on, set] = React.useState(true);
+    //const[on, set] = React.useState(true);
 
     return(
         <div className="preferencesPage">
@@ -144,6 +209,7 @@ function Preferences() {
             <HeaderText2 />
             <Options />
             <SubmitButton />
+            <SkipOption />
         </div>
     );
 };

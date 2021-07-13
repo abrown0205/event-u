@@ -3,10 +3,15 @@ import './css/home.css'
 
 import { faHome } from "@fortawesome/free-solid-svg-icons"
 import { faCalendar } from "@fortawesome/free-solid-svg-icons"
-import { faPlus, faMap, faBars, faSearch } from "@fortawesome/free-solid-svg-icons"
-import { useState } from 'react'
+import { faPlus, faMap, faBars, faSearch, faCaretDown } from "@fortawesome/free-solid-svg-icons"
+import React, { useState } from 'react'
 import TopNav from '../components/TopNav';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+var _ud = localStorage.getItem('user_data');
+var ud = JSON.parse(_ud);
+var fname = ud.firstName;
+var lname = ud.lastName;
 
 const initialList = [];
 
@@ -15,6 +20,32 @@ const initialList = [];
 //     // this will redirect you to the page for adding events
 //     // window.location.href="http://localhost:3000";
 // }
+
+function DisplayAdd() {
+    return(
+        <div className="addEvent">
+            <form className="eventForm">
+                <h1 id="eventFormHead">Post a new event!</h1>
+                <input className="eventFormInput" type="text" placeholder="Event Name" /><br />
+                <input className="eventFormInput" type="text" placeholder="Event Location" /><br />
+                <input  className="eventFormInput" id="calInput" type="date" placeholder="Event Date" min={new Date()} />
+                <div className="addEventCategories">
+                    <button className="eventCatBtn">Music</button>
+                    <button className="eventCatBtn">Outdoor Activities</button>
+                    <button className="eventCatBtn">Games</button>
+                    <button className="eventCatBtn">Shopping</button>
+                    <button className="eventCatBtn">Movies</button>
+                    <button className="eventCatBtn">Sports</button>
+                    <button className="eventCatBtn">Food and Drink</button>
+                </div>
+                <div className="separator">
+                    <FontAwesomeIcon icon={faCaretDown}/><FontAwesomeIcon icon={faCaretDown}/><FontAwesomeIcon icon={faCaretDown}/>
+                </div>
+                <button id="submitEvent">Submit</button>
+            </form>
+        </div>
+    );
+}
 
 function Event(item) {
     return(
@@ -29,6 +60,7 @@ function Events() {
     const [name, setName] = useState('')
 
     function AddEvent() {
+        
         // this will redirect you to the page for adding events
         // window.location.href="http://localhost:3000";
         const newList = list.concat(name);
@@ -38,6 +70,7 @@ function Events() {
 
     return(
         <div className="myEvents">
+            <br /><br /><br />
             <h1 id="eventsHeader">My Events</h1>
             <div id="postContainer" onClick={AddEvent} value={name}>
                 <button id="postButton"><FontAwesomeIcon icon={faPlus}/></button>
@@ -60,7 +93,6 @@ function OngoingEvents() {
             <ul className="ongoing-List">
                 <Event />
             </ul>
-
         </div>
     );
 }
@@ -83,6 +115,7 @@ function HomePage() {
                 <OngoingEvents />
                 <Search />
             </div>
+            <DisplayAdd />
         </div>
     );
 };

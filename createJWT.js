@@ -6,12 +6,12 @@ exports.createToken = function ( fn, ln )
     return _createToken( fn, ln );
 }
 
-_createToken = function ( fn, ln )
+_createToken = function ( fn, ln, id, un, pref, ae, le, email )
 {
     try
     {
       const expiration = new Date();
-      const user = {firstName:fn,lastName:ln};
+      const user = {firstName:fn,lastName:ln,_id:id,username:un,preferences:pref,attendedEvents:ae,likedEvents:le,email:email};
 
       const accessToken =  jwt.sign( user, process.env.ACCESS_TOKEN_SECRET);
 
@@ -25,6 +25,7 @@ _createToken = function ( fn, ln )
       */
 
       var ret = {accessToken:accessToken};
+      console.log(ret);
     }
     catch(e)
     {
@@ -60,5 +61,12 @@ exports.refresh = function( token )
   var firstName = ud.payload.firstName;
   var lastName = ud.payload.lastName;
 
-  return _createToken( firstName, lastName );
+  var userId = ud.payload._id;
+  var username = ud.payload.username;
+  var preferences = ud.payload.preferences;
+  var attendedEvents = ud.payload.attendedEvents;
+  var likedEvents = ud.payload.likedEvents;
+  var email = ud.payload.email;
+
+  return _createToken( firstName, lastName, userId, username, preferences, attendedEvents, likedEvents, email );
 }

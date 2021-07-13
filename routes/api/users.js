@@ -54,27 +54,14 @@ router.post("/register", async (req, res, next) => {
           console.log(newUser);
           
           
-          /*newUser
+          newUser
             .save()
             .then(user => res.json(user))
-            .catch(err => console.log(err + " this is where my error is"));*/
+            .catch(err => console.log(err + " this is where my error is"));
           });
       });
     }
-   
   });
-
-  try
-  {
-    const db = client.db();
-    const result = await db.collection('users').insertOne(newUser);
-    console.log(result);
-  }
-  catch(e)
-  {
-    error = e.toString();
-    console.log(error);
-  }
 
   var refreshedToken = null;
   try 
@@ -100,6 +87,7 @@ router.post("/login", async (req, res, next) => {
   User.findOne({ username }).then(user => {
     // Check if user exists
     if (!user) {
+      console.log("no user");
       return res.status(400).json({ usernamenotfound: "User not found" });
     }
     // Check password
@@ -108,11 +96,18 @@ router.post("/login", async (req, res, next) => {
 
         var firstName = user.firstName;
         var lastName = user.lastName;
+        var userId = user._id;
+        var username = user.username;
+        var preferences = user.preferences;
+        var attendedEvents = user.attendedEvents;
+        var likedEvents = user.likedEvents;
+        var email = user.email;
+
         var ret;
         
         try {
           const token = require("../../createJWT.js");
-          ret = token.createToken( firstName, lastName );
+          ret = token.createToken( firstName, lastName, userId, username, preferences, attendedEvents, likedEvents, email );
         }
         catch(e) {
           e = {error:e.message};
@@ -120,6 +115,7 @@ router.post("/login", async (req, res, next) => {
         res.status(200).json(ret);
       } 
       else {
+        console.log("wrong pword");
         return res.status(400).json({ passwordincorrect: "Password incorrect" });
       }
     });

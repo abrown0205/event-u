@@ -43,6 +43,7 @@ function Login()
                     var jwt = require('jsonwebtoken');
                     
                     var ud = jwt.decode(storage.retrieveToken(),{complete:true});
+                    
                     var firstName = ud.payload.firstName;
                     var lastName = ud.payload.lastName;
 
