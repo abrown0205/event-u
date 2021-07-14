@@ -7,6 +7,7 @@ var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);
 var firstName = ud.firstName;
 var lastName = ud.lastName;
+var uname = ud.username;
 
 var interestArr;
 
@@ -33,12 +34,6 @@ function ListElements() {
             })
         );
     }, []);
-    //'sports',
-    // 'music',
-    // 'studying',
-    // 'arts & culture',
-    // 'shopping',
-    // 'science'
     interestArr = interestState;
 
     return(
@@ -141,15 +136,15 @@ const SubmitButton = ({}) => {
         const interestPayload = [];
         for(var i = 0; i < interestArr.length; i++) {
             if(interestArr[i].select == true) {
-                interestPayload.push(interestArr[i].interest);
+                interestPayload.push(interestArr[i].interest.toLowerCase());
             }
         }
-        console.log(interestPayload);
 
         event.preventDefault();
         
-        var obj = {};
+        var obj = {username:uname,preferences:interestPayload};
         var js = JSON.stringify(obj);
+        console.log(js);
 
         var config =
         {
@@ -173,18 +168,17 @@ const SubmitButton = ({}) => {
                     var jwt = require('jsonwebtoken');
                     
                     var ud = jwt.decode(storage.retrieveToken(),{complete:true});
-                    
-                    var firstName = ud.payload.firstName;
-                    var lastName = ud.payload.lastName;
+                    console.log(ud.payload);
+                    var preferences = ud.payload.preferences;
 
-                    var user = {firstName:firstName,lastName:lastName};
+                    var user = {firstName:firstName,lastName:lastName,preferences:preferences};
                     localStorage.setItem('user_data', JSON.stringify(user));
                     window.location.href = '/home';
                 }
             })
             .catch(function (error) {
                 console.log(error);
-
+                console.log(message);
             });
     }
 

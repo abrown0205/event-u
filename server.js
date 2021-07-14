@@ -3,11 +3,16 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const passport = require("passport");
+const path = require('path');
+
 const users = require("./routes/api/users");
+const eventRoute = require("./routes/api/events");
+
 const app = express();
 
-const path = require('path');
 mongoose.set('useUnifiedTopology', true);
+mongoose.set('useFindAndModify', false);
+
 
 // Bodyparser middleware
 app.use(
@@ -46,6 +51,8 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
+app.use("/api/events", eventRoute);
+
 const port = process.env.PORT || 5000;
 
 app.set('port', (process.env.PORT || 5000));

@@ -4,11 +4,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 
+
 const url = keys.mongoURI;
-console.log(url);
-const MongoClient = require('mongodb').MongoClient;
-const client = new MongoClient(url);
-client.connect();
+const sgMail = require('@sendgrid/mail');
+const { sendWelcomeEmail } = require("./welcome_emailer");
 
 // Load input validation
 //const validateRegisterInput = require("../../validation/register");
@@ -50,14 +49,13 @@ router.post("/register", async (req, res, next) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
           
-          newUser.password = hash;
-          console.log(newUser);
-          
+          newUser.password = hash;          
           
           newUser
             .save()
             .then(user => res.json(user))
-            .catch(err => console.log(err + " this is where my error is"));
+            .catch(err => console.log(err));
+            sendWelcomeEmail(req.body.email, req.body.firstName, req.body.lastName, req.body.username);
           });
       });
     }
@@ -87,7 +85,6 @@ router.post("/login", async (req, res, next) => {
   User.findOne({ username }).then(user => {
     // Check if user exists
     if (!user) {
-      console.log("no user");
       return res.status(400).json({ usernamenotfound: "User not found" });
     }
     // Check password
@@ -97,7 +94,7 @@ router.post("/login", async (req, res, next) => {
         var firstName = user.firstName;
         var lastName = user.lastName;
         var userId = user._id;
-        var username = user.username;
+        var uname = user.username;
         var preferences = user.preferences;
         var attendedEvents = user.attendedEvents;
         var likedEvents = user.likedEvents;
@@ -107,7 +104,7 @@ router.post("/login", async (req, res, next) => {
         
         try {
           const token = require("../../createJWT.js");
-          ret = token.createToken( firstName, lastName, userId, username, preferences, attendedEvents, likedEvents, email );
+          ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email );
         }
         catch(e) {
           e = {error:e.message};
@@ -115,10 +112,38 @@ router.post("/login", async (req, res, next) => {
         res.status(200).json(ret);
       } 
       else {
-        console.log("wrong pword");
         return res.status(400).json({ passwordincorrect: "Password incorrect" });
       }
     });
+  });
+});
+
+router.post("/preferences", async (req, res, next) => {
+  const { username, preferences } = req.body;
+  let query = {username:username};
+  let update = {preferences:preferences};
+  
+  User.findOneAndUpdate(query, update).then(user => {
+    // Check if user exists
+    var ret;
+    
+    var firstName = user.firstName;
+    var lastName = user.lastName;
+    var userId = user._id;
+    var uname = user.username;
+    var attendedEvents = user.attendedEvents;
+    var likedEvents = user.likedEvents;
+    var email = user.email;
+
+    try {
+      const token = require("../../createJWT.js");
+      ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email );
+    }
+    catch(e) {
+      e = {error:e.message};
+    }
+    
+    res.status(200).json(ret);
   });
 });
 

@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.createToken = function ( fn, ln )
+exports.createToken = function ( fn, ln, id, un, pref, ae, le, email )
 {
-    return _createToken( fn, ln );
+    return _createToken( fn, ln, id, un, pref, ae, le, email );
 }
 
 _createToken = function ( fn, ln, id, un, pref, ae, le, email )

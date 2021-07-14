@@ -46,8 +46,10 @@ function Login()
                     
                     var firstName = ud.payload.firstName;
                     var lastName = ud.payload.lastName;
+                    var username = ud.payload.username;
+                    var preferences = ud.payload.preferences;
 
-                    var user = {firstName:firstName,lastName:lastName};
+                    var user = {firstName:firstName,lastName:lastName,username:username,preferences:preferences};
                     localStorage.setItem('user_data', JSON.stringify(user));
                     window.location.href = '/home';
                 }
