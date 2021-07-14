@@ -42,6 +42,7 @@ function App() {
           <MapPage />
         </Route>
       </Switch>
+      <Redirect to="/" />
     </Router>
   );
 }
