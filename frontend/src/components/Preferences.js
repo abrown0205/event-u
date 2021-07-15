@@ -127,6 +127,8 @@ const SubmitButton = ({}) => {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     var uname = ud.username;
+    var firstName = ud.firstName;
+    var lastName = ud.lastName;
 
     const [message,setMessage] = useState('');
 
