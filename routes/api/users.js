@@ -28,7 +28,6 @@ User.findOne({ username: req.body.username }).then(user => {
 		lastName: req.body.lastName,
         password: req.body.password,
 		email: req.body.email,
-		phone: req.body.phone,
 		notifications: true
       });
 // Hash password before saving in database
