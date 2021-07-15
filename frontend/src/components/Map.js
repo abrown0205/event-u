@@ -17,13 +17,13 @@ function Map() {
     const [title, setTitle] = useState(null);
     const [category, setCategory] = useState(null);
     const [address, setAddress] = useState(null);
-    const [startHour, setStartHour] = useState(null);
-    const [startMin, setStartMin] = useState(null);
-    const [startAMPM, setStartAMPM] = useState(null);
-    const [startTime, setStartTime] = useState(startHour);
-    const [endHour, setEndHour] = useState(null);
-    const [endMin, setEndMin] = useState(null);
-    const [endAMPM, setEndAMPM] = useState(null);
+    const [startHour, setStartHour] = useState('12');
+    const [startMin, setStartMin] = useState('00');
+    const [startAMPM, setStartAMPM] = useState('AM');
+    const [startTime, setStartTime] = useState(null);
+    const [endHour, setEndHour] = useState('12');
+    const [endMin, setEndMin] = useState('00');
+    const [endAMPM, setEndAMPM] = useState('AM');
     const [endTime, setEndTime] = useState(null);
     const [description, setDescription] = useState(null);
     const [likes, setLikes] = useState(0);
@@ -42,7 +42,7 @@ function Map() {
     useEffect(() => {
         const getEvents = async () => {
             try{
-                const url = bp.buildPath("/api/events/findevent");
+                const url = bp.buildPath("api/events/findevent");
 
                 const res = await axios.get(url);
                 console.log(res.data);
@@ -93,7 +93,7 @@ function Map() {
         }
 
         try {
-            const url = bp.buildPath("/api/events/newevent");
+            const url = bp.buildPath("api/events/newevent");
 
             const res = await axios.post(url, newEvent);
             setEvents([...events, res.data]);

@@ -5,9 +5,6 @@ import axios from 'axios';
 
 var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);
-var firstName = ud.firstName;
-var lastName = ud.lastName;
-var uname = ud.username;
 
 var interestArr;
 
@@ -100,6 +97,9 @@ function Options() {
 };
 
 const HeaderText = ({}) => {
+    var firstName = ud.firstName;
+    var lastName = ud.lastName;
+
     const props = useSpring({
         from: { y: 700, opacity: 0 },
         to: {y: 70, opacity: 1}
@@ -126,8 +126,7 @@ const HeaderText2 = ({}) => {
 const SubmitButton = ({}) => {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
-
-    var preferences;
+    var uname = ud.username;
 
     const [message,setMessage] = useState('');
 

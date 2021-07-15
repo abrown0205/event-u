@@ -16,33 +16,23 @@ function App() {
         <Route path="/" exact>
           <IntroPage />
         </Route>
-      </Switch>
-      <Switch>
         <Route path="/login" exact>
           <LoginPage />
         </Route>
-      </Switch>
-      <Switch>
         <Route path="/signup" exact>
           <CreatePage />
         </Route>
-      </Switch>
-      <Switch>
         <Route path="/preferences" exact>
           <PreferencePage />
         </Route>
-      </Switch>
-      <Switch>
         <Route path="/home" exact>
           <HomePage />
         </Route>
-      </Switch>
-      <Switch>
         <Route path="/map" exact>
           <MapPage />
         </Route>
-      </Switch>
       <Redirect to="/" />
+      </Switch>
     </Router>
   );
 }
