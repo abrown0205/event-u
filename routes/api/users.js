@@ -40,25 +40,11 @@ router.post("/register", async (req, res, next) => {
 
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
-<<<<<<< HEAD
-      return res.status(400).json({ uaername: "User already exists" });
-    } else {
-      const newUser = new User({
-        username: req.body.username,
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
-        password: req.body.password,
-		email: req.body.email,
-		notifications: true
-      });
-// Hash password before saving in database
-=======
       return res.status(400).json({ username: "User already exists" });
     }
     else {
       
       // Hash password before saving in database
->>>>>>> 6413edeb6866c143b7ad397e9a25fa12f642f742
       bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
