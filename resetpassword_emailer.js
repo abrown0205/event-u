@@ -4,7 +4,10 @@ sgMail.setApiKey(sendGridKey);
 
 
 module.exports.sendPasswordResetEmail = (email, firstName, lastName, userName, password) =>{
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6413edeb6866c143b7ad397e9a25fa12f642f742
     const msg = {
         to: email,
         from: {name: 'Event-U', email: 'eventuemails@gmail.com'},
@@ -19,8 +22,11 @@ module.exports.sendPasswordResetEmail = (email, firstName, lastName, userName, p
             password: password
           },  
     }
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> 6413edeb6866c143b7ad397e9a25fa12f642f742
     
     sgMail.send(msg, function(err, info){
         if(err){

@@ -1,0 +1,272 @@
+
+
+.HomePage {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgb(10, 10, 10);
+    height: 400%;
+}
+
+.topContainer {
+    position: fixed;
+    width: 100%;
+    background: white;
+    z-index: 2;
+}
+
+.topBar {
+    position: relative;
+    height: 50px;
+    border-bottom: 2px solid #FAED26;
+    background: #222222;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 0 1px 15px 0  #FAED26;
+}
+
+.linkContainer {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.topBarLink {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: ease-in;
+    text-align: center;
+    margin-inline: 55px;
+    transition: color .7s ease-in-out;
+}
+
+.topBarLink:hover {
+    color: #FAED26;
+}
+
+#notifications {
+    position: relative;
+    top: 10px;
+    float: left;
+}
+
+.currentIcon {
+    color: #FAED26;
+}
+
+.myEvents {
+    position: relative;
+    clear: both;
+    display: block;
+    margin-left: 55px;
+}
+
+.nearbyEvents {
+    clear: both;
+    position: relative;
+    display: block;
+    margin-left: 55px;
+}
+
+#eventsHeader {
+    font-size: 35px;
+    color: #FAED26;
+}
+
+#postContainer {
+    float: left;
+    margin-left: 15px;
+    margin-bottom: 50px;
+}
+
+#postButton {
+    background-color: #222222;
+    margin-top: 10px;
+    border: 1px solid #FAED26;
+    height: 175px;
+    width: 175px;
+    border-radius: 10px;
+    font-size: 35px;
+    cursor: pointer;
+    color: #FAED26;
+}
+
+.vl {
+    border-right: 2px solid #FAED26;
+    height: 180px;
+    float: left;
+    margin-top: 7.5px;
+    margin-left: 15px;
+    
+}
+
+.eventItem {
+    height: 175px;
+    width: 175px;
+    border-radius: 10px;
+    border: 1px solid #FAED26;
+    float: left;
+    list-style: none;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+#feed {
+    position: relative;
+    left: 35px;
+    font-size: 35px;
+}
+
+#ongoing {
+    font-size: 35px;
+    color: #FAED26;
+}
+
+.notification-box {
+    display: none;
+}
+
+.notification-active {
+    display: block;
+    background-color: white;
+    border: 5px solid #FAED26;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /* position: absolute; */
+    position: fixed;
+    width: 250px;
+    top: 52px;
+    z-index: 1;
+    float: right;
+    left: 40px;
+    box-shadow: 0 4px 15px 0  black;
+}
+
+#userBarHead {
+    font-size: 20px;
+}
+
+.searchBar {
+    clear: both;
+    font-size: 20px;
+    border: 1px solid black;
+    position: relative;
+    display: block;
+}
+
+#searchIcon {
+    position: relative;
+    float: right;
+}
+
+.searchContainer {
+    clear: both;
+    text-align: center;
+    width: 100%;
+}
+
+#searchInput {
+    border-radius: 25px;
+    border: 2px solid black;
+    margin-top: 10px;
+    width: 25%;
+}
+
+.eventList {
+    display: block;
+}
+
+.eventForm {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: #222222;
+    width: 55%;
+    border-radius: 40px;
+    height: 525px;
+    box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .25);
+}
+
+.addEvent {
+    display: none;
+}
+
+.eventPostContainer {
+    position: relative;
+}
+
+.addEvent input {
+    padding: 10px;
+    margin-top: 20px;
+    width: 40%;
+    border: 2px solid black;
+    border-radius: 25px;
+}
+
+#calInput {
+    text-align: center;
+    cursor: pointer;
+}
+
+#eventFormHead {
+    color: white;
+    padding: 15px;
+    display: block;
+}
+
+.eventCatBtn {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin-inline: 10px;
+    width: 175px;
+    cursor: pointer;
+}
+
+#submitEvent {
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid black;
+    width: 150px;
+    margin-inline: 10px;
+    cursor: pointer;
+}
+
+.separator {
+    color: white;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+.userBtnContainer {
+    text-align: center;
+}
+
+.userBtns {
+    border: none;
+    margin-inline: 15px;
+    background-color: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.add-active {
+    clear: both;
+}
