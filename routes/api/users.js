@@ -3,11 +3,16 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+//load sendGrid for welcome email and password reset
+const sgMail = require('@sendgrid/mail');
+const { sendWelcomeEmail } = require("./welcome_emailer");
+const { sendPasswordResetEmail } = require("./resetpassword_emailer.js")
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
+const { getMaxListeners } = require("../../models/User");
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -20,7 +25,7 @@ const { errors, isValid } = validateRegisterInput(req.body);
   }
 User.findOne({ username: req.body.username }).then(user => {
     if (user) {
-      return res.status(400).json({ uaername: "User already exists" });
+      return res.status(400).json({ username: "User already exists" });
     } else {
       const newUser = new User({
         username: req.body.username,
@@ -28,6 +33,7 @@ User.findOne({ username: req.body.username }).then(user => {
 		lastName: req.body.lastName,
         password: req.body.password,
 		email: req.body.email,
+		phone: req.body.phone,
 		notifications: true
       });
 // Hash password before saving in database
@@ -39,6 +45,7 @@ User.findOne({ username: req.body.username }).then(user => {
             .save()
             .then(user => res.json(user))
             .catch(err => console.log(err));
+            sendWelcomeEmail(req.body.email, req.body.firstName, req.body.lastName, req.body.username);
         });
       });
     }
@@ -92,5 +99,50 @@ const username = req.body.username;
       }
     });
   });
+});
+
+router.post("/resetpassword", (req, res) => {
+  
+  const useremail = req.body.email;
+  // Find user by email
+  User.findOne({ email: useremail }).then(user => {
+
+    if(!user){
+      //no account with this email
+      return res.status(404).json({
+        message: "email not found",
+        email: useremail
+       });
+    } else {
+      //there is an account with this email
+      //generate and hash a new password
+      newPass = Math.random().toString(36).substring(7);
+      //email new password to user
+      sendPasswordResetEmail(user.email, user.firstName, user.lastName, user.username, newPass);
+
+      //hash and save new password to db
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPass, salt, (err, hash) => {
+          if (err) throw err;
+          user.password = hash;
+          user
+            .save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err));            
+        });
+      });
+      //return JSON result password has been reset
+      return res.status(200).json({
+        message: "password successfully reset",
+        email: useremail,
+        // username: user.username,
+        // newpassword: newPass,
+        // hashedpassword: user.password        
+       });
+    }     
+    
+  });
+ 
+  
 });
 module.exports = router;
