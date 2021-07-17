@@ -18,6 +18,8 @@ router.get("/findevent", async (req, res) => {
     try {
         // Gets all the events stored in the database
         // Passes a code of 200 if successful
+
+        
         const events = await Event.find();
         res.status(200).json(events);
 

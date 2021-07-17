@@ -1,5 +1,5 @@
 import { faHome } from "@fortawesome/free-solid-svg-icons"
-import { faCalendar, faMap, faUser, faBell, faCog } from "@fortawesome/free-solid-svg-icons"
+import { faCalendar, faMap, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react";
 
@@ -55,7 +55,6 @@ const TopNav = () => {
                 </div>
             </div>
         </div>
-        
     );
 }
 

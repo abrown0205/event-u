@@ -197,7 +197,6 @@ const SubmitButton = ({}) => {
 
 function Preferences() {
     //const[on, set] = React.useState(true);
-
     return(
         <div className="preferencesPage">
             <HeaderText />
