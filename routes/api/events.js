@@ -31,9 +31,9 @@ router.post("/inrange", async (req, res) => {
     try {
         // Gets all the events stored in the database within range in req.body.start req.body.end
         // Passes a code of 200 if successful
-        //2021 for year
-        //2021-07 for month
-        //2021-07-17 for day
+        //2021, 2022 for year
+        //2021-07, 2021-08 for month
+        //2021-07-17, 2021-07-18 for day
         const events = await Event.find( {startTime: { $gte: req.body.start, $lte: req.body.end} } )
                                   .sort({startTime: 1});
         res.status(200).json(events);
