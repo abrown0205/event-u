@@ -1,0 +1,103 @@
+.LoginPage {
+    background: url(../img/background.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.loginDiv {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: white;
+    width: 30%;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border-radius: 25px;
+    box-shadow: 0 10px 15px 0  rgba(0, 0, 0, 1);
+}
+
+.createDiv {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: white;
+    width: 30%;
+    height: 550px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border-radius: 25px;
+    box-shadow: 0 10px 15px 0  rgba(0, 0, 0, 1);
+}
+
+#title {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+input[type=text], input[type=password] {
+    margin-top: 25px;
+    padding: 10px;
+    width: 75%;
+    border-radius: 7.5px;
+    border: 2px solid rgba(0, 0, 0, .3);
+}
+
+#loginButton {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 75%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    height: 45px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#loginButton:hover {
+    background-position: 100% 0;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#loginButton {
+    outline: none;
+}
+  
+#loginButton {
+    background-image: linear-gradient(
+        to right,
+        #46344E,
+        #5A5560,
+        #9D8D8F,
+        #9B786F
+    );
+    box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .1);
+}
+
+#redirectButton {
+    text-decoration: none;
+    color: #9B786F;
+}
