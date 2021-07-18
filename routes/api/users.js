@@ -80,7 +80,6 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
 
-  
   // Find user by email
   User.findOne({ username }).then(user => {
     // Check if user exists
@@ -120,13 +119,13 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/preferences", async (req, res, next) => {
   const { username, preferences } = req.body;
+  console.log(username);
   let query = {username:username};
   let update = {preferences:preferences};
-  
   User.findOneAndUpdate(query, update).then(user => {
     // Check if user exists
     var ret;
-    
+
     var firstName = user.firstName;
     var lastName = user.lastName;
     var userId = user._id;
@@ -140,7 +139,7 @@ router.post("/preferences", async (req, res, next) => {
       ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email );
     }
     catch(e) {
-      e = {error:e.message};
+      console.log(e);
     }
     
     res.status(200).json(ret);

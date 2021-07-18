@@ -1,5 +1,5 @@
 import './css/home.css';
-import { faPlus, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTimesCircle, faRunning, faFlask, faUserGraduate, faPalette, faGuitar, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from 'react';
 import TopNav from '../components/TopNav';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,13 +23,7 @@ const initialList = [];
 // }
 
 
-function Event(item) {
-    return(
-        <li className="eventItem" id={item.id} >
-            {item.name}
-        </li>
-    );
-}
+
 
 function Events() {
     var bp = require('./Path.js');
@@ -71,14 +65,6 @@ function Events() {
 
         setStartTime(startHour + ":" + startMin + " " + startAMPM);
         setEndTime(endHour + ":" + endMin + " " + endAMPM);
-        console.log("Start time: " + startTime);
-        console.log("End time: " + endTime);
-        console.log("Category:" + category);
-        console.log("Hour:" + startHour);
-        console.log("Min:" + startMin);
-        console.log("AM/PM: " + startAMPM);
-        console.log("address: " + address);
-
         const newEvent = {
             title,
             category,
@@ -100,30 +86,6 @@ function Events() {
             setNewPlace(null);
         } catch(err) {
             console.log(err)
-        }
-    }
-
-    const addEvent = async event =>
-    {
-        event.preventDefault();
-        var obj = {_id:ud._id,title:title,category:category,address:address,lat:'',long:'',startTime:startTime,endTime:endTime,createdBy:ud.username,description:description,capacity:capacity};
-        
-        console.log(obj);
-        var js = JSON.stringify(obj);
-        var url = bp.buildPath('api/events/newevent');
-        try
-        {
-            const response = await fetch(url, 
-                {method:'POST',body:js,headers:{'Content-Type':'application/json'}});
-                
-            var res = JSON.parse(await response.text());
-            // if successful -> add to list of events
-            // if fail -> alert
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            return;
         }
     };
 
@@ -193,7 +155,7 @@ function Events() {
                 <div className="eventPostContainer">
                     <div className="position">
                         <div id="closeForm" onClick={() => displayContent(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
-                        <form className="eventForm" onSubmit={handleSubmit} autocomplete="off">
+                        <form className="eventForm" onSubmit={handleSubmit} autoComplete="off">
                             <h4 className="form-header">Add an Event!</h4>
                             <label className="label" id="name-label">title: 
                                 <input 
@@ -205,8 +167,8 @@ function Events() {
                                 />
                             </label>
                             <label className="label" id="cat-label">category:
-                                <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
-                                    <option id="cat-options" value="arts & culture" selected>Arts & Culture</option>
+                                <select id="options-list" defaultValue="arts & culture" onChange={(e) => setCategory(e.target.value)}>
+                                    <option id="cat-options" value="arts & culture">Arts & Culture</option>
                                     <option id="cat-options" value="sports">Sports</option>
                                     <option id="cat-options" value="science">Science</option>
                                     <option id="cat-options" value="music">Music</option>
@@ -228,8 +190,8 @@ function Events() {
                                 </div>
                             </label>
                             <label className="label" id="startTime-label">start time:
-                                <select className="time" id="time-hour-select" onChange={(e) => setStartHour(e.target.value)}>
-                                    <option className="time-options" value="12" selected>12</option>
+                                <select className="time" defaultValue="12" id="time-hour-select" onChange={(e) => setStartHour(e.target.value)}>
+                                    <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="1">1</option>
                                     <option className="time-options" value="2">2</option>
                                     <option className="time-options" value="3">3</option>
@@ -242,8 +204,8 @@ function Events() {
                                     <option className="time-options" value="10">10</option>
                                     <option className="time-options" value="11">11</option>
                                 </select>
-                                <select className="time" id="time-min-select" onChange={(e) => setStartMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
+                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => setStartMin(e.target.value)}>
+                                    <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -309,14 +271,14 @@ function Events() {
                                     <option className="time-options" value="08">58</option>
                                     <option className="time-options" value="09">59</option>
                                 </select>
-                                <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
-                                    <option className="time-options" value="AM" selected>AM</option>
+                                <select className="time" id="am/pm" defaultValue="AM" onChange={(e) => setStartAMPM(e.target.value)}>
+                                    <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
                                 </select>
                             </label>
                             <label className="label" id="endTime-label">end time:
-                                <select className="time" id="time-hour-select" onChange={(e) => setEndHour(e.target.value)}>
-                                    <option className="time-options" value="12" selected>12</option>
+                                <select className="time" id="time-hour-select" defaultValue="12" onChange={(e) => setEndHour(e.target.value)}>
+                                    <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="1">1</option>
                                     <option className="time-options" value="2">2</option>
                                     <option className="time-options" value="3">3</option>
@@ -329,8 +291,8 @@ function Events() {
                                     <option className="time-options" value="10">10</option>
                                     <option className="time-options" value="11">11</option>
                                 </select>
-                                <select className="time" id="time-min-select" onChange={(e) => setEndMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
+                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => setEndMin(e.target.value)}>
+                                    <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -396,8 +358,8 @@ function Events() {
                                     <option className="time-options" value="08">58</option>
                                     <option className="time-options" value="09">59</option>
                                 </select>
-                                <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
-                                    <option className="time-options" value="AM" selected>AM</option>
+                                <select className="time" id="am/pm" defaultValue="AM" onChange={(e) => setEndAMPM(e.target.value)}>
+                                    <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
                                 </select>
                             </label>
@@ -427,9 +389,7 @@ function Events() {
             </animated.div>
             <div className="eventHolder">
                 <ul className="eventList">
-                    {list.map((item) =>(
-                        <Event item={item}/>
-                    ))}
+                    
                 </ul>
             </div>
         </div>
@@ -437,10 +397,44 @@ function Events() {
 }
 
 function OngoingEvents() {
+    var preferences = [];
+    for(var i = 0; i < ud.preferences.length; i++) {
+        preferences.push(ud.preferences[i]);
+    }
+    
+    console.log(preferences);
+    const listCategories = preferences.map((preference) => {
+        <li key="element">{preference}</li>
+    });
+
+    /*const addCategories = () => {
+        var preferenceIcon;
+        
+        if(preferenceName === 'sports')
+            preferenceIcon = faRunning;
+        else if(preferenceName === 'science')
+            preferenceIcon = faFlask;
+        else if(preferenceName === 'studying')
+            preferenceIcon = faUserGraduate;
+        else if(preferenceName === 'arts & culture')
+            preferenceIcon = faPalette;
+        else if(preferenceName === 'music')
+            preferenceIcon = faGuitar;
+        else if(preferenceName === 'shopping')
+            preferenceIcon = faShoppingBag;
+        return(
+            <li className="eventItem" id={preferenceName} >
+                <div className="iconContainer">
+                    <FontAwesomeIcon className="categoryIcon" icon={preferenceIcon} />
+                </div>
+            </li>
+        );
+    }*/
+    
     return (
         <div id="ongoing-Events">
             <ul className="ongoing-List">
-                <Event />
+                {listCategories}
             </ul>
         </div>
     );

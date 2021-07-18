@@ -31,7 +31,7 @@ const TopNav = () => {
     }
 
     function doLogout() {
-        console.log("i was clicked");
+        localStorage.clear();
         window.location.href = "/";
     }
 
