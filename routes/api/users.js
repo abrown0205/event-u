@@ -28,7 +28,9 @@ User.findOne({ username: req.body.username }).then(user => {
 		lastName: req.body.lastName,
         password: req.body.password,
 		email: req.body.email,
-		notifications: true
+		notifications: true,
+		active: false,
+		activationCode: Math.round(Math.random() * 1000000)
       });
 // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
