@@ -40,6 +40,7 @@ const UserSchema = new Schema({
       },
 	  createdEvents: {
         type: 'array',
+		minItems: 0,
         items: {
           type: 'objectId',
           description: 'must be an eventId of a corresponding event'
@@ -47,6 +48,7 @@ const UserSchema = new Schema({
       },
       attendedEvents: {
         type: 'array',
+		minItems: 0,
         items: {
           type: 'objectId',
           description: 'must be an eventId of a corresponding event'
@@ -54,6 +56,7 @@ const UserSchema = new Schema({
       },
 	  likedEvents: {
         type: 'array',
+		minItems: 0,
         items: {
           type: 'objectId',
           description: 'must be an eventId of a corresponding event'
