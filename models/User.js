@@ -62,6 +62,14 @@ const UserSchema = new Schema({
       notifications: {
         type: 'bool',
         description: 'must be a boolean'
-      }
+      },
+	  active: {
+		  type: 'bool',
+		  description: 'must be a boolean'
+	  },
+	  activationCode: {
+		  type: 'number',
+		  description: 'must be an int'
+	  }
 },  {versionKey: false} );
 module.exports = User = mongoose.model("users", UserSchema);
