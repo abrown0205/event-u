@@ -172,7 +172,7 @@ const SubmitButton = ({}) => {
                     console.log(ud.payload);
                     var preferences = ud.payload.preferences;
 
-                    var user = {firstName:firstName,lastName:lastName,preferences:preferences};
+                    var user = {firstName:firstName,lastName:lastName,preferences:preferences,username:uname};
                     localStorage.setItem('user_data', JSON.stringify(user));
                     window.location.href = '/home';
                 }
@@ -197,7 +197,6 @@ const SubmitButton = ({}) => {
 
 function Preferences() {
     //const[on, set] = React.useState(true);
-
     return(
         <div className="preferencesPage">
             <HeaderText />
@@ -205,6 +204,7 @@ function Preferences() {
             <Options />
             <SubmitButton />
             <SkipOption />
+            <span></span>
         </div>
     );
 };

@@ -9,6 +9,8 @@ import TopNav from './TopNav.js'
 
 var bp = require('./Path.js');
 
+
+
 function Map() {
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);

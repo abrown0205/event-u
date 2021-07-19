@@ -7,8 +7,9 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgb(10, 10, 10);
-    height: 400%;
+    background-color: #000000;
+    background-image: linear-gradient(315deg, #000000 0%, #1b1b1b 74%);
+    height: 120vh;
 }
 
 .topContainer {
@@ -105,7 +106,6 @@
     float: left;
     margin-top: 7.5px;
     margin-left: 15px;
-    
 }
 
 .eventItem {
@@ -117,6 +117,31 @@
     list-style: none;
     margin-top: 10px;
     margin-left: 15px;
+    text-align: center;
+    background-color: #222222;
+    cursor: pointer;
+}
+
+.iconContainer {
+    position: relative;
+}
+
+.catText {
+    color: #FAED26;
+    font-size: 20px;
+    display: block;
+    text-transform: capitalize;
+    margin-top: 7.5px;
+}
+
+.categoryIcon {
+    color: #FAED26;
+    font-size: 120px;
+    margin: 0;
+    text-align: center;
+    display: block;
+    margin-left: 20%;
+    margin-top: 10px;
 }
 
 #feed {
@@ -186,36 +211,35 @@
     display: block;
 }
 
-.eventForm {
+.position {
     margin: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    text-align: center;
-    background-color: #222222;
-    width: 55%;
-    border-radius: 40px;
-    height: 525px;
-    box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .25);
 }
 
-.addEvent {
-    display: none;
+.eventForm {
+    width: 450px;
+    height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #000000;
+    background-image: linear-gradient(
+        315deg, #555555 0%,
+        #858585 74%
+    );
+    border-radius: 40px;
+    box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .25);
+    z-index: 2;
 }
 
 .eventPostContainer {
     position: relative;
 }
 
-.addEvent input {
-    padding: 10px;
-    margin-top: 20px;
-    width: 40%;
-    border: 2px solid black;
-    border-radius: 25px;
-}
 
 #calInput {
     text-align: center;
@@ -225,17 +249,31 @@
 #eventFormHead {
     color: white;
     padding: 15px;
+    margin-top: 10px;
     display: block;
+    text-align: center;
+    z-index: 3;
 }
 
 .eventCatBtn {
     margin-top: 20px;
     padding: 10px;
     border-radius: 25px;
-    border: 1px solid black;
+    border: 2px solid rgba(0, 0, 0, .55);
     margin-inline: 10px;
     width: 175px;
     cursor: pointer;
+    transition: .7s ease-in-out;
+}
+
+.eventCatBtn:hover {
+    background-color: #FAED26;
+    color: #000;
+}
+
+.eventCatBtn::after {
+    background-color: #FAED26;
+    color: #000;
 }
 
 #submitEvent {
@@ -246,12 +284,14 @@
     width: 150px;
     margin-inline: 10px;
     cursor: pointer;
+    text-align: center;
 }
 
 .separator {
     color: white;
     font-size: 20px;
     margin-top: 30px;
+    text-align: center;
 }
 
 .userBtnContainer {
@@ -269,4 +309,169 @@
 
 .add-active {
     clear: both;
+}
+
+#closeForm {
+    color: #fff;
+    font-size: 30px;
+    margin: 30px;
+    position: absolute;
+    cursor: pointer;
+    transition: ease-in-out color .5s;
+    right: 0;
+}
+
+#closeForm:hover {
+    color: #FAED26;
+}
+
+#submitEvent {
+
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 75%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    height: 45px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#submitEvent:hover {
+    background-position: 100% 0;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+#submitEvent {
+    outline: none;
+}
+  
+#submitEvent {
+    background-image: linear-gradient(
+        to right,
+        #46344E,
+        #5A5560,
+        #9D8D8F,
+        #9B786F
+    );
+    box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .25);
+}
+
+#timeh1 {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+
+.eventFormLabel {
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    width: 35%;
+}
+
+#inputContainer {
+    margin-left: 30px;
+}
+
+#catLabel {
+    text-align: center;
+    top: 10px;
+}
+
+.submitContainer {
+    text-align: center;
+}
+
+.addEventCategories {
+    text-align: center;
+}
+
+#caret {
+    margin-inline: 5px;
+}
+
+.form-header {
+    font-size: 35px;
+    text-align: center;
+    color: white;
+    padding: 25px;
+}
+
+#options-list {
+    margin: 5px;
+    padding: 5px;
+    width: 250px;
+    font-size: 16px;
+    background-color: tomato;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+}
+
+.label {
+    /* display: inline-block; */
+    /* width: 350px; */
+    /* text-align: right; */
+    margin: 5px;
+    width: max-content;
+    color: white;
+}
+
+#comment-box {
+    resize: none;
+    width: 75%;
+    margin-left: 12.5%;
+}
+
+.addressResults {
+    font-size: 15px;
+    list-style: none;
+    background-color: #fff;
+    color: black;
+    padding: 5px;
+    border: 1px solid black;
+    position: relative;
+    width: 74%;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.addressUl {
+    margin-bottom: 5px;
+    margin-top: -10px;
+    position: absolute;
+    z-index: 3;
+}
+
+.categoryList {
+    display: block;
+    clear: both;
+    width: 75%;
+    text-align: center;
+    background-color: #000000;
+    background-image: linear-gradient(
+        315deg, #555555 0%,
+        #858585 74%
+    );
+    border-radius: 25px;
+    height: 200px;
+}
+
+.listHeader {
+    color: #fff;
+    text-transform: capitalize;
 }

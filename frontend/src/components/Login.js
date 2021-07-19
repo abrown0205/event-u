@@ -31,10 +31,10 @@ function Login()
             data: js
         }
 
-        axios(config)
+        try {
+            axios(config)
             .then(function (response) {
                 var res = response.data;
-                console.log(res);
                 if(res.error) {
                     setMessage('User/Password combination incorrect');
                 }
@@ -57,6 +57,10 @@ function Login()
             .catch(function (error) {
                 console.log(error);
             });
+        }
+        catch(e) {
+            console.log(e);
+        };
     };
 
     return(
