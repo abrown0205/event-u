@@ -126,13 +126,22 @@
     position: relative;
 }
 
+.catText {
+    color: #FAED26;
+    font-size: 20px;
+    display: block;
+    text-transform: capitalize;
+    margin-top: 7.5px;
+}
+
 .categoryIcon {
     color: #FAED26;
-    font-size: 140px;
+    font-size: 120px;
     margin: 0;
     text-align: center;
-    position: relative;
-    margin-top: 10%;
+    display: block;
+    margin-left: 20%;
+    margin-top: 10px;
 }
 
 #feed {
@@ -446,4 +455,23 @@
     margin-top: -10px;
     position: absolute;
     z-index: 3;
+}
+
+.categoryList {
+    display: block;
+    clear: both;
+    width: 75%;
+    text-align: center;
+    background-color: #000000;
+    background-image: linear-gradient(
+        315deg, #555555 0%,
+        #858585 74%
+    );
+    border-radius: 25px;
+    height: 200px;
+}
+
+.listHeader {
+    color: #fff;
+    text-transform: capitalize;
 }

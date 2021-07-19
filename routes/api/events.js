@@ -28,5 +28,16 @@ router.get("/findevent", async (req, res) => {
     }
 })
 
+router.post("/findcat", async (req, res, next) => {
+    try {
+        const {category} = req.body;
+        const events = await Event.find({category:category}).exec();
+        console.log(events);
+        res.status(200).json(events);
+    }
+    catch(err) {
+        res.status(500).json(err);
+    }
+})
 
 module.exports = router;

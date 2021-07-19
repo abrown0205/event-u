@@ -1,5 +1,5 @@
 import './css/home.css';
-import { faPlus, faTimesCircle, faRunning, faFlask, faUserGraduate, faPalette, faGuitar, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTimesCircle, faRunning, faFlask, faUserGraduate, faPalette, faGuitar, faShoppingBag, faSearch } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from 'react';
 import TopNav from '../components/TopNav';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -394,56 +394,115 @@ function Events() {
             </div>
         </div>
     );
-}
+};
 
 function OngoingEvents() {
+    const [contentStatus, displayContent] = React.useState(false);
+    const [resultList, setResultList] = useState('');
+    const [category, setCategory] = useState('');
+    const contentProps = useSpring({
+        opacity: contentStatus ? 1 : 0,
+        marginTop: contentStatus ? 295 : -1000
+    });
+
+    var currentCat = '';
+
+    var resultArr = [];
+
+    var bp = require('./Path.js');
+    var storage = require('../tokenStorage.js');
+    const jwt = require("jsonwebtoken");
+
+    const loadCategories = async event =>
+    {
+        if(currentCat === "arts & culture") {
+            currentCat = "Arts & Culture";
+        }
+        else {
+            currentCat = currentCat.charAt(0).toUpperCase() + currentCat.slice(1);
+        }
+        var tok = storage.retrieveToken();
+        var obj = {category:currentCat};
+        var js = JSON.stringify(obj);
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/events/findcat'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+        try {
+            const result = await axios(config)
+            .then(function (response) {
+                var res = response.data;
+                for(var i = 0; i < res.length; i++) {
+                    resultArr.push(res[i]);
+                }
+                //setResultList(res);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    };
+
+    function handleOpenCategory(preferenceName) {
+        var cat = preferenceName.preference;
+        currentCat = cat;
+        setCategory(currentCat);
+        loadCategories();
+    }
+
     var preferences = [];
     for(var i = 0; i < ud.preferences.length; i++) {
         preferences.push(ud.preferences[i]);
     }
-    
-    console.log(preferences);
-    const listCategories = preferences.map((preference) => {
-        <li key="element">{preference}</li>
-    });
 
-    /*const addCategories = () => {
-        var preferenceIcon;
-        
+    function getIcon(preferenceName) {
+        preferenceName = preferenceName.preference;
         if(preferenceName === 'sports')
-            preferenceIcon = faRunning;
+            return faRunning;
         else if(preferenceName === 'science')
-            preferenceIcon = faFlask;
+            return faFlask;
         else if(preferenceName === 'studying')
-            preferenceIcon = faUserGraduate;
+            return faUserGraduate;
         else if(preferenceName === 'arts & culture')
-            preferenceIcon = faPalette;
+            return faPalette;
         else if(preferenceName === 'music')
-            preferenceIcon = faGuitar;
+            return faGuitar;
         else if(preferenceName === 'shopping')
-            preferenceIcon = faShoppingBag;
-        return(
-            <li className="eventItem" id={preferenceName} >
-                <div className="iconContainer">
-                    <FontAwesomeIcon className="categoryIcon" icon={preferenceIcon} />
-                </div>
-            </li>
-        );
-    }*/
+            return faShoppingBag;
+    }
+
+    const listCategories = preferences.map((preference) =>
+        <li className="eventItem" onClick={ () => handleOpenCategory({preference}) } key={preference}><h1 className="catText">{preference}<FontAwesomeIcon className="categoryIcon" icon={getIcon({preference})} /></h1></li>
+    );
+
+    const listCatEvents = resultArr.map(({title, _id}) =>
+        <li className="catEventItem" key={_id}><h1>{title}</h1></li>
+    );
     
     return (
         <div id="ongoing-Events">
             <ul className="ongoing-List">
                 {listCategories}
-            </ul>
-        </div>
-    );
-}
-
-function Search() {
-    return(
-        <div className="searchContainer">
-            <input type="text" placeholder="Find an Event" id="searchInput" />
+                <li className="eventItem"><h1 className="catText">Search</h1><FontAwesomeIcon className="categoryIcon" icon={faSearch} /></li>
+            </ul><br />
+            <div className="categoryList">
+                <div id="categoryContainer">
+                    <h1 className="listHeader">{category}</h1>
+                    <ul className="catEventList">
+                        {listCatEvents}
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 }
