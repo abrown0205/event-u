@@ -39,7 +39,7 @@ const TopNav = () => {
         <div className="topContainer">
             <div className="topBar">
                 <div className="linkContainer">
-                    <a className="topBarLink" id="homeLink"><FontAwesomeIcon icon={faHome} className="currentIcon"/></a>
+                    <a className="topBarLink" id="homeLink" href="/home"><FontAwesomeIcon icon={faHome} className="currentIcon"/></a>
                     <a className="topBarLink" id="calendarLink"><FontAwesomeIcon icon={faCalendar} className="topBarIcon"/></a>
                     <a className="topBarLink" id="mapLink" href="/map"><FontAwesomeIcon icon={faMap} className="topBarIcon"/></a>
                 </div>

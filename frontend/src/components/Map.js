@@ -4,27 +4,31 @@ import { useState, useEffect } from 'react';
 import "../components/css/map.css";
 import { AirportShuttle, Room, Star } from '@material-ui/icons'
 import axios from 'axios';
+import TopNav from './TopNav.js'
 // import { format } from "timeago.js";
 
 var bp = require('./Path.js');
 
 function Map() {
-    const createdBy = "erondon";
+    var _ud = localStorage.getItem('user_data');
+    var ud = JSON.parse(_ud);
+    const currentUser = ud.username;
     const [values, setValues] = useState([]);
     const [events, setEvents] = useState([]);
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
     const [newPlace, setNewPlace] = useState(null);
+    const [createdBy, setCreatedBy] = useState(null);
     const [title, setTitle] = useState(null);
     const [category, setCategory] = useState(null);
     const [address, setAddress] = useState(null);
     const [startHour, setStartHour] = useState('12');
     const [startMin, setStartMin] = useState('00');
     const [startAMPM, setStartAMPM] = useState('AM');
-    const [startTime, setStartTime] = useState(null);
+    const [startTime, setStartTime] = useState('12:00 AM');
     const [endHour, setEndHour] = useState('12');
     const [endMin, setEndMin] = useState('00');
     const [endAMPM, setEndAMPM] = useState('AM');
-    const [endTime, setEndTime] = useState(null);
+    const [endTime, setEndTime] = useState('12:00 AM');
     const [description, setDescription] = useState(null);
     const [likes, setLikes] = useState(0);
     const [capacity, setCapacity] = useState(0);
@@ -72,12 +76,18 @@ function Map() {
 
         setStartTime(startHour + ":" + startMin + " " + startAMPM);
         setEndTime(endHour + ":" + endMin + " " + endAMPM);
-        console.log("Start time: " + startTime);
-        console.log("End time: " + endTime);
-        console.log("Category:" + category);
-        console.log("Hour:" + startHour);
-        console.log("Min:" + startMin);
-        console.log("AM/PM: " + startAMPM);
+        // console.log("Start hour:" + startHour);
+        // console.log("Start Min:" + startMin);
+        // console.log("Start AMPM:" + startAMPM);
+        // console.log("End hour:" + endHour);
+        // console.log("End Min:" + endMin);
+        // console.log("End AMPM:" + endAMPM);
+        // console.log("Start time: " + startTime);
+        // console.log("End time: " + endTime);
+        // console.log("Category:" + category);
+        // console.log("Hour:" + startHour);
+        // console.log("Min:" + startMin);
+        // console.log("AM/PM: " + startAMPM);
         const newEvent = {
             title,
             category,
@@ -103,12 +113,13 @@ function Map() {
         }
     }
 
-    const onLike = async (e) => {
+    // const onLike = async (e) => {
 
-    }
+    // }
 
     return (
         <div className="map">
+            <TopNav />
             <ReactMapGL
 
                 // The following three lines of code displays the map along with the appropriate styling.
@@ -132,7 +143,7 @@ function Map() {
                         <Room
                             style={{
                                 fontSize: viewPort.zoom * 3,
-                                color: "red",
+                                color: currentUser === events.createdBy ? "red" : "blue",
                                 cursor: "pointer"
                             }}
                             onClick={() => handleMarkerClick(events._id, events.lat, events.long)}
@@ -147,19 +158,20 @@ function Map() {
                         anchor="left"
                         onClose={() => setCurrentPlaceId(null)}
                     >
-                        <div className="addEvent-form">
-                            <h4 className="form-header">{events.category} Event!</h4>
-                            <p>title: {events.title}</p>
-                            <p>description: {events.description}</p>
-                            <p>capacity: {events.capacity}</p>
-                            <p>address: {events.address}</p>
+                        <div className="addEvent-form" id="result-popup">
+                            <h4 className="form-header">{events.title}</h4>
+                            <label className="result-label">Address</label>
+                            <p>{events.address}</p>
                             <p>startTime: {events.startTime}</p>
                             <p>endTime: {events.endTime}</p>
+                            <p>capacity: {events.capacity}</p>
+                            <label>Description</label>
+                            <p>{events.description}</p>
                             <p>createdBy: {events.createdBy}</p>
                             {/* Use the useState above for likes to update the 
                                 amount of likes a post has and update the database
                                 accordingly */}
-                            <p>likes: {events.capacity}</p>
+                            <p>likes: {events.likes}</p>
                         </div>
                     </Popup>
                     )}
@@ -188,10 +200,12 @@ function Map() {
                                 </label>
                                 <label className="label" id="cat-label">category:
                                 <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
-                                    <option id="cat-options" value="Arts/Culture" selected>Arts & Culture</option>
-                                    <option id="cat-options" value="Sports">Sports</option>
-                                    <option id="cat-options" value="Hangout">Hangout</option>
                                     <option id="cat-options" value="Music">Music</option>
+                                    <option id="cat-options" value="Studying">Studying</option>
+                                    <option id="cat-options" value="Arts/Culture">Arts & Culture</option>
+                                    <option id="cat-options" value="Shopping">Shopping</option>
+                                    <option id="cat-options" value="Science">Science</option>
+                                    <option id="cat-options" value="Sports">Sports</option>
                                 </select>
                                 </label>
                                 <label className="label" id="add-label">address:
