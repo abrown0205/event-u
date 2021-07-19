@@ -174,6 +174,7 @@ input[type="text"] {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .result-label {
@@ -182,4 +183,21 @@ input[type="text"] {
     font-size: 20px;
     margin: 3px 0;
     /* color: #FAED26; */
+}
+
+#likes-btn {
+    width: 100px;
+    height: 50px;
+    background-color: #FAED26;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+}
+
+#likes-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
 }

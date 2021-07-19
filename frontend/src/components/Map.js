@@ -143,7 +143,7 @@ function Map() {
                         <Room
                             style={{
                                 fontSize: viewPort.zoom * 3,
-                                color: currentUser === events.createdBy ? "red" : "blue",
+                                color: currentUser === events.createdBy ? "#FAED26" : "black",
                                 cursor: "pointer"
                             }}
                             onClick={() => handleMarkerClick(events._id, events.lat, events.long)}
@@ -171,7 +171,7 @@ function Map() {
                             {/* Use the useState above for likes to update the 
                                 amount of likes a post has and update the database
                                 accordingly */}
-                            <p>likes: {events.likes}</p>
+                            <button id="likes-btn">likes: {events.likes}</button>
                         </div>
                     </Popup>
                     )}
