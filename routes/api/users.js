@@ -93,7 +93,6 @@ router.post("/login", async (req, res, next) => {
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-
         var firstName = user.firstName;
         var lastName = user.lastName;
         var userId = user._id;
@@ -123,7 +122,6 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/preferences", async (req, res, next) => {
   const { username, preferences } = req.body;
-  console.log(username);
   let query = {username:username};
   let update = {preferences:preferences};
   User.findOneAndUpdate(query, update).then(user => {
@@ -149,5 +147,43 @@ router.post("/preferences", async (req, res, next) => {
     res.status(200).json(ret);
   });
 });
+
+router.post("/activate", async (req, res, next) => {
+isActive = true;
+
+  const { username, activationCode} = req.body;
+  User.findOne({ username }).then(user => {
+    // Check if user exists
+    if (!user) {
+      return res.status(400).json({ usernamenotfound: "User not found" }); 
+    }
+  if(activationCode != user.activationCode){
+	  isActive = false; 
+	  console.log(isActive);
+	  return res.status(400).json({ activationcodeincorrect: "Activation code incorrect" });
+  }
+
+  let query = {username:username};
+  let update = {active:isActive};
+  console.log(isActive);
+  User.findOneAndUpdate(query, update).then(user => {
+    // Check if user exists
+    var ret;
+
+    var firstName = user.firstName;
+    var lastName = user.lastName;
+    var userId = user._id;
+    var uname = user.username;
+    var attendedEvents = user.attendedEvents;
+    var likedEvents = user.likedEvents;
+    var email = user.email;
+
+    
+    res.status(200).json(ret);
+  });
+
+  });
+});
+
 
 module.exports = router;
