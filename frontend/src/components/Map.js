@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react';
 import "../components/css/map.css";
 import { AirportShuttle, Room, Star } from '@material-ui/icons'
 import axios from 'axios';
-import TopNav from './TopNav.js'
+import TopNav from './TopNav.js';
+import usePlacesAutocomplete, {
+    getGeocode,
+    getLatLng,
+} from "use-places-autocomplete";
 // import { format } from "timeago.js";
 
 var bp = require('./Path.js');
@@ -115,9 +119,18 @@ function Map() {
         }
     }
 
-    // const onLike = async (e) => {
+    const onLike = async (e) => {
+        console.log("Number of likes: " + (e+1));
+        // setLikes(e);
 
-    // }
+        // try {
+        //     const url = bp.buildPath("api/events/updateLikes"); 
+        //     const res = await axios.post(url, {likes:e});
+        // }
+        // catch(err) {
+        //     console.log(err)
+        // }
+    }
 
     return (
         <div className="map">
@@ -173,7 +186,7 @@ function Map() {
                             {/* Use the useState above for likes to update the 
                                 amount of likes a post has and update the database
                                 accordingly */}
-                            <button id="likes-btn">likes: {events.likes}</button>
+                            <button id="likes-btn" onClick={onLike(events.likes)}>likes: {events.likes}</button>
                         </div>
                     </Popup>
                     )}
