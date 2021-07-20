@@ -9,6 +9,8 @@ const url = keys.mongoURI;
 const sgMail = require('@sendgrid/mail');
 const { sendWelcomeEmail } = require("./welcome_emailer");
 
+const randomCode = Math.round(Math.random() * 999999);
+
 // Load input validation
 //const validateRegisterInput = require("../../validation/register");
 //const validateLoginInput = require("../../validation/login");
@@ -30,7 +32,7 @@ router.post("/register", async (req, res, next) => {
     email: req.body.email,
     notifications: true,
 	active: false,
-	activationCode: Math.round(Math.random() * 999999)
+	activationCode: randomCode
   });
 // Form validation
   //const { errors, isValid } = validateRegisterInput(req.body);
@@ -57,7 +59,7 @@ router.post("/register", async (req, res, next) => {
             .save()
             .then(user => res.json(user))
             .catch(err => console.log(err));
-            sendWelcomeEmail(req.body.email, req.body.firstName, req.body.lastName, req.body.username);
+            sendWelcomeEmail(req.body.email, req.body.firstName, req.body.lastName, req.body.username, ('000000'+randomCode).slice(-6));
           });
       });
     }
