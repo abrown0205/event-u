@@ -205,7 +205,7 @@ function Events() {
                                     <option className="time-options" value="11">11</option>
                                 </select>
                                 <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => setStartMin(e.target.value)}>
-                                    <option className="time-options" value="00">00</option>
+                                    <option className="time-options" value="00" selected>00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -216,60 +216,55 @@ function Events() {
                                     <option className="time-options" value="08">08</option>
                                     <option className="time-options" value="09">09</option>
                                     <option className="time-options" value="10">10</option>
-                                    <option className="time-options" value="00">11</option>
-                                    <option className="time-options" value="01">12</option>
-                                    <option className="time-options" value="02">13</option>
-                                    <option className="time-options" value="03">14</option>
-                                    <option className="time-options" value="04">15</option>
-                                    <option className="time-options" value="05">15</option>
-                                    <option className="time-options" value="06">16</option>
-                                    <option className="time-options" value="07">17</option>
-                                    <option className="time-options" value="08">18</option>
-                                    <option className="time-options" value="09">19</option>
-                                    <option className="time-options" value="10">20</option>
-                                    <option className="time-options" value="00">21</option>
-                                    <option className="time-options" value="01">22</option>
-                                    <option className="time-options" value="02">23</option>
-                                    <option className="time-options" value="03">24</option>
-                                    <option className="time-options" value="04">25</option>
-                                    <option className="time-options" value="05">25</option>
-                                    <option className="time-options" value="06">26</option>
-                                    <option className="time-options" value="07">27</option>
-                                    <option className="time-options" value="08">28</option>
-                                    <option className="time-options" value="09">29</option>
-                                    <option className="time-options" value="10">30</option>
-                                    <option className="time-options" value="00">31</option>
-                                    <option className="time-options" value="01">32</option>
-                                    <option className="time-options" value="02">33</option>
-                                    <option className="time-options" value="03">34</option>
-                                    <option className="time-options" value="04">35</option>
-                                    <option className="time-options" value="05">35</option>
-                                    <option className="time-options" value="06">36</option>
-                                    <option className="time-options" value="07">37</option>
-                                    <option className="time-options" value="08">38</option>
-                                    <option className="time-options" value="09">39</option>
-                                    <option className="time-options" value="10">40</option>
-                                    <option className="time-options" value="00">41</option>
-                                    <option className="time-options" value="01">42</option>
-                                    <option className="time-options" value="02">43</option>
-                                    <option className="time-options" value="03">44</option>
-                                    <option className="time-options" value="04">45</option>
-                                    <option className="time-options" value="05">45</option>
-                                    <option className="time-options" value="06">46</option>
-                                    <option className="time-options" value="07">47</option>
-                                    <option className="time-options" value="08">48</option>
-                                    <option className="time-options" value="09">49</option>
-                                    <option className="time-options" value="10">50</option>
-                                    <option className="time-options" value="00">51</option>
-                                    <option className="time-options" value="01">52</option>
-                                    <option className="time-options" value="02">53</option>
-                                    <option className="time-options" value="03">54</option>
-                                    <option className="time-options" value="04">55</option>
-                                    <option className="time-options" value="05">55</option>
-                                    <option className="time-options" value="06">56</option>
-                                    <option className="time-options" value="07">57</option>
-                                    <option className="time-options" value="08">58</option>
-                                    <option className="time-options" value="09">59</option>
+                                    <option className="time-options" value="11">11</option>
+                                    <option className="time-options" value="12">12</option>
+                                    <option className="time-options" value="13">13</option>
+                                    <option className="time-options" value="14">14</option>
+                                    <option className="time-options" value="15">15</option>
+                                    <option className="time-options" value="16">16</option>
+                                    <option className="time-options" value="17">17</option>
+                                    <option className="time-options" value="18">18</option>
+                                    <option className="time-options" value="19">19</option>
+                                    <option className="time-options" value="20">20</option>
+                                    <option className="time-options" value="21">21</option>
+                                    <option className="time-options" value="22">22</option>
+                                    <option className="time-options" value="23">23</option>
+                                    <option className="time-options" value="24">24</option>
+                                    <option className="time-options" value="25">25</option>
+                                    <option className="time-options" value="26">26</option>
+                                    <option className="time-options" value="27">27</option>
+                                    <option className="time-options" value="28">28</option>
+                                    <option className="time-options" value="29">29</option>
+                                    <option className="time-options" value="30">30</option>
+                                    <option className="time-options" value="31">31</option>
+                                    <option className="time-options" value="32">32</option>
+                                    <option className="time-options" value="44">33</option>
+                                    <option className="time-options" value="34">34</option>
+                                    <option className="time-options" value="35">35</option>
+                                    <option className="time-options" value="36">36</option>
+                                    <option className="time-options" value="37">37</option>
+                                    <option className="time-options" value="38">38</option>
+                                    <option className="time-options" value="39">39</option>
+                                    <option className="time-options" value="40">40</option>
+                                    <option className="time-options" value="41">41</option>
+                                    <option className="time-options" value="42">42</option>
+                                    <option className="time-options" value="43">43</option>
+                                    <option className="time-options" value="44">44</option>
+                                    <option className="time-options" value="45">45</option>
+                                    <option className="time-options" value="46">46</option>
+                                    <option className="time-options" value="47">47</option>
+                                    <option className="time-options" value="48">48</option>
+                                    <option className="time-options" value="49">49</option>
+                                    <option className="time-options" value="50">50</option>
+                                    <option className="time-options" value="51">51</option>
+                                    <option className="time-options" value="52">52</option>
+                                    <option className="time-options" value="53">53</option>
+                                    <option className="time-options" value="54">54</option>
+                                    <option className="time-options" value="55">55</option>
+                                    <option className="time-options" value="56">56</option>
+                                    <option className="time-options" value="57">57</option>
+                                    <option className="time-options" value="58">58</option>
+                                    <option className="time-options" value="59">59</option>
                                 </select>
                                 <select className="time" id="am/pm" defaultValue="AM" onChange={(e) => setStartAMPM(e.target.value)}>
                                     <option className="time-options" value="AM">AM</option>
@@ -292,7 +287,7 @@ function Events() {
                                     <option className="time-options" value="11">11</option>
                                 </select>
                                 <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => setEndMin(e.target.value)}>
-                                    <option className="time-options" value="00">00</option>
+                                    <option className="time-options" value="00" selected>00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -303,60 +298,55 @@ function Events() {
                                     <option className="time-options" value="08">08</option>
                                     <option className="time-options" value="09">09</option>
                                     <option className="time-options" value="10">10</option>
-                                    <option className="time-options" value="00">11</option>
-                                    <option className="time-options" value="01">12</option>
-                                    <option className="time-options" value="02">13</option>
-                                    <option className="time-options" value="03">14</option>
-                                    <option className="time-options" value="04">15</option>
-                                    <option className="time-options" value="05">15</option>
-                                    <option className="time-options" value="06">16</option>
-                                    <option className="time-options" value="07">17</option>
-                                    <option className="time-options" value="08">18</option>
-                                    <option className="time-options" value="09">19</option>
-                                    <option className="time-options" value="10">20</option>
-                                    <option className="time-options" value="00">21</option>
-                                    <option className="time-options" value="01">22</option>
-                                    <option className="time-options" value="02">23</option>
-                                    <option className="time-options" value="03">24</option>
-                                    <option className="time-options" value="04">25</option>
-                                    <option className="time-options" value="05">25</option>
-                                    <option className="time-options" value="06">26</option>
-                                    <option className="time-options" value="07">27</option>
-                                    <option className="time-options" value="08">28</option>
-                                    <option className="time-options" value="09">29</option>
-                                    <option className="time-options" value="10">30</option>
-                                    <option className="time-options" value="00">31</option>
-                                    <option className="time-options" value="01">32</option>
-                                    <option className="time-options" value="02">33</option>
-                                    <option className="time-options" value="03">34</option>
-                                    <option className="time-options" value="04">35</option>
-                                    <option className="time-options" value="05">35</option>
-                                    <option className="time-options" value="06">36</option>
-                                    <option className="time-options" value="07">37</option>
-                                    <option className="time-options" value="08">38</option>
-                                    <option className="time-options" value="09">39</option>
-                                    <option className="time-options" value="10">40</option>
-                                    <option className="time-options" value="00">41</option>
-                                    <option className="time-options" value="01">42</option>
-                                    <option className="time-options" value="02">43</option>
-                                    <option className="time-options" value="03">44</option>
-                                    <option className="time-options" value="04">45</option>
-                                    <option className="time-options" value="05">45</option>
-                                    <option className="time-options" value="06">46</option>
-                                    <option className="time-options" value="07">47</option>
-                                    <option className="time-options" value="08">48</option>
-                                    <option className="time-options" value="09">49</option>
-                                    <option className="time-options" value="10">50</option>
-                                    <option className="time-options" value="00">51</option>
-                                    <option className="time-options" value="01">52</option>
-                                    <option className="time-options" value="02">53</option>
-                                    <option className="time-options" value="03">54</option>
-                                    <option className="time-options" value="04">55</option>
-                                    <option className="time-options" value="05">55</option>
-                                    <option className="time-options" value="06">56</option>
-                                    <option className="time-options" value="07">57</option>
-                                    <option className="time-options" value="08">58</option>
-                                    <option className="time-options" value="09">59</option>
+                                    <option className="time-options" value="11">11</option>
+                                    <option className="time-options" value="12">12</option>
+                                    <option className="time-options" value="13">13</option>
+                                    <option className="time-options" value="14">14</option>
+                                    <option className="time-options" value="15">15</option>
+                                    <option className="time-options" value="16">16</option>
+                                    <option className="time-options" value="17">17</option>
+                                    <option className="time-options" value="18">18</option>
+                                    <option className="time-options" value="19">19</option>
+                                    <option className="time-options" value="20">20</option>
+                                    <option className="time-options" value="21">21</option>
+                                    <option className="time-options" value="22">22</option>
+                                    <option className="time-options" value="23">23</option>
+                                    <option className="time-options" value="24">24</option>
+                                    <option className="time-options" value="25">25</option>
+                                    <option className="time-options" value="26">26</option>
+                                    <option className="time-options" value="27">27</option>
+                                    <option className="time-options" value="28">28</option>
+                                    <option className="time-options" value="29">29</option>
+                                    <option className="time-options" value="30">30</option>
+                                    <option className="time-options" value="31">31</option>
+                                    <option className="time-options" value="32">32</option>
+                                    <option className="time-options" value="44">33</option>
+                                    <option className="time-options" value="34">34</option>
+                                    <option className="time-options" value="35">35</option>
+                                    <option className="time-options" value="36">36</option>
+                                    <option className="time-options" value="37">37</option>
+                                    <option className="time-options" value="38">38</option>
+                                    <option className="time-options" value="39">39</option>
+                                    <option className="time-options" value="40">40</option>
+                                    <option className="time-options" value="41">41</option>
+                                    <option className="time-options" value="42">42</option>
+                                    <option className="time-options" value="43">43</option>
+                                    <option className="time-options" value="44">44</option>
+                                    <option className="time-options" value="45">45</option>
+                                    <option className="time-options" value="46">46</option>
+                                    <option className="time-options" value="47">47</option>
+                                    <option className="time-options" value="48">48</option>
+                                    <option className="time-options" value="49">49</option>
+                                    <option className="time-options" value="50">50</option>
+                                    <option className="time-options" value="51">51</option>
+                                    <option className="time-options" value="52">52</option>
+                                    <option className="time-options" value="53">53</option>
+                                    <option className="time-options" value="54">54</option>
+                                    <option className="time-options" value="55">55</option>
+                                    <option className="time-options" value="56">56</option>
+                                    <option className="time-options" value="57">57</option>
+                                    <option className="time-options" value="58">58</option>
+                                    <option className="time-options" value="59">59</option>
                                 </select>
                                 <select className="time" id="am/pm" defaultValue="AM" onChange={(e) => setEndAMPM(e.target.value)}>
                                     <option className="time-options" value="AM">AM</option>
