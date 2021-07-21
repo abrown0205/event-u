@@ -50,6 +50,7 @@ body {
 .form-header {
     font-size: 35px;
     text-align: center;
+    color: black;
 }
 
 .label {
@@ -81,6 +82,7 @@ input[type="text"] {
     position: relative;
     top: -15px;
     /* width: 320px; */
+    color: black;
 }
 
 #name-input {
@@ -96,6 +98,7 @@ input[type="text"] {
     position: relative;
     top: -30px;
     width: 350px;
+    color: black;
 }
 
 #options-list {
@@ -103,7 +106,7 @@ input[type="text"] {
     padding: 5px;
     width: 250px;
     font-size: 16px;
-    background-color: white;
+    background-color: #FAED26;
     border: none;
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
@@ -114,7 +117,8 @@ input[type="text"] {
 
 #add-label {
     position: relative;
-    top: -40px;    
+    top: -40px;
+    color: black;
 }
 
 #add-input {
@@ -126,11 +130,13 @@ input[type="text"] {
     position: relative;
     top: -55px;
     margin: 5px;
+    color: black;
 }
 
 #endTime-label {
     position: relative;
     top: -55px;
+    color: black;
 }
 
 .time {
@@ -146,6 +152,7 @@ input[type="text"] {
 #desc-label {
     position: relative;
     top: -55px;
+    color: black;
 }
 
 #comment-box {
@@ -157,6 +164,7 @@ input[type="text"] {
 #cap-label {
     position: relative;
     top: -55px;
+    color: black;
 }
 
 #cap-input {

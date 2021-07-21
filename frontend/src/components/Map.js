@@ -334,7 +334,7 @@ function Map() {
                                 </label>
                                 <label className="label" id="startTime-label">start time:
                                 <select className="time" id="time-hour-select" onChange={(e) => setStartHour(e.target.value)}>
-                                    <option className="time-options" value="12" selected>12</option>
+                                    <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="1">1</option>
                                     <option className="time-options" value="2">2</option>
                                     <option className="time-options" value="3">3</option>
@@ -348,7 +348,7 @@ function Map() {
                                     <option className="time-options" value="11">11</option>
                                 </select>
                                 <select className="time" id="time-min-select" onChange={(e) => setStartMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
+                                    <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -410,13 +410,13 @@ function Map() {
                                     <option className="time-options" value="59">59</option>
                                 </select>
                                 <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
-                                    <option className="time-options" value="AM" selected>AM</option>
+                                    <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
                                 </select>
                                 </label>
                                 <label className="label" id="endTime-label">end time:
                                 <select className="time" id="time-hour-select" onChange={(e) => setEndHour(e.target.value)}>
-                                    <option className="time-options" value="12" selected>12</option>
+                                    <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="1">1</option>
                                     <option className="time-options" value="2">2</option>
                                     <option className="time-options" value="3">3</option>
@@ -430,7 +430,7 @@ function Map() {
                                     <option className="time-options" value="11">11</option>
                                 </select>
                                 <select className="time" id="time-min-select" onChange={(e) => setEndMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
+                                    <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -492,7 +492,7 @@ function Map() {
                                     <option className="time-options" value="59">59</option>
                                 </select>
                                 <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
-                                    <option className="time-options" value="AM" selected>AM</option>
+                                    <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
                                 </select>
                                 </label>
