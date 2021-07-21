@@ -36,7 +36,7 @@ function Map() {
     const [endAMPM, setEndAMPM] = useState('AM');
     const [endTime, setEndTime] = useState('12:00 AM');
     const [description, setDescription] = useState(null);
-    const [likes, setLikes] = useState(0);
+    const [like, setLike] = useState(0);
     const [capacity, setCapacity] = useState(0);
     const [viewPort, setViewPort] = useState({
         latitude: 28.60236,
@@ -56,6 +56,7 @@ function Map() {
 
                 const res = await axios.get(url);
                 console.log(res.data);
+                console.log("length: " + res.data.length);
                 setEvents(res.data);
             } catch(err) {
                 console.log(err);
@@ -119,17 +120,22 @@ function Map() {
         }
     }
 
-    const onLike = async (e) => {
-        console.log("Number of likes: " + (e+1));
-        // setLikes(e);
+    const onLike = async (e, id, likes) => {
+        const likesPlus = likes + 1;
+        setLike(likesPlus);
+        const addLike = {
+            _id: id,
+            likes: likesPlus, 
+        }
+        console.log(e);
 
-        // try {
-        //     const url = bp.buildPath("api/events/updateLikes"); 
-        //     const res = await axios.post(url, {likes:e});
-        // }
-        // catch(err) {
-        //     console.log(err)
-        // }
+        try {
+            const url = bp.buildPath("api/events/updateLikes"); 
+            const res = await axios.post(url, addLike);
+        }
+        catch(err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -186,7 +192,10 @@ function Map() {
                             {/* Use the useState above for likes to update the 
                                 amount of likes a post has and update the database
                                 accordingly */}
-                            <button id="likes-btn" onClick={onLike(events.likes)}>likes: {events.likes}</button>
+                            <button id="likes-btn" 
+                            onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
+
+                            >likes: {like}</button>
                         </div>
                     </Popup>
                     )}
