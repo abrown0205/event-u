@@ -9,6 +9,7 @@ import usePlacesAutocomplete, {
     getGeocode,
     getLatLng,
 } from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
 // import { format } from "timeago.js";
 
 var bp = require('./Path.js');
@@ -38,6 +39,9 @@ function Map() {
     const [description, setDescription] = useState(null);
     const [like, setLike] = useState(0);
     const [capacity, setCapacity] = useState(0);
+    const [contentStatus, displayContent] = React.useState(false);
+    const [lat, setLat] = useState(null);
+    const [long, setLong] = useState(null);
     const [viewPort, setViewPort] = useState({
         latitude: 28.60236,
         longitude: -81.20008,
@@ -47,6 +51,25 @@ function Map() {
         height: window.innerHeight,
         zoom: 14
     });
+
+    const {
+        ready,
+        value,
+        suggestions: { status, data },
+        setValue,
+        clearSuggestions,
+    } = usePlacesAutocomplete();
+
+    const ref = useOnclickOutside(() => {
+        // When user clicks outside of the component, we can dismiss
+        // the searched suggestions by calling this method
+        clearSuggestions();
+    });
+
+    const handleAddressInput = (e) => {
+        // Update the keyword of the input element
+        setValue(e.target.value);
+    };
 
     // gets all the events from the database and displays them on the map
     useEffect(() => {
@@ -138,6 +161,45 @@ function Map() {
         }
     }
 
+    // const onDelete = async () => {
+
+    // }
+
+    const handleSelect =
+        ({ description }) =>
+        () => {
+          // When user selects a place, we can replace the keyword without request data from API
+          // by setting the second parameter to "false"
+          setValue(description, false);
+          setAddress(description);
+          clearSuggestions();
+    
+          // Get latitude and longitude via utility functions
+          getGeocode({ address: description })
+            .then((results) => getLatLng(results[0]))
+            .then(({ lat, lng }) => {
+                setLat(lat);
+                setLong(lng);
+            })
+            .catch((error) => {
+              console.log("Error: ", error);
+            });
+        };
+    
+    const renderSuggestions = () =>
+        data.map((suggestion) => {
+          const {
+            place_id,
+            structured_formatting: { main_text, secondary_text },
+          } = suggestion;
+    
+          return (
+            <li className="addressResults" key={place_id} onClick={handleSelect(suggestion)}>
+              <strong>{main_text}</strong> <small>{secondary_text}</small>
+            </li>
+          );
+        });
+
     return (
         <div className="map">
             <TopNav />
@@ -192,10 +254,11 @@ function Map() {
                             {/* Use the useState above for likes to update the 
                                 amount of likes a post has and update the database
                                 accordingly */}
-                            <button id="likes-btn" 
+                            <button className="res-btn" id="likes-btn" 
                             onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
 
                             >likes: {like}</button>
+                            <button className="res-btn" id="delete-btn">delete</button>
                         </div>
                     </Popup>
                     )}
@@ -232,7 +295,7 @@ function Map() {
                                     <option id="cat-options" value="Sports">Sports</option>
                                 </select>
                                 </label>
-                                <label className="label" id="add-label">address:
+                                {/* <label className="label" id="add-label">address:
                                 <input 
                                     type="text" 
                                     className="input-field" 
@@ -240,6 +303,19 @@ function Map() {
                                     placeholder="Enter address..."
                                     onChange={(e) => setAddress(e.target.value)}
                                     ></input>
+                                </label> */}
+                                <label className="label" id="add-label">address:
+                                    <div ref={ref}>
+                                        <input 
+                                        value={value}
+                                        type="text" 
+                                        className="input-field" 
+                                        id="add-input" 
+                                        placeholder="Enter address..."
+                                        onChange={handleAddressInput}
+                                        />
+                                        {status === "OK" && <ul className="addressUl">{renderSuggestions()}</ul>}
+                                    </div>
                                 </label>
                                 <label className="label" id="startTime-label">start time:
                                 <select className="time" id="time-hour-select" onChange={(e) => setStartHour(e.target.value)}>

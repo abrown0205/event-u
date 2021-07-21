@@ -185,10 +185,9 @@ input[type="text"] {
     /* color: #FAED26; */
 }
 
-#likes-btn {
+.res-btn {
     width: 100px;
     height: 50px;
-    background-color: #FAED26;
     border: none;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -197,7 +196,27 @@ input[type="text"] {
     cursor: pointer;
 }
 
+#likes-btn {
+    background-color: #FAED26;
+}
+
 #likes-btn:hover {
     transition: .5s;
     background-color: #cfc31cfa;
+}
+
+#delete-btn {
+    background-color: red;
+}
+
+#delete-btn:hover {
+    transition: .5s;
+    background-color: rgb(160, 16, 16);
+}
+
+.addressUl {
+    margin-bottom: 5px;
+    margin-top: -10px;
+    position: absolute;
+    z-index: 3;
 }
