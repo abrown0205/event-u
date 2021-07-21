@@ -40,7 +40,6 @@ router.post("/findcat", async (req, res, next) => {
     }
 })
 
-<<<<<<< HEAD
 // Updates the likes of an event in the database.
 router.post("/updateLikes", async (req, res) => {
     try {
@@ -66,7 +65,10 @@ router.post("/updateLikes", async (req, res) => {
         res.status(200).json(addEvent);
     }
     catch(err) {
-=======
+        res.status(500).json(err);
+    }
+})
+
 router.post("/inrange", async (req, res) => {
     try {
         // Gets all the events stored in the database within range in req.body.start req.body.end
@@ -82,7 +84,6 @@ router.post("/inrange", async (req, res) => {
         res.status(500).json(err);
     }
 })
-
 
 router.post("/delete", async (req, res) => {
     try {
@@ -105,13 +106,8 @@ router.post("/delete", async (req, res) => {
         });
 
     } catch(err) {
->>>>>>> d71fc326a184818d90861b82b3141dc193476cc4
         res.status(500).json(err);
     }
 })
 
-<<<<<<< HEAD
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> d71fc326a184818d90861b82b3141dc193476cc4
