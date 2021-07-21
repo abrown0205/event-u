@@ -10,6 +10,9 @@ import usePlacesAutocomplete, {
     getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
+// import Notification from './Notification.js';
+import ConfirmDelete from './ConfirmDelete.js';
+// import Dialog from '@material-ui/core/Dialog';
 // import { format } from "timeago.js";
 // import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
@@ -23,7 +26,7 @@ function Map() {
     const [events, setEvents] = useState([]);
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
     const [newPlace, setNewPlace] = useState(null);
-    const [createdBy, setCreatedBy] = useState(null);
+    const [createdBy, setCreatedBy] = useState(currentUser);
     const [title, setTitle] = useState(null);
     const [category, setCategory] = useState(null);
     const [address, setAddress] = useState(null);
@@ -41,6 +44,12 @@ function Map() {
     const [contentStatus, displayContent] = React.useState(false);
     const [lat, setLat] = useState(null);
     const [long, setLong] = useState(null);
+    const [notify, setNotify] = useState({isOpen:false, message:'', type:''});
+    const [confirmDialog, setConfirmDialog] = useState({
+        isOpen: false, 
+        title: '', 
+        subTitle: ''
+    })
     const [viewPort, setViewPort] = useState({
         latitude: 28.60236,
         longitude: -81.20008,
@@ -167,11 +176,24 @@ function Map() {
         const eventDelete = {
             _id: id,
         }
-        
+
+        // if (window.confirm('Are you sure you want to delete this event?')) {
+        //     setNotify({
+        //         isOpen: true,
+        //         message: 'Event successfully deleted',
+        //         type: 'success'
+        //     })
+            
+        // }
+
         try {
             const url = bp.buildPath("api/events/delete");
             const res = await axios.post(url, eventDelete);
             console.log("Item successfully deleted");
+            setConfirmDialog({
+                ...confirmDialog,
+                isOpen: false
+            })
         }
         catch(err) {
             console.log(err);
@@ -213,9 +235,28 @@ function Map() {
           );
         });
 
+    // const onDelete = (id) => {
+    //     // Displays the notification that an event was successfully deleted
+    //     // setNotify({
+    //     //     isOpen: true,
+    //     //     message: 'Event successfully deleted',
+    //     //     type: 'success'
+    //     // })
+
+
+    // }
+
     return (
         <div className="map">
             <TopNav />
+            {/* <Notification 
+                notify={notify}
+                setNotify={setNotify}
+            /> */}
+            <ConfirmDelete 
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
             <ReactMapGL
 
                 // The following three lines of code displays the map along with the appropriate styling.
@@ -272,7 +313,15 @@ function Map() {
 
                             >likes: {like}</button>
                             <button className="res-btn" id="delete-btn"
-                            onClick={() => handleDelete(events._id)}
+                            onClick={() => 
+                                setConfirmDialog({
+                                    isOpen: true,
+                                    title: 'Are you sure you want to delete this event?',
+                                    subtitle: "This event will be deleted",
+                                    onConfirm: () => { handleDelete(events._id) }
+                                })
+                                // handleDelete(events._id)
+                            }
                             >delete</button>
                         </div>
                     </Popup>
