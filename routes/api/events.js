@@ -40,6 +40,7 @@ router.post("/findcat", async (req, res, next) => {
     }
 })
 
+<<<<<<< HEAD
 // Updates the likes of an event in the database.
 router.post("/updateLikes", async (req, res) => {
     try {
@@ -65,8 +66,52 @@ router.post("/updateLikes", async (req, res) => {
         res.status(200).json(addEvent);
     }
     catch(err) {
+=======
+router.post("/inrange", async (req, res) => {
+    try {
+        // Gets all the events stored in the database within range in req.body.start req.body.end
+        // Passes a code of 200 if successful
+        //2021 for year
+        //2021-07 for month
+        //2021-07-17 for day
+        const events = await Event.find( {startTime: { $gte: req.body.start, $lte: req.body.end} } )
+                                  .sort({startTime: 1});
+        res.status(200).json(events);
+
+    } catch(err) {
         res.status(500).json(err);
     }
 })
 
+
+router.post("/delete", async (req, res) => {
+    try {
+        // Tries to delete event by _id
+        // Passes a code of 200 if successful
+
+        Event.findOneAndDelete( {_id: req.body._id }, function (err, docs){
+            if (err){
+                console.log(err)
+            }
+            else{
+                if(docs === null){
+                    res.status(500).json("error: no event found with id: " + req.body._id)
+                } else {
+                    console.log("Deleted Event : ", docs);
+                    res.status(200).json("Deleted event with id: " + req.body._id);
+                }
+
+            }
+        });
+
+    } catch(err) {
+>>>>>>> d71fc326a184818d90861b82b3141dc193476cc4
+        res.status(500).json(err);
+    }
+})
+
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> d71fc326a184818d90861b82b3141dc193476cc4
