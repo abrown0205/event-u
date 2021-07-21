@@ -11,11 +11,9 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
 // import { format } from "timeago.js";
-import { format, formatDistance, formatRelative, subDays } from 'date-fns';
+// import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
 var bp = require('./Path.js');
-
-
 
 function Map() {
     var _ud = localStorage.getItem('user_data');
@@ -144,6 +142,7 @@ function Map() {
         }
     }
 
+    // Adds a like to an event
     const onLike = async (e, id, likes) => {
         const likesPlus = likes + 1;
         setLike(likesPlus);
@@ -162,9 +161,22 @@ function Map() {
         }
     }
 
-    // const onDelete = async () => {
-
-    // }
+    // Deletes an event from the map
+    const handleDelete = async (id) => {
+        // console.log("id: " + id);
+        const eventDelete = {
+            _id: id,
+        }
+        
+        try {
+            const url = bp.buildPath("api/events/delete");
+            const res = await axios.post(url, eventDelete);
+            console.log("Item successfully deleted");
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
 
     const handleSelect =
         ({ description }) =>
@@ -259,7 +271,9 @@ function Map() {
                             onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
 
                             >likes: {like}</button>
-                            <button className="res-btn" id="delete-btn">delete</button>
+                            <button className="res-btn" id="delete-btn"
+                            onClick={() => handleDelete(events._id)}
+                            >delete</button>
                         </div>
                     </Popup>
                     )}
