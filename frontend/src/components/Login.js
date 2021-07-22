@@ -74,6 +74,7 @@ function Login()
                 <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /> <br />
                 <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c}/><br />
                 <input type="submit" id="loginButton" value="Sign In" onClick={doLogin} />
+                <h3 id="forgotPass">Forgot Password? <a id="forgotBtn">Click here</a></h3>
                 <span id="loginResult">{message}</span>
                 <h3 id="redirectText">Don't have an account?<a href="/signup" id="redirectButton"> Sign Up!</a></h3>
             </div>

@@ -42,6 +42,34 @@ router.post("/editevent", async (req, res, next) => {
     }
 })
 
+router.post("/updateLikes", async (req, res) => {
+    try {
+        // Set corresponding variables as necessary.
+        const { _id, likes } = req.body;
+        let query = { _id: _id };
+        let update = { likes: likes };
+
+        // Uses the findByIdAndUpdate() function to search an event based on its id.
+        // Then it updates the likes section of the event to whatever we set it to.
+        // Calls a function in its third parameter to handle any errors, if there are
+        // any.
+        const addEvent = await Event.findByIdAndUpdate(query, update, (err, docs) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Updated likes: " + docs);
+            }
+        });
+
+        // Posts the change made to the database.
+        res.status(200).json(addEvent);
+    }
+    catch(err) {
+        res.status(500).json(err);
+    }
+})
+
 router.get("/findevent", async (req, res) => {
     try {
         // Gets all the events stored in the database
