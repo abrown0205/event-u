@@ -14,7 +14,8 @@ import useOnclickOutside from "react-cool-onclickoutside";
 import ConfirmDelete from './ConfirmDelete.js';
 // import Dialog from '@material-ui/core/Dialog';
 // import { format } from "timeago.js";
-// import { format, formatDistance, formatRelative, subDays } from 'date-fns';
+import { format, formatDistance, formatRelative, subDays } from 'date-fns';
+// YYYY-MM-DDThh:mm
 
 var bp = require('./Path.js');
 
@@ -28,16 +29,16 @@ function Map() {
     const [newPlace, setNewPlace] = useState(null);
     const [createdBy, setCreatedBy] = useState(currentUser);
     const [title, setTitle] = useState(null);
-    const [category, setCategory] = useState(null);
+    const [category, setCategory] = useState('Music');
     const [address, setAddress] = useState(null);
     const [startHour, setStartHour] = useState('12');
     const [startMin, setStartMin] = useState('00');
     const [startAMPM, setStartAMPM] = useState('AM');
-    const [startTime, setStartTime] = useState('12:00 AM');
+    const [startTime, setStartTime] = useState('2021-07-21T12:00');
     const [endHour, setEndHour] = useState('12');
     const [endMin, setEndMin] = useState('00');
     const [endAMPM, setEndAMPM] = useState('AM');
-    const [endTime, setEndTime] = useState('12:00 AM');
+    const [endTime, setEndTime] = useState('2021-07-21T12:00');
     const [description, setDescription] = useState(null);
     const [like, setLike] = useState(0);
     const [capacity, setCapacity] = useState(0);
@@ -112,8 +113,17 @@ function Map() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setStartTime(startHour + ":" + startMin + " " + startAMPM);
-        setEndTime(endHour + ":" + endMin + " " + endAMPM);
+        // setStartTime(startHour + ":" + startMin + " " + startAMPM);
+        // setEndTime(endHour + ":" + endMin + " " + endAMPM);
+
+        // Gotta store the time and date into the following format:
+        // YYYY-MM-DDThh:mm
+
+        setStartTime("2021-07-21T" + startHour + ":" + startMin);
+        setEndTime("2021-07-21T" + endHour + ":" + endMin);
+        // console.log(format(new Date()));
+
+
         // console.log("Start hour:" + startHour);
         // console.log("Start Min:" + startMin);
         // console.log("Start AMPM:" + startAMPM);
@@ -126,6 +136,7 @@ function Map() {
         // console.log("Hour:" + startHour);
         // console.log("Min:" + startMin);
         // console.log("AM/PM: " + startAMPM);
+        
         const newEvent = {
             title,
             category,
