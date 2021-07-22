@@ -48,8 +48,12 @@ function Login()
                     var lastName = ud.payload.lastName;
                     var username = ud.payload.username;
                     var preferences = ud.payload.preferences;
+                    var likedEvents = ud.payload.likedEvents;
+                    var email = ud.payload.email;
+                    var attendedEvents = ud.payload.attendedEvents;
+                    var userId = ud.payload._id;
 
-                    var user = {firstName:firstName,lastName:lastName,username:username,preferences:preferences};
+                    var user = {firstName:firstName,lastName:lastName,username:username,preferences:preferences,_id:userId,attendedEvents:attendedEvents,email:email,likedEvents:likedEvents};
                     localStorage.setItem('user_data', JSON.stringify(user));
                     window.location.href = '/home';
                 }
