@@ -185,6 +185,24 @@ input[type="text"] {
     font-size: 20px;
 }
 
+.edit-btns {
+    height: 60px;
+    background-color: #FAED26;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 3px;
+}
+
+.edit-btns:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
+}
+
 .result-label {
     border-bottom: .5px solid #FAED26;
     width: 350px;
@@ -218,6 +236,15 @@ input[type="text"] {
 }
 
 #delete-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
+}
+
+#edit-btn {
+    background-color: #FAED26;
+}
+
+#edit-btn:hover {
     transition: .5s;
     background-color: #cfc31cfa;
 }

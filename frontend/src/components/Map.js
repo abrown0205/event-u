@@ -46,6 +46,7 @@ function Map() {
     const [long, setLong] = useState(null);
     const [notify, setNotify] = useState({isOpen:false, message:'', type:''});
     const [key, setKey] = useState(null);
+    const [edit, setEdit] = useState(false);
     const [confirmDialog, setConfirmDialog] = useState({
         isOpen: false, 
         title: '', 
@@ -127,7 +128,6 @@ function Map() {
             endTime,
             createdBy,
             description,
-            // likes,
             capacity,
         }
 
@@ -140,6 +140,43 @@ function Map() {
         } catch(err) {
             console.log(err)
         }
+    }
+
+    const handleEdit = async (e, id) => {
+        e.preventDefault();
+
+        setStartTime("2021-07-21T" + startHour + ":" + startMin);
+        setEndTime("2021-07-21T" + endHour + ":" + endMin);
+        
+        const editedEvent = {
+            title,
+            category,
+            address,
+            lat,
+            long,
+            startTime,
+            endTime,
+            createdBy,
+            description,
+            capacity,
+        }
+
+        const editPayload = {
+            event: id,
+            editPayload: editedEvent,
+        }
+
+        try {
+            const url = bp.buildPath("api/events/editevent");
+            const res = await axios.post(url, editPayload);
+            console.log("Event successfully changed");
+            console.log(events);
+        }
+        catch(err) {
+            console.log(err);
+        }
+
+
     }
 
     // Adds a like to an event
@@ -266,38 +303,279 @@ function Map() {
                         anchor="left"
                         onClose={() => setCurrentPlaceId(null)}
                     >
-                        <div className="addEvent-form" id="result-popup">
-                            <h4 className="form-header">{events.title}</h4>
-                            <label className="result-label">Address</label>
-                            <p>{events.address}</p>
-                            <p>startTime: {events.startTime}</p>
-                            <p>endTime: {events.endTime}</p>
-                            <p>capacity: {events.capacity}</p>
-                            <label>Description</label>
-                            <p>{events.description}</p>
-                            <p>createdBy: {events.createdBy}</p>
-                            {/* Use the useState above for likes to update the 
-                                amount of likes a post has and update the database
-                                accordingly */}
-                            <button className="res-btn" id="likes-btn" 
-                            onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
+                        {!edit && 
+                            <div className="addEvent-form" id="result-popup">
+                                <h4 className="form-header">{events.title}</h4>
+                                <label className="result-label">Address</label>
+                                <p>{events.address}</p>
+                                <p>startTime: {events.startTime}</p>
+                                <p>endTime: {events.endTime}</p>
+                                <p>capacity: {events.capacity}</p>
+                                <label>Description</label>
+                                <p>{events.description}</p>
+                                <p>createdBy: {events.createdBy}</p>
+                                {/* Use the useState above for likes to update the 
+                                    amount of likes a post has and update the database
+                                    accordingly */}
+                                <button className="res-btn" id="likes-btn" 
+                                onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
 
-                            >likes: {events.likes}</button>
-                            {currentUser === events.createdBy && 
-                                <button className="res-btn" id="delete-btn"
-                                    onClick={() => 
-                                        setConfirmDialog({
-                                            isOpen: true,
-                                            title: 'Are you sure you want to delete this event?',
-                                            subtitle: "This event will be deleted",
-                                            onConfirm: () => { handleDelete(events._id) }
-                                        })
-                                    }
-                                >
-                                    delete
-                                </button>
-                            }
-                        </div>
+                                >likes: {events.likes}</button>
+                                {currentUser === events.createdBy && 
+                                    <button className="res-btn" id="delete-btn"
+                                        onClick={() => 
+                                            setConfirmDialog({
+                                                isOpen: true,
+                                                title: 'Are you sure you want to delete this event?',
+                                                subtitle: "This event will be deleted",
+                                                onConfirm: () => { handleDelete(events._id) }
+                                            })
+                                        }
+                                    >
+                                        delete
+                                    </button>
+                                }
+                                {currentUser === events.createdBy && 
+                                    <button className="res-btn" id="edit-btn"
+                                        onClick={() => setEdit(true)}
+                                    >
+                                        edit
+                                    </button>
+                                }
+                            </div>
+                        }
+                        {edit && 
+                            <div className="editEvents">
+                                <h4 className="form-header">Add an Event!</h4>
+                                <form className="addEvent-form">
+                                    <label className="label" id="name-label">title: 
+                                    <input 
+                                        type="text" 
+                                        className="input-field" 
+                                        id="name-input" 
+                                        placeholder="Enter title..."
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        />
+                                    </label>
+                                    <label className="label" id="cat-label">category:
+                                    <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
+                                        <option id="cat-options" value="Music">Music</option>
+                                        <option id="cat-options" value="Studying">Studying</option>
+                                        <option id="cat-options" value="Arts/Culture">Arts & Culture</option>
+                                        <option id="cat-options" value="Shopping">Shopping</option>
+                                        <option id="cat-options" value="Science">Science</option>
+                                        <option id="cat-options" value="Sports">Sports</option>
+                                    </select>
+                                    </label>
+                                    {/* <label className="label" id="add-label">address:
+                                    <input 
+                                        type="text" 
+                                        className="input-field" 
+                                        id="add-input" 
+                                        placeholder="Enter address..."
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        ></input>
+                                    </label> */}
+                                    <label className="label" id="add-label">address:
+                                        <div ref={ref}>
+                                            <input 
+                                            value={value}
+                                            type="text" 
+                                            className="input-field" 
+                                            id="add-input" 
+                                            placeholder="Enter address..."
+                                            onChange={handleAddressInput}
+                                            />
+                                            {status === "OK" && <ul className="addressUl">{renderSuggestions()}</ul>}
+                                        </div>
+                                    </label>
+                                    <label className="label" id="startTime-label">start time:
+                                    <select className="time" id="time-hour-select" onChange={(e) => setStartHour(e.target.value)}>
+                                        <option className="time-options" value="12">12</option>
+                                        <option className="time-options" value="1">1</option>
+                                        <option className="time-options" value="2">2</option>
+                                        <option className="time-options" value="3">3</option>
+                                        <option className="time-options" value="4">4</option>
+                                        <option className="time-options" value="5">5</option>
+                                        <option className="time-options" value="6">6</option>
+                                        <option className="time-options" value="7">7</option>
+                                        <option className="time-options" value="1">8</option>
+                                        <option className="time-options" value="9">9</option>
+                                        <option className="time-options" value="10">10</option>
+                                        <option className="time-options" value="11">11</option>
+                                    </select>
+                                    <select className="time" id="time-min-select" onChange={(e) => setStartMin(e.target.value)}>
+                                        <option className="time-options" value="00">00</option>
+                                        <option className="time-options" value="01">01</option>
+                                        <option className="time-options" value="02">02</option>
+                                        <option className="time-options" value="03">03</option>
+                                        <option className="time-options" value="04">04</option>
+                                        <option className="time-options" value="05">05</option>
+                                        <option className="time-options" value="06">06</option>
+                                        <option className="time-options" value="07">07</option>
+                                        <option className="time-options" value="08">08</option>
+                                        <option className="time-options" value="09">09</option>
+                                        <option className="time-options" value="10">10</option>
+                                        <option className="time-options" value="11">11</option>
+                                        <option className="time-options" value="12">12</option>
+                                        <option className="time-options" value="13">13</option>
+                                        <option className="time-options" value="14">14</option>
+                                        <option className="time-options" value="15">15</option>
+                                        <option className="time-options" value="16">16</option>
+                                        <option className="time-options" value="17">17</option>
+                                        <option className="time-options" value="18">18</option>
+                                        <option className="time-options" value="19">19</option>
+                                        <option className="time-options" value="20">20</option>
+                                        <option className="time-options" value="21">21</option>
+                                        <option className="time-options" value="22">22</option>
+                                        <option className="time-options" value="23">23</option>
+                                        <option className="time-options" value="24">24</option>
+                                        <option className="time-options" value="25">25</option>
+                                        <option className="time-options" value="26">26</option>
+                                        <option className="time-options" value="27">27</option>
+                                        <option className="time-options" value="28">28</option>
+                                        <option className="time-options" value="29">29</option>
+                                        <option className="time-options" value="30">30</option>
+                                        <option className="time-options" value="31">31</option>
+                                        <option className="time-options" value="32">32</option>
+                                        <option className="time-options" value="44">33</option>
+                                        <option className="time-options" value="34">34</option>
+                                        <option className="time-options" value="35">35</option>
+                                        <option className="time-options" value="36">36</option>
+                                        <option className="time-options" value="37">37</option>
+                                        <option className="time-options" value="38">38</option>
+                                        <option className="time-options" value="39">39</option>
+                                        <option className="time-options" value="40">40</option>
+                                        <option className="time-options" value="41">41</option>
+                                        <option className="time-options" value="42">42</option>
+                                        <option className="time-options" value="43">43</option>
+                                        <option className="time-options" value="44">44</option>
+                                        <option className="time-options" value="45">45</option>
+                                        <option className="time-options" value="46">46</option>
+                                        <option className="time-options" value="47">47</option>
+                                        <option className="time-options" value="48">48</option>
+                                        <option className="time-options" value="49">49</option>
+                                        <option className="time-options" value="50">50</option>
+                                        <option className="time-options" value="51">51</option>
+                                        <option className="time-options" value="52">52</option>
+                                        <option className="time-options" value="53">53</option>
+                                        <option className="time-options" value="54">54</option>
+                                        <option className="time-options" value="55">55</option>
+                                        <option className="time-options" value="56">56</option>
+                                        <option className="time-options" value="57">57</option>
+                                        <option className="time-options" value="58">58</option>
+                                        <option className="time-options" value="59">59</option>
+                                    </select>
+                                    <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
+                                        <option className="time-options" value="AM">AM</option>
+                                        <option className="time-options" value="PM">PM</option>
+                                    </select>
+                                    </label>
+                                    <label className="label" id="endTime-label">end time:
+                                    <select className="time" id="time-hour-select" onChange={(e) => setEndHour(e.target.value)}>
+                                        <option className="time-options" value="12">12</option>
+                                        <option className="time-options" value="1">1</option>
+                                        <option className="time-options" value="2">2</option>
+                                        <option className="time-options" value="3">3</option>
+                                        <option className="time-options" value="4">4</option>
+                                        <option className="time-options" value="5">5</option>
+                                        <option className="time-options" value="6">6</option>
+                                        <option className="time-options" value="7">7</option>
+                                        <option className="time-options" value="1">8</option>
+                                        <option className="time-options" value="9">9</option>
+                                        <option className="time-options" value="10">10</option>
+                                        <option className="time-options" value="11">11</option>
+                                    </select>
+                                    <select className="time" id="time-min-select" onChange={(e) => setEndMin(e.target.value)}>
+                                        <option className="time-options" value="00">00</option>
+                                        <option className="time-options" value="01">01</option>
+                                        <option className="time-options" value="02">02</option>
+                                        <option className="time-options" value="03">03</option>
+                                        <option className="time-options" value="04">04</option>
+                                        <option className="time-options" value="05">05</option>
+                                        <option className="time-options" value="06">06</option>
+                                        <option className="time-options" value="07">07</option>
+                                        <option className="time-options" value="08">08</option>
+                                        <option className="time-options" value="09">09</option>
+                                        <option className="time-options" value="10">10</option>
+                                        <option className="time-options" value="11">11</option>
+                                        <option className="time-options" value="12">12</option>
+                                        <option className="time-options" value="13">13</option>
+                                        <option className="time-options" value="14">14</option>
+                                        <option className="time-options" value="15">15</option>
+                                        <option className="time-options" value="16">16</option>
+                                        <option className="time-options" value="17">17</option>
+                                        <option className="time-options" value="18">18</option>
+                                        <option className="time-options" value="19">19</option>
+                                        <option className="time-options" value="20">20</option>
+                                        <option className="time-options" value="21">21</option>
+                                        <option className="time-options" value="22">22</option>
+                                        <option className="time-options" value="23">23</option>
+                                        <option className="time-options" value="24">24</option>
+                                        <option className="time-options" value="25">25</option>
+                                        <option className="time-options" value="26">26</option>
+                                        <option className="time-options" value="27">27</option>
+                                        <option className="time-options" value="28">28</option>
+                                        <option className="time-options" value="29">29</option>
+                                        <option className="time-options" value="30">30</option>
+                                        <option className="time-options" value="31">31</option>
+                                        <option className="time-options" value="32">32</option>
+                                        <option className="time-options" value="44">33</option>
+                                        <option className="time-options" value="34">34</option>
+                                        <option className="time-options" value="35">35</option>
+                                        <option className="time-options" value="36">36</option>
+                                        <option className="time-options" value="37">37</option>
+                                        <option className="time-options" value="38">38</option>
+                                        <option className="time-options" value="39">39</option>
+                                        <option className="time-options" value="40">40</option>
+                                        <option className="time-options" value="41">41</option>
+                                        <option className="time-options" value="42">42</option>
+                                        <option className="time-options" value="43">43</option>
+                                        <option className="time-options" value="44">44</option>
+                                        <option className="time-options" value="45">45</option>
+                                        <option className="time-options" value="46">46</option>
+                                        <option className="time-options" value="47">47</option>
+                                        <option className="time-options" value="48">48</option>
+                                        <option className="time-options" value="49">49</option>
+                                        <option className="time-options" value="50">50</option>
+                                        <option className="time-options" value="51">51</option>
+                                        <option className="time-options" value="52">52</option>
+                                        <option className="time-options" value="53">53</option>
+                                        <option className="time-options" value="54">54</option>
+                                        <option className="time-options" value="55">55</option>
+                                        <option className="time-options" value="56">56</option>
+                                        <option className="time-options" value="57">57</option>
+                                        <option className="time-options" value="58">58</option>
+                                        <option className="time-options" value="59">59</option>
+                                    </select>
+                                    <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
+                                        <option className="time-options" value="AM">AM</option>
+                                        <option className="time-options" value="PM">PM</option>
+                                    </select>
+                                    </label>
+                                    <label className="label" id="desc-label" >description:</label>
+                                    <textarea 
+                                        id="comment-box" 
+                                        placeholder="Comments..." 
+                                        rows="9" 
+                                        cols="40"
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        />
+                                    <label className="label" id="cap-label">capacity:
+                                    <input 
+                                        type="number" 
+                                        className="input-field" 
+                                        id="cap-input" 
+                                        min="0"
+                                        onChange={(e) => setCapacity(e.target.value)}
+                                        >
+                                        </input>
+                                    </label>
+                                    <button type ="submit" className="edit-btns" onClick={(e) => handleEdit(e, events._id)}>Edit Event</button>
+                                    <button className="edit-btns" onClick={() => setEdit(false)}>Cancel</button>
+                                </form>
+                            </div>
+                        }
                     </Popup>
                     )}
                     </React.Fragment>
