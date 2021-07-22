@@ -15,7 +15,6 @@ import ConfirmDelete from './ConfirmDelete.js';
 // import Dialog from '@material-ui/core/Dialog';
 // import { format } from "timeago.js";
 import { format, formatDistance, formatRelative, subDays } from 'date-fns';
-// YYYY-MM-DDThh:mm
 
 var bp = require('./Path.js');
 
@@ -113,29 +112,11 @@ function Map() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // setStartTime(startHour + ":" + startMin + " " + startAMPM);
-        // setEndTime(endHour + ":" + endMin + " " + endAMPM);
-
         // Gotta store the time and date into the following format:
         // YYYY-MM-DDThh:mm
 
         setStartTime("2021-07-21T" + startHour + ":" + startMin);
         setEndTime("2021-07-21T" + endHour + ":" + endMin);
-        // console.log(format(new Date()));
-
-
-        // console.log("Start hour:" + startHour);
-        // console.log("Start Min:" + startMin);
-        // console.log("Start AMPM:" + startAMPM);
-        // console.log("End hour:" + endHour);
-        // console.log("End Min:" + endMin);
-        // console.log("End AMPM:" + endAMPM);
-        // console.log("Start time: " + startTime);
-        // console.log("End time: " + endTime);
-        // console.log("Category:" + category);
-        // console.log("Hour:" + startHour);
-        // console.log("Min:" + startMin);
-        // console.log("AM/PM: " + startAMPM);
         
         const newEvent = {
             title,
@@ -188,15 +169,6 @@ function Map() {
             _id: id,
         }
 
-        // if (window.confirm('Are you sure you want to delete this event?')) {
-        //     setNotify({
-        //         isOpen: true,
-        //         message: 'Event successfully deleted',
-        //         type: 'success'
-        //     })
-            
-        // }
-
         try {
             const url = bp.buildPath("api/events/delete");
             const res = await axios.post(url, eventDelete);
@@ -245,17 +217,6 @@ function Map() {
             </li>
           );
         });
-
-    // const onDelete = (id) => {
-    //     // Displays the notification that an event was successfully deleted
-    //     // setNotify({
-    //     //     isOpen: true,
-    //     //     message: 'Event successfully deleted',
-    //     //     type: 'success'
-    //     // })
-
-
-    // }
 
     return (
         <div className="map">
@@ -322,18 +283,21 @@ function Map() {
                             <button className="res-btn" id="likes-btn" 
                             onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
 
-                            >likes: {like}</button>
-                            <button className="res-btn" id="delete-btn"
-                            onClick={() => 
-                                setConfirmDialog({
-                                    isOpen: true,
-                                    title: 'Are you sure you want to delete this event?',
-                                    subtitle: "This event will be deleted",
-                                    onConfirm: () => { handleDelete(events._id) }
-                                })
-                                // handleDelete(events._id)
+                            >likes: {events.likes}</button>
+                            {currentUser === events.createdBy && 
+                                <button className="res-btn" id="delete-btn"
+                                    onClick={() => 
+                                        setConfirmDialog({
+                                            isOpen: true,
+                                            title: 'Are you sure you want to delete this event?',
+                                            subtitle: "This event will be deleted",
+                                            onConfirm: () => { handleDelete(events._id) }
+                                        })
+                                    }
+                                >
+                                    delete
+                                </button>
                             }
-                            >delete</button>
                         </div>
                     </Popup>
                     )}
