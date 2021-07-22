@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 import CreatePage from './pages/CreatePage';
 import PreferencePage from './pages/PreferencePage';
 import MapPage from './pages/MapPage';
+import CalendarPage from './pages/CalendarPage';
+
 
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
@@ -27,6 +29,9 @@ function App() {
         </Route>
         <Route path="/home" exact>
           <HomePage />
+        </Route>
+        <Route path="/calendar" exact>
+          <CalendarPage />
         </Route>
         <Route path="/map" exact>
           <MapPage />

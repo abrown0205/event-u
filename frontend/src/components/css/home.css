@@ -33,6 +33,10 @@
     width: 100%;
 }
 
+#homeActive, #calendarActive, #mapActive {
+    color: #FAED26;
+}
+
 .linkContainer {
     text-align: center;
     position: absolute;

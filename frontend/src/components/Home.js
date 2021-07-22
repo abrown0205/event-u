@@ -50,6 +50,7 @@ function Events() {
     //var userLiked = ud.likedEvents;
 
     var createdBy = ud.username;
+    const [eventToDelete, setEventToDelete] = useState('');
     const [values, setValues] = useState([]);
     const [events, setEvents] = useState([]);
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
@@ -111,6 +112,44 @@ function Events() {
             console.log(e);
         }
     }
+    
+    
+
+    const deleteEvent = async event =>
+    {
+        var obj = {_id:eventToDelete};
+        var js = JSON.stringify(obj);
+
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/events/delete'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+
+        axios(config)
+        .then(function (response) {
+            var res = response.data;
+            if(res.error) {
+                console.log(res.error);
+            }
+            else {
+                console.log(res);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    function handleDelete(deleteId) {
+        setEventToDelete(deleteId);
+        deleteEvent();
+    }
 
     const handleEventUpdate = async (e) => {
         setStartTime(startHour + ":" + startMin + " " + startAMPM);
@@ -161,7 +200,6 @@ function Events() {
         }
         var obj = {event:event,editPayload};
         var js = JSON.stringify(obj);
-        console.log(js);
 
         var config =
         {
@@ -359,12 +397,11 @@ function Events() {
             }) 
     }
     
-    function handleEdit() {
-        
-    }
+    
 
 
-    function getIcon(preferenceName) {
+    function getIcon(preferenceName)
+    {
         if(preferenceName === 'Sports')
             return faRunning;
         else if(preferenceName === 'Science')
@@ -379,16 +416,22 @@ function Events() {
             return faShoppingBag;
     }
 
-    function compareIds(x) {
+    function compareIds(x)
+    {
         if(x === currentId)
             return true;
         return false;
     }
     
-    function handleOpenEdit(itemId) {
+    function handleOpenEdit(itemId, itemAddress, itemTitle, itemCategory, itemCapacity, itemDesc)
+    {
         displayEdit(a => !a);
-        console.log(itemId);
         setCurrentId(itemId);
+        setAddress(itemAddress);
+        setTitle(itemTitle);
+        setCategory(itemCategory);
+        setCapacity(itemCapacity);
+        setDescription(itemDesc)
     }
 
     return(
@@ -412,8 +455,8 @@ function Events() {
                             <h3 className="itemTime">{item.startTime} to {item.endTime}</h3>
                             {(item.createdBy===ud.username) &&
                                 <div>
-                                    <button className="customBtns" id="editBtn" onClick={handleOpenEdit.bind(null, item._id)}>Edit</button>
-                                    <button className="customBtns" id="deleteBtn">Delete</button>
+                                    <button className="customBtns" id="editBtn" onClick={handleOpenEdit.bind(null, item._id, item.address, item.title, item.category, item.capacity, item.description)}>Edit</button>
+                                    <button className="customBtns" id="deleteBtn" onClick={handleDelete.bind(null, item._id)}>Delete</button>
                                 
                                     {compareIds(item._id) && <animated.div className="editEvent" style={editProps}>
                                         <div className="eventPostContainer">
@@ -432,7 +475,8 @@ function Events() {
                                                         />
                                                     </label>
                                                     <label className="label" id="cat-label">category:
-                                                        <select id="options-list" defaultValue={"Sports"} onChange={(e) => setCategory(e.target.value)}>
+                                                        <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
+                                                            <option id="cat-options" value={null}></option>
                                                             <option id="cat-options" value="Arts & Culture">Arts & Culture</option>
                                                             <option id="cat-options" value="Sports">Sports</option>
                                                             <option id="cat-options" value="Science">Science</option>
@@ -680,7 +724,8 @@ function Events() {
                                 />
                             </label>
                             <label className="label" id="cat-label">category:
-                                <select id="options-list" defaultValue="Arts & Culture" onChange={(e) => setCategory(e.target.value)}>
+                                <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
+                                    <option id="cat-options" value={null}></option>
                                     <option id="cat-options" value="Arts & Culture">Arts & Culture</option>
                                     <option id="cat-options" value="Sports">Sports</option>
                                     <option id="cat-options" value="Science">Science</option>

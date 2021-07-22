@@ -50,6 +50,7 @@ body {
 .form-header {
     font-size: 35px;
     text-align: center;
+    color: black;
 }
 
 .label {
@@ -81,6 +82,7 @@ input[type="text"] {
     position: relative;
     top: -15px;
     /* width: 320px; */
+    color: black;
 }
 
 #name-input {
@@ -96,6 +98,7 @@ input[type="text"] {
     position: relative;
     top: -30px;
     width: 350px;
+    color: black;
 }
 
 #options-list {
@@ -103,7 +106,7 @@ input[type="text"] {
     padding: 5px;
     width: 250px;
     font-size: 16px;
-    background-color: white;
+    background-color: #FAED26;
     border: none;
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
@@ -114,7 +117,8 @@ input[type="text"] {
 
 #add-label {
     position: relative;
-    top: -40px;    
+    top: -40px;
+    color: black;
 }
 
 #add-input {
@@ -126,11 +130,13 @@ input[type="text"] {
     position: relative;
     top: -55px;
     margin: 5px;
+    color: black;
 }
 
 #endTime-label {
     position: relative;
     top: -55px;
+    color: black;
 }
 
 .time {
@@ -139,11 +145,14 @@ input[type="text"] {
     left: 0px;
     margin: 1px;
     width: 90px;
+    background-color: #FAED26;
+    border: none;
 }
 
 #desc-label {
     position: relative;
     top: -55px;
+    color: black;
 }
 
 #comment-box {
@@ -155,6 +164,7 @@ input[type="text"] {
 #cap-label {
     position: relative;
     top: -55px;
+    color: black;
 }
 
 #cap-input {
@@ -165,7 +175,27 @@ input[type="text"] {
 
 #submit-btn {
     height: 60px;
-    background-color: tomato;
+    background-color: #FAED26;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.result-label {
+    border-bottom: .5px solid #FAED26;
+    width: 350px;
+    font-size: 20px;
+    margin: 3px 0;
+    /* color: #FAED26; */
+}
+
+.res-btn {
+    width: 100px;
+    height: 50px;
     border: none;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -174,43 +204,33 @@ input[type="text"] {
     cursor: pointer;
 }
 
-/* #cat-label {
-    dis
-} */
+#likes-btn {
+    background-color: #FAED26;
+}
 
-/*input, textarea {
-    border: none;
-    border-bottom: 1px solid gray;
+#likes-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
 }
-input::placeholder, textarea::placeholder {
-    font-size: 12px;
-    color: rgb(144, 143, 143)
+
+#delete-btn {
+    background-color: #FAED26;
 }
-.submitButton {
-    border: none;
-    padding: 5px;
-    border-radius: 5px;
-    color: white;
-    background-color: tomato;
-    cursor: pointer;
+
+#delete-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
 }
-.button {
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-}
-#logout {
-    background-color: tomato;
-}
-#login {
-    background-color: teal;
-}
-#register {
-    background-color: slateblue;
-}
-.buttons,.logout {
+
+.addressUl {
+    margin-bottom: 5px;
+    margin-top: -10px;
     position: absolute;
-    top: 10px;
-    right: 10px;
-} */
+    z-index: 3;
+}
+
+#test {
+    color: red;
+    background-color: black;
+    font-size: 42px;
+}

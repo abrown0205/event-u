@@ -4,32 +4,53 @@ import { useState, useEffect } from 'react';
 import "../components/css/map.css";
 import { AirportShuttle, Room, Star } from '@material-ui/icons'
 import axios from 'axios';
+import TopNav from './TopNav.js';
+import usePlacesAutocomplete, {
+    getGeocode,
+    getLatLng,
+} from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
+// import Notification from './Notification.js';
+import ConfirmDelete from './ConfirmDelete.js';
+// import Dialog from '@material-ui/core/Dialog';
 // import { format } from "timeago.js";
+import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
 var bp = require('./Path.js');
 
-
-
 function Map() {
-    const createdBy = "erondon";
+    var _ud = localStorage.getItem('user_data');
+    var ud = JSON.parse(_ud);
+    const currentUser = ud.username;
     const [values, setValues] = useState([]);
     const [events, setEvents] = useState([]);
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
     const [newPlace, setNewPlace] = useState(null);
+    const [createdBy, setCreatedBy] = useState(currentUser);
     const [title, setTitle] = useState(null);
-    const [category, setCategory] = useState(null);
+    const [category, setCategory] = useState('Music');
     const [address, setAddress] = useState(null);
     const [startHour, setStartHour] = useState('12');
     const [startMin, setStartMin] = useState('00');
     const [startAMPM, setStartAMPM] = useState('AM');
-    const [startTime, setStartTime] = useState(null);
+    const [startTime, setStartTime] = useState('2021-07-21T12:00');
     const [endHour, setEndHour] = useState('12');
     const [endMin, setEndMin] = useState('00');
     const [endAMPM, setEndAMPM] = useState('AM');
-    const [endTime, setEndTime] = useState(null);
+    const [endTime, setEndTime] = useState('2021-07-21T12:00');
     const [description, setDescription] = useState(null);
-    const [likes, setLikes] = useState(0);
+    const [like, setLike] = useState(0);
     const [capacity, setCapacity] = useState(0);
+    const [contentStatus, displayContent] = React.useState(false);
+    const [lat, setLat] = useState(null);
+    const [long, setLong] = useState(null);
+    const [notify, setNotify] = useState({isOpen:false, message:'', type:''});
+    const [key, setKey] = useState(null);
+    const [confirmDialog, setConfirmDialog] = useState({
+        isOpen: false, 
+        title: '', 
+        subTitle: ''
+    })
     const [viewPort, setViewPort] = useState({
         latitude: 28.60236,
         longitude: -81.20008,
@@ -40,6 +61,25 @@ function Map() {
         zoom: 14
     });
 
+    const {
+        ready,
+        value,
+        suggestions: { status, data },
+        setValue,
+        clearSuggestions,
+    } = usePlacesAutocomplete();
+
+    const ref = useOnclickOutside(() => {
+        // When user clicks outside of the component, we can dismiss
+        // the searched suggestions by calling this method
+        clearSuggestions();
+    });
+
+    const handleAddressInput = (e) => {
+        // Update the keyword of the input element
+        setValue(e.target.value);
+    };
+
     // gets all the events from the database and displays them on the map
     useEffect(() => {
         const getEvents = async () => {
@@ -48,6 +88,7 @@ function Map() {
 
                 const res = await axios.get(url);
                 console.log(res.data);
+                console.log("length: " + res.data.length);
                 setEvents(res.data);
             } catch(err) {
                 console.log(err);
@@ -72,14 +113,12 @@ function Map() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setStartTime(startHour + ":" + startMin + " " + startAMPM);
-        setEndTime(endHour + ":" + endMin + " " + endAMPM);
-        console.log("Start time: " + startTime);
-        console.log("End time: " + endTime);
-        console.log("Category:" + category);
-        console.log("Hour:" + startHour);
-        console.log("Min:" + startMin);
-        console.log("AM/PM: " + startAMPM);
+        // Gotta store the time and date into the following format:
+        // YYYY-MM-DDThh:mm
+
+        setStartTime("2021-07-21T" + startHour + ":" + startMin);
+        setEndTime("2021-07-21T" + endHour + ":" + endMin);
+        
         const newEvent = {
             title,
             category,
@@ -105,12 +144,88 @@ function Map() {
         }
     }
 
-    const onLike = async (e) => {
+    // Adds a like to an event
+    const onLike = async (e, id, likes) => {
+        const likesPlus = likes + 1;
+        setLike(likesPlus);
+        const addLike = {
+            _id: id,
+            likes: likesPlus, 
+        }
+        console.log(e);
 
+        try {
+            const url = bp.buildPath("api/events/updateLikes"); 
+            const res = await axios.post(url, addLike);
+        }
+        catch(err) {
+            console.log(err)
+        }
     }
+
+    // Deletes an event from the map
+    const handleDelete = async (id) => {
+        // console.log("id: " + id);
+        const eventDelete = {
+            _id: id,
+        }
+
+        try {
+            const url = bp.buildPath("api/events/delete");
+            const res = await axios.post(url, eventDelete);
+            console.log("Item successfully deleted");
+            setConfirmDialog({
+                ...confirmDialog,
+                isOpen: false
+            })
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
+    const handleSelect =
+        ({ description }) =>
+        () => {
+          // When user selects a place, we can replace the keyword without request data from API
+          // by setting the second parameter to "false"
+          setValue(description, false);
+          setAddress(description);
+          clearSuggestions();
+    
+          // Get latitude and longitude via utility functions
+          getGeocode({ address: description })
+            .then((results) => getLatLng(results[0]))
+            .then(({ lat, lng }) => {
+                setLat(lat);
+                setLong(lng);
+            })
+            .catch((error) => {
+              console.log("Error: ", error);
+            });
+        };
+    
+    const renderSuggestions = () =>
+        data.map((suggestion) => {
+          const {
+            place_id,
+            structured_formatting: { main_text, secondary_text },
+          } = suggestion;
+    
+          return (
+            <li className="addressResults" key={place_id} onClick={handleSelect(suggestion)}>
+              <strong>{main_text}</strong> <small>{secondary_text}</small>
+            </li>
+          );
+        });
 
     return (
         <div className="map">
+            <TopNav />
+            <ConfirmDelete 
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
             <ReactMapGL
 
                 // The following three lines of code displays the map along with the appropriate styling.
@@ -124,7 +239,7 @@ function Map() {
             >
                 {/* Places all events stored in the database onto the map*/}
                 {events.map(events =>(
-                    <>
+                    <React.Fragment key={events._id}>
                     <Marker
                         latitude={events.lat}
                         longitude={events.long}
@@ -134,7 +249,7 @@ function Map() {
                         <Room
                             style={{
                                 fontSize: viewPort.zoom * 3,
-                                color: "red",
+                                color: currentUser === events.createdBy ? "#FAED26" : "black",
                                 cursor: "pointer"
                             }}
                             onClick={() => handleMarkerClick(events._id, events.lat, events.long)}
@@ -149,23 +264,41 @@ function Map() {
                         anchor="left"
                         onClose={() => setCurrentPlaceId(null)}
                     >
-                        <div className="addEvent-form">
-                            <h4 className="form-header">{events.category} Event!</h4>
-                            <p>title: {events.title}</p>
-                            <p>description: {events.description}</p>
-                            <p>capacity: {events.capacity}</p>
-                            <p>address: {events.address}</p>
+                        <div className="addEvent-form" id="result-popup">
+                            <h4 className="form-header">{events.title}</h4>
+                            <label className="result-label">Address</label>
+                            <p>{events.address}</p>
                             <p>startTime: {events.startTime}</p>
                             <p>endTime: {events.endTime}</p>
+                            <p>capacity: {events.capacity}</p>
+                            <label>Description</label>
+                            <p>{events.description}</p>
                             <p>createdBy: {events.createdBy}</p>
                             {/* Use the useState above for likes to update the 
                                 amount of likes a post has and update the database
                                 accordingly */}
-                            <p>likes: {events.capacity}</p>
+                            <button className="res-btn" id="likes-btn" 
+                            onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
+
+                            >likes: {events.likes}</button>
+                            {currentUser === events.createdBy && 
+                                <button className="res-btn" id="delete-btn"
+                                    onClick={() => 
+                                        setConfirmDialog({
+                                            isOpen: true,
+                                            title: 'Are you sure you want to delete this event?',
+                                            subtitle: "This event will be deleted",
+                                            onConfirm: () => { handleDelete(events._id) }
+                                        })
+                                    }
+                                >
+                                    delete
+                                </button>
+                            }
                         </div>
                     </Popup>
                     )}
-                    </>
+                    </React.Fragment>
                 ))}
                 {newPlace && (
                     <Popup
@@ -190,13 +323,15 @@ function Map() {
                                 </label>
                                 <label className="label" id="cat-label">category:
                                 <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
-                                    <option id="cat-options" value="Arts/Culture" selected>Arts & Culture</option>
-                                    <option id="cat-options" value="Sports">Sports</option>
-                                    <option id="cat-options" value="Hangout">Hangout</option>
                                     <option id="cat-options" value="Music">Music</option>
+                                    <option id="cat-options" value="Studying">Studying</option>
+                                    <option id="cat-options" value="Arts/Culture">Arts & Culture</option>
+                                    <option id="cat-options" value="Shopping">Shopping</option>
+                                    <option id="cat-options" value="Science">Science</option>
+                                    <option id="cat-options" value="Sports">Sports</option>
                                 </select>
                                 </label>
-                                <label className="label" id="add-label">address:
+                                {/* <label className="label" id="add-label">address:
                                 <input 
                                     type="text" 
                                     className="input-field" 
@@ -204,10 +339,23 @@ function Map() {
                                     placeholder="Enter address..."
                                     onChange={(e) => setAddress(e.target.value)}
                                     ></input>
+                                </label> */}
+                                <label className="label" id="add-label">address:
+                                    <div ref={ref}>
+                                        <input 
+                                        value={value}
+                                        type="text" 
+                                        className="input-field" 
+                                        id="add-input" 
+                                        placeholder="Enter address..."
+                                        onChange={handleAddressInput}
+                                        />
+                                        {status === "OK" && <ul className="addressUl">{renderSuggestions()}</ul>}
+                                    </div>
                                 </label>
                                 <label className="label" id="startTime-label">start time:
                                 <select className="time" id="time-hour-select" onChange={(e) => setStartHour(e.target.value)}>
-                                    <option className="time-options" value="12" selected>12</option>
+                                    <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="1">1</option>
                                     <option className="time-options" value="2">2</option>
                                     <option className="time-options" value="3">3</option>
@@ -221,7 +369,7 @@ function Map() {
                                     <option className="time-options" value="11">11</option>
                                 </select>
                                 <select className="time" id="time-min-select" onChange={(e) => setStartMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
+                                    <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -232,69 +380,64 @@ function Map() {
                                     <option className="time-options" value="08">08</option>
                                     <option className="time-options" value="09">09</option>
                                     <option className="time-options" value="10">10</option>
-                                    <option className="time-options" value="00">11</option>
-                                    <option className="time-options" value="01">12</option>
-                                    <option className="time-options" value="02">13</option>
-                                    <option className="time-options" value="03">14</option>
-                                    <option className="time-options" value="04">15</option>
-                                    <option className="time-options" value="05">15</option>
-                                    <option className="time-options" value="06">16</option>
-                                    <option className="time-options" value="07">17</option>
-                                    <option className="time-options" value="08">18</option>
-                                    <option className="time-options" value="09">19</option>
-                                    <option className="time-options" value="10">20</option>
-                                    <option className="time-options" value="00">21</option>
-                                    <option className="time-options" value="01">22</option>
-                                    <option className="time-options" value="02">23</option>
-                                    <option className="time-options" value="03">24</option>
-                                    <option className="time-options" value="04">25</option>
-                                    <option className="time-options" value="05">25</option>
-                                    <option className="time-options" value="06">26</option>
-                                    <option className="time-options" value="07">27</option>
-                                    <option className="time-options" value="08">28</option>
-                                    <option className="time-options" value="09">29</option>
-                                    <option className="time-options" value="10">30</option>
-                                    <option className="time-options" value="00">31</option>
-                                    <option className="time-options" value="01">32</option>
-                                    <option className="time-options" value="02">33</option>
-                                    <option className="time-options" value="03">34</option>
-                                    <option className="time-options" value="04">35</option>
-                                    <option className="time-options" value="05">35</option>
-                                    <option className="time-options" value="06">36</option>
-                                    <option className="time-options" value="07">37</option>
-                                    <option className="time-options" value="08">38</option>
-                                    <option className="time-options" value="09">39</option>
-                                    <option className="time-options" value="10">40</option>
-                                    <option className="time-options" value="00">41</option>
-                                    <option className="time-options" value="01">42</option>
-                                    <option className="time-options" value="02">43</option>
-                                    <option className="time-options" value="03">44</option>
-                                    <option className="time-options" value="04">45</option>
-                                    <option className="time-options" value="05">45</option>
-                                    <option className="time-options" value="06">46</option>
-                                    <option className="time-options" value="07">47</option>
-                                    <option className="time-options" value="08">48</option>
-                                    <option className="time-options" value="09">49</option>
-                                    <option className="time-options" value="10">50</option>
-                                    <option className="time-options" value="00">51</option>
-                                    <option className="time-options" value="01">52</option>
-                                    <option className="time-options" value="02">53</option>
-                                    <option className="time-options" value="03">54</option>
-                                    <option className="time-options" value="04">55</option>
-                                    <option className="time-options" value="05">55</option>
-                                    <option className="time-options" value="06">56</option>
-                                    <option className="time-options" value="07">57</option>
-                                    <option className="time-options" value="08">58</option>
-                                    <option className="time-options" value="09">59</option>
+                                    <option className="time-options" value="11">11</option>
+                                    <option className="time-options" value="12">12</option>
+                                    <option className="time-options" value="13">13</option>
+                                    <option className="time-options" value="14">14</option>
+                                    <option className="time-options" value="15">15</option>
+                                    <option className="time-options" value="16">16</option>
+                                    <option className="time-options" value="17">17</option>
+                                    <option className="time-options" value="18">18</option>
+                                    <option className="time-options" value="19">19</option>
+                                    <option className="time-options" value="20">20</option>
+                                    <option className="time-options" value="21">21</option>
+                                    <option className="time-options" value="22">22</option>
+                                    <option className="time-options" value="23">23</option>
+                                    <option className="time-options" value="24">24</option>
+                                    <option className="time-options" value="25">25</option>
+                                    <option className="time-options" value="26">26</option>
+                                    <option className="time-options" value="27">27</option>
+                                    <option className="time-options" value="28">28</option>
+                                    <option className="time-options" value="29">29</option>
+                                    <option className="time-options" value="30">30</option>
+                                    <option className="time-options" value="31">31</option>
+                                    <option className="time-options" value="32">32</option>
+                                    <option className="time-options" value="44">33</option>
+                                    <option className="time-options" value="34">34</option>
+                                    <option className="time-options" value="35">35</option>
+                                    <option className="time-options" value="36">36</option>
+                                    <option className="time-options" value="37">37</option>
+                                    <option className="time-options" value="38">38</option>
+                                    <option className="time-options" value="39">39</option>
+                                    <option className="time-options" value="40">40</option>
+                                    <option className="time-options" value="41">41</option>
+                                    <option className="time-options" value="42">42</option>
+                                    <option className="time-options" value="43">43</option>
+                                    <option className="time-options" value="44">44</option>
+                                    <option className="time-options" value="45">45</option>
+                                    <option className="time-options" value="46">46</option>
+                                    <option className="time-options" value="47">47</option>
+                                    <option className="time-options" value="48">48</option>
+                                    <option className="time-options" value="49">49</option>
+                                    <option className="time-options" value="50">50</option>
+                                    <option className="time-options" value="51">51</option>
+                                    <option className="time-options" value="52">52</option>
+                                    <option className="time-options" value="53">53</option>
+                                    <option className="time-options" value="54">54</option>
+                                    <option className="time-options" value="55">55</option>
+                                    <option className="time-options" value="56">56</option>
+                                    <option className="time-options" value="57">57</option>
+                                    <option className="time-options" value="58">58</option>
+                                    <option className="time-options" value="59">59</option>
                                 </select>
                                 <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
-                                    <option className="time-options" value="AM" selected>AM</option>
+                                    <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
                                 </select>
                                 </label>
                                 <label className="label" id="endTime-label">end time:
                                 <select className="time" id="time-hour-select" onChange={(e) => setEndHour(e.target.value)}>
-                                    <option className="time-options" value="12" selected>12</option>
+                                    <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="1">1</option>
                                     <option className="time-options" value="2">2</option>
                                     <option className="time-options" value="3">3</option>
@@ -308,7 +451,7 @@ function Map() {
                                     <option className="time-options" value="11">11</option>
                                 </select>
                                 <select className="time" id="time-min-select" onChange={(e) => setEndMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
+                                    <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -319,63 +462,58 @@ function Map() {
                                     <option className="time-options" value="08">08</option>
                                     <option className="time-options" value="09">09</option>
                                     <option className="time-options" value="10">10</option>
-                                    <option className="time-options" value="00">11</option>
-                                    <option className="time-options" value="01">12</option>
-                                    <option className="time-options" value="02">13</option>
-                                    <option className="time-options" value="03">14</option>
-                                    <option className="time-options" value="04">15</option>
-                                    <option className="time-options" value="05">15</option>
-                                    <option className="time-options" value="06">16</option>
-                                    <option className="time-options" value="07">17</option>
-                                    <option className="time-options" value="08">18</option>
-                                    <option className="time-options" value="09">19</option>
-                                    <option className="time-options" value="10">20</option>
-                                    <option className="time-options" value="00">21</option>
-                                    <option className="time-options" value="01">22</option>
-                                    <option className="time-options" value="02">23</option>
-                                    <option className="time-options" value="03">24</option>
-                                    <option className="time-options" value="04">25</option>
-                                    <option className="time-options" value="05">25</option>
-                                    <option className="time-options" value="06">26</option>
-                                    <option className="time-options" value="07">27</option>
-                                    <option className="time-options" value="08">28</option>
-                                    <option className="time-options" value="09">29</option>
-                                    <option className="time-options" value="10">30</option>
-                                    <option className="time-options" value="00">31</option>
-                                    <option className="time-options" value="01">32</option>
-                                    <option className="time-options" value="02">33</option>
-                                    <option className="time-options" value="03">34</option>
-                                    <option className="time-options" value="04">35</option>
-                                    <option className="time-options" value="05">35</option>
-                                    <option className="time-options" value="06">36</option>
-                                    <option className="time-options" value="07">37</option>
-                                    <option className="time-options" value="08">38</option>
-                                    <option className="time-options" value="09">39</option>
-                                    <option className="time-options" value="10">40</option>
-                                    <option className="time-options" value="00">41</option>
-                                    <option className="time-options" value="01">42</option>
-                                    <option className="time-options" value="02">43</option>
-                                    <option className="time-options" value="03">44</option>
-                                    <option className="time-options" value="04">45</option>
-                                    <option className="time-options" value="05">45</option>
-                                    <option className="time-options" value="06">46</option>
-                                    <option className="time-options" value="07">47</option>
-                                    <option className="time-options" value="08">48</option>
-                                    <option className="time-options" value="09">49</option>
-                                    <option className="time-options" value="10">50</option>
-                                    <option className="time-options" value="00">51</option>
-                                    <option className="time-options" value="01">52</option>
-                                    <option className="time-options" value="02">53</option>
-                                    <option className="time-options" value="03">54</option>
-                                    <option className="time-options" value="04">55</option>
-                                    <option className="time-options" value="05">55</option>
-                                    <option className="time-options" value="06">56</option>
-                                    <option className="time-options" value="07">57</option>
-                                    <option className="time-options" value="08">58</option>
-                                    <option className="time-options" value="09">59</option>
+                                    <option className="time-options" value="11">11</option>
+                                    <option className="time-options" value="12">12</option>
+                                    <option className="time-options" value="13">13</option>
+                                    <option className="time-options" value="14">14</option>
+                                    <option className="time-options" value="15">15</option>
+                                    <option className="time-options" value="16">16</option>
+                                    <option className="time-options" value="17">17</option>
+                                    <option className="time-options" value="18">18</option>
+                                    <option className="time-options" value="19">19</option>
+                                    <option className="time-options" value="20">20</option>
+                                    <option className="time-options" value="21">21</option>
+                                    <option className="time-options" value="22">22</option>
+                                    <option className="time-options" value="23">23</option>
+                                    <option className="time-options" value="24">24</option>
+                                    <option className="time-options" value="25">25</option>
+                                    <option className="time-options" value="26">26</option>
+                                    <option className="time-options" value="27">27</option>
+                                    <option className="time-options" value="28">28</option>
+                                    <option className="time-options" value="29">29</option>
+                                    <option className="time-options" value="30">30</option>
+                                    <option className="time-options" value="31">31</option>
+                                    <option className="time-options" value="32">32</option>
+                                    <option className="time-options" value="44">33</option>
+                                    <option className="time-options" value="34">34</option>
+                                    <option className="time-options" value="35">35</option>
+                                    <option className="time-options" value="36">36</option>
+                                    <option className="time-options" value="37">37</option>
+                                    <option className="time-options" value="38">38</option>
+                                    <option className="time-options" value="39">39</option>
+                                    <option className="time-options" value="40">40</option>
+                                    <option className="time-options" value="41">41</option>
+                                    <option className="time-options" value="42">42</option>
+                                    <option className="time-options" value="43">43</option>
+                                    <option className="time-options" value="44">44</option>
+                                    <option className="time-options" value="45">45</option>
+                                    <option className="time-options" value="46">46</option>
+                                    <option className="time-options" value="47">47</option>
+                                    <option className="time-options" value="48">48</option>
+                                    <option className="time-options" value="49">49</option>
+                                    <option className="time-options" value="50">50</option>
+                                    <option className="time-options" value="51">51</option>
+                                    <option className="time-options" value="52">52</option>
+                                    <option className="time-options" value="53">53</option>
+                                    <option className="time-options" value="54">54</option>
+                                    <option className="time-options" value="55">55</option>
+                                    <option className="time-options" value="56">56</option>
+                                    <option className="time-options" value="57">57</option>
+                                    <option className="time-options" value="58">58</option>
+                                    <option className="time-options" value="59">59</option>
                                 </select>
                                 <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
-                                    <option className="time-options" value="AM" selected>AM</option>
+                                    <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
                                 </select>
                                 </label>

@@ -9,17 +9,33 @@ var ud = JSON.parse(_ud);
 
 
 const TopNav = () => {
-
+    var currentUrl = window.location.pathname;
+    console.log(currentUrl);
     var firstName = ud.firstName;
     var lastName = ud.lastName;
     var username = ud.username;
     var preferences = ud.preferences;
+
+    function setColorHome() {
+        if(currentUrl === '/home') return 'homeActive';
+    }
+    function setColorCalender() {
+        if(currentUrl === '/calendar') return 'calendarActive';
+    }
+    function setColorMap() {
+        if(currentUrl === '/map') return 'mapActive';
+    }
+    
 
     const[isDisplayed, setDisplay] = useState(false)
 
     const openNotif = () => {
         // alert('Works!')
         setDisplay(!isDisplayed);
+    }
+
+    const onClickHome = () => {
+        window.location.href="/home";
     }
 
     const onClickMap = () => {
@@ -39,9 +55,9 @@ const TopNav = () => {
         <div className="topContainer">
             <div className="topBar">
                 <div className="linkContainer">
-                    <a className="topBarLink" id="homeLink"><FontAwesomeIcon icon={faHome} className="currentIcon"/></a>
-                    <a className="topBarLink" id="calendarLink"><FontAwesomeIcon icon={faCalendar} className="topBarIcon"/></a>
-                    <a className="topBarLink" id="mapLink" href="/map"><FontAwesomeIcon icon={faMap} className="topBarIcon"/></a>
+                    <a className="topBarLink" id={setColorHome()} onClick={onClickHome}><FontAwesomeIcon icon={faHome} className="topBarIcon"/></a>
+                    <a className="topBarLink" id={setColorCalender()} onClick={onClickCalender}><FontAwesomeIcon icon={faCalendar} className="topBarIcon"/></a>
+                    <a className="topBarLink" id={setColorMap()} onClick={onClickMap}><FontAwesomeIcon icon={faMap} className="topBarIcon"/></a>
                 </div>
                 <FontAwesomeIcon icon={faUser} className="topBarLink" id="notifications" onClick={openNotif}/>
                 
