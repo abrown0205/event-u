@@ -45,6 +45,7 @@ function Map() {
     const [lat, setLat] = useState(null);
     const [long, setLong] = useState(null);
     const [notify, setNotify] = useState({isOpen:false, message:'', type:''});
+    const [key, setKey] = useState(null);
     const [confirmDialog, setConfirmDialog] = useState({
         isOpen: false, 
         title: '', 
@@ -221,10 +222,6 @@ function Map() {
     return (
         <div className="map">
             <TopNav />
-            {/* <Notification 
-                notify={notify}
-                setNotify={setNotify}
-            /> */}
             <ConfirmDelete 
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
@@ -242,7 +239,7 @@ function Map() {
             >
                 {/* Places all events stored in the database onto the map*/}
                 {events.map(events =>(
-                    <>
+                    <React.Fragment key={events._id}>
                     <Marker
                         latitude={events.lat}
                         longitude={events.long}
@@ -301,7 +298,7 @@ function Map() {
                         </div>
                     </Popup>
                     )}
-                    </>
+                    </React.Fragment>
                 ))}
                 {newPlace && (
                     <Popup
