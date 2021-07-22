@@ -11,6 +11,8 @@ const { sendWelcomeEmail } = require("./welcome_emailer");
 
 const randomCode = Math.round(Math.random() * 999999);
 
+
+
 // Load input validation
 //const validateRegisterInput = require("../../validation/register");
 //const validateLoginInput = require("../../validation/login");
@@ -155,7 +157,6 @@ router.post("/likes", async (req, res, next) => {
   User.findOneAndUpdate(query, update).then(user => {
     // Check if user exists
     var ret;
-
     var firstName = user.firstName;
     var lastName = user.lastName;
     var userId = user._id;

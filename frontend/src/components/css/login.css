@@ -15,7 +15,7 @@
     text-align: center;
     background-color: white;
     width: 30%;
-    height: 400px;
+    height: fit-content;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -97,7 +97,23 @@ input[type=text], input[type=password] {
     box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .1);
 }
 
+#redirectText {
+    margin-bottom: 15px;
+}
+
 #redirectButton {
+    text-decoration: none;
+    color: #9B786F;
+}
+
+#forgotPass {
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 25px;
+}
+
+#forgotBtn {
+    cursor: pointer;
     text-decoration: none;
     color: #9B786F;
 }
