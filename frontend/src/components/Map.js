@@ -87,8 +87,6 @@ function Map() {
                 const url = bp.buildPath("api/events/findevent");
 
                 const res = await axios.get(url);
-                console.log(res.data);
-                console.log("length: " + res.data.length);
                 setEvents(res.data);
             } catch(err) {
                 console.log(err);
@@ -165,15 +163,19 @@ function Map() {
 
     // Deletes an event from the map
     const handleDelete = async (id) => {
-        // console.log("id: " + id);
         const eventDelete = {
             _id: id,
         }
+        // console.log(events);
+        // const newEventList = events.filter((event) => event.id !== id);
+        // setEvents(newEventList);
+        // console.log(newEventList);
 
         try {
             const url = bp.buildPath("api/events/delete");
             const res = await axios.post(url, eventDelete);
             console.log("Item successfully deleted");
+            console.log(events);
             setConfirmDialog({
                 ...confirmDialog,
                 isOpen: false
