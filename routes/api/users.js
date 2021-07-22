@@ -9,6 +9,9 @@ const url = keys.mongoURI;
 const sgMail = require('@sendgrid/mail');
 const { sendWelcomeEmail } = require("./welcome_emailer");
 
+const randomCode = Math.round(Math.random() * 999999);
+
+
 // Load input validation
 //const validateRegisterInput = require("../../validation/register");
 //const validateLoginInput = require("../../validation/login");
@@ -29,8 +32,8 @@ router.post("/register", async (req, res, next) => {
     password: req.body.password,
     email: req.body.email,
     notifications: true,
-	active: false,
-	activationCode: Math.round(Math.random() * 999999)
+	  active: false,
+	  activationCode: randomCode
   });
 // Form validation
   //const { errors, isValid } = validateRegisterInput(req.body);
@@ -130,10 +133,38 @@ router.post("/preferences", async (req, res, next) => {
 
     var firstName = user.firstName;
     var lastName = user.lastName;
-    var userId = user._id;
+    var userId = user._idƒ;
     var uname = user.username;
     var attendedEvents = user.attendedEvents;
     var likedEvents = user.likedEvents;
+    var email = user.email;
+
+    try {
+      const token = require("../../createJWT.js");
+      ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email );
+    }
+    catch(e) {
+      console.log(e);
+    }
+    
+    res.status(200).json(ret);
+  });
+});
+
+router.post("/likes", async (req, res, next) => {
+  const { username, likedEvents } = req.body;
+  let query = {username:username};
+  let update = {likedEvents:likedEvents};
+  User.findOneAndUpdate(query, update).then(user => {
+    // Check if user exists
+    var ret;
+
+    var firstName = user.firstName;
+    var lastName = user.lastName;
+    var userId = user._id;
+    var uname = user.username;
+    var attendedEvents = user.attendedEvents;
+    var preferences = user.preferences;
     var email = user.email;
 
     try {

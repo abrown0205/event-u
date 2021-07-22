@@ -104,7 +104,7 @@ const HeaderText = ({}) => {
         from: { y: 700, opacity: 0 },
         to: {y: 70, opacity: 1}
     });
-    return <animated.h1 style={props} id="welcomeMessage">Welcome {firstName} {lastName}!</animated.h1>
+    return <animated.h1 style={props} id="welcomeMessage">Hello {firstName} {lastName}!</animated.h1>
 };
 
 const SkipOption = ({}) => {
@@ -137,7 +137,7 @@ const SubmitButton = ({}) => {
         const interestPayload = [];
         for(var i = 0; i < interestArr.length; i++) {
             if(interestArr[i].select == true) {
-                interestPayload.push(interestArr[i].interest.toLowerCase());
+                interestPayload.push(interestArr[i].interest);
             }
         }
 
@@ -169,10 +169,13 @@ const SubmitButton = ({}) => {
                     var jwt = require('jsonwebtoken');
                     
                     var ud = jwt.decode(storage.retrieveToken(),{complete:true});
-                    console.log(ud.payload);
+                    
                     var preferences = ud.payload.preferences;
+                    var attendedEvents = ud.payload.attendedEvents;
+                    var email = ud.payload.email;
+                    var likedEvents = ud.payload.likedEvents;
 
-                    var user = {firstName:firstName,lastName:lastName,preferences:preferences,username:uname};
+                    var user = {firstName:firstName,lastName:lastName,preferences:preferences,username:uname,likedEvents:likedEvents,email:email,attendedEvents:attendedEvents};
                     localStorage.setItem('user_data', JSON.stringify(user));
                     window.location.href = '/home';
                 }
