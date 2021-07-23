@@ -187,5 +187,80 @@ isActive = true;
   });
 });
 
+// hashes any password passed to it
+const hashedPassword = async (passwd, saltRounds) => {
+  try {
+    // Generate salt
+    const salt = await bcrypt.genSalt(saltRounds);
+
+    // Hash Password and return it
+    const password = await bcrypt.hash(passwd, salt);
+    return password;
+
+  }
+  catch(err) {
+    console.log(error);
+  }
+
+  // Returns null if an error occurred
+  return null;
+}
+
+// edits the user info
+router.post("/editUser", async (req, res, next) => {
+  
+  // collects info as necessary
+  const {username, profile} = req.body;
+  let query = {username: username};
+  let passwd = profile.password.toString();
+
+  // hashes password
+  const password = await hashedPassword(passwd, 10);
+
+  // The update that will take place
+  const update = {
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    email: profile.email,
+    username: profile.username,
+    password: password,
+  }
+  
+  // Finds the user and updates the corresponding info
+  // Then, creates a jwt token and stores it.
+  User.findOneAndUpdate(query, update).then(user => {
+    var firstName = profile.firstName;
+    var lastName = profile.LastName;
+    var userId = profile._id;
+    var uname = profile.username;
+    var password = password;
+    var attendedEvents = profile.attendedEvents;
+    var likedEvents = profile.likedEvents;
+    var preferences = profile.preferences;
+    var email = profile.email;
+
+    try {
+      const token = require("../../createJWT.js");
+      var ret = token.createToken( 
+        firstName, 
+        lastName, 
+        userId, 
+        uname, 
+        password,
+        attendedEvents,
+        likedEvents,
+        preferences,
+        email    
+      )
+    }
+    catch(err) {
+      console.log(err);
+    }
+
+    // Gives an Ok code of 200 and displays the token information
+    res.status(200).json(ret);
+  });
+});
+
 
 module.exports = router;

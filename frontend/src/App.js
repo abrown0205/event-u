@@ -6,6 +6,8 @@ import CreatePage from './pages/CreatePage';
 import PreferencePage from './pages/PreferencePage';
 import MapPage from './pages/MapPage';
 import CalendarPage from './pages/CalendarPage';
+import SettingsPage from './pages/SettingsPage';
+import UpdatePrefPage from './pages/UpdatePrefPage';
 
 
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
@@ -35,6 +37,12 @@ function App() {
         </Route>
         <Route path="/map" exact>
           <MapPage />
+        </Route>
+        <Route path="/settings" exact>
+          <SettingsPage />
+        </Route>
+        <Route path="/updatePreferences" exact>
+          <UpdatePrefPage />
         </Route>
       <Redirect to="/" />
       </Switch>
