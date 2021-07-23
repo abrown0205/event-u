@@ -177,7 +177,7 @@ const SubmitButton = ({}) => {
 
                     var user = {firstName:firstName,lastName:lastName,preferences:preferences,username:uname,likedEvents:likedEvents,email:email,attendedEvents:attendedEvents};
                     localStorage.setItem('user_data', JSON.stringify(user));
-                    window.location.href = '/home';
+                    window.location.href = '/settings';
                 }
             })
             .catch(function (error) {
@@ -193,7 +193,7 @@ const SubmitButton = ({}) => {
 
     return(
         <div id="submitButtonContainer">
-            <animated.button style={props} onClick={addPreferences} id="submitSelections">Submit</animated.button>
+            <animated.button style={props} onClick={addPreferences} id="submitSelections">Done</animated.button>
         </div>
     );
 };
@@ -206,7 +206,7 @@ function UpdatePreferences() {
             <HeaderText2 />
             <Options />
             <SubmitButton />
-            <SkipOption />
+            {/* <SkipOption /> */}
             <span></span>
         </div>
     );

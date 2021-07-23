@@ -101,18 +101,17 @@ router.post("/login", async (req, res, next) => {
         var attendedEvents = user.attendedEvents;
         var likedEvents = user.likedEvents;
         var email = user.email;
-		var active = user.active;
+		    var active = user.active;
 
         var ret;
         
         try {
           const token = require("../../createJWT.js");
-          ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email );
+          ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active );
         }
         catch(e) {
           e = {error:e.message};
         }
-		ret["active"] = active;
         res.status(200).json(ret);
       } 
       else {
@@ -210,9 +209,10 @@ const hashedPassword = async (passwd, saltRounds) => {
 router.post("/editUser", async (req, res, next) => {
   
   // collects info as necessary
-  const {username, profile} = req.body;
-  let query = {username: username};
+  const { _id, profile } = req.body;
+  let query = { _id: _id };
   let passwd = profile.password.toString();
+  console.log(passwd);
 
   // hashes password
   const password = await hashedPassword(passwd, 10);
@@ -225,19 +225,24 @@ router.post("/editUser", async (req, res, next) => {
     username: profile.username,
     password: password,
   }
+
+  console.log(update);
+  console.log(query);
   
   // Finds the user and updates the corresponding info
   // Then, creates a jwt token and stores it.
-  User.findOneAndUpdate(query, update).then(user => {
-    var firstName = profile.firstName;
-    var lastName = profile.LastName;
-    var userId = profile._id;
-    var uname = profile.username;
-    var password = password;
+  const set = await User.findOneAndUpdate(query, { "$set": update }).then(user => {
+    console.log(user);
+    var firstName = user.firstName;
+    var lastName = user.LastName;
+    var userId = user._id;
+    var uname = user.username;
     var attendedEvents = profile.attendedEvents;
-    var likedEvents = profile.likedEvents;
-    var preferences = profile.preferences;
-    var email = profile.email;
+    var likedEvents = user.likedEvents;
+    console.log(likedEvents);
+    var preferences = user.preferences;
+    var email = user.email;
+    console.log("Name: " +  firstName);
 
     try {
       const token = require("../../createJWT.js");
@@ -245,22 +250,51 @@ router.post("/editUser", async (req, res, next) => {
         firstName, 
         lastName, 
         userId, 
-        uname, 
-        password,
+        uname,
+        preferences,
         attendedEvents,
         likedEvents,
-        preferences,
-        email    
+        email
       )
+      res.status(200).json(ret);
     }
     catch(err) {
       console.log(err);
     }
 
     // Gives an Ok code of 200 and displays the token information
+  });
+});
+
+router.post("/likes", async (req, res, next) => {
+  const { username, likedEvents } = req.body;
+  let query = {username:username};
+  let update = {likedEvents:likedEvents};
+  User.findOneAndUpdate(query, update).then(user => {
+    // Check if user exists
+    console.log(user);
+    var ret;
+    var firstName = user.firstName;
+    var lastName = user.lastName;
+    var userId = user._id;
+    var uname = user.username;
+    var attendedEvents = user.attendedEvents;
+    var preferences = user.preferences;
+    var email = user.email;
+    var active = user.active;
+
+    try {
+      const token = require("../../createJWT.js");
+      ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active );
+    }
+    catch(e) {
+      console.log(e);
+    }
+
     res.status(200).json(ret);
   });
 });
+
 
 
 module.exports = router;

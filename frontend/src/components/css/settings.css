@@ -12,7 +12,7 @@
 .settings-form {
     background-color: white;
     width: 650px;
-    height: 650px;
+    height: 550px;
     border: none;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -21,6 +21,7 @@
     position: absolute;
     top: 100px;
     left: 600px;
+    box-shadow: 0 4px 15px 0 ;
 }
 
 .input-label {
@@ -30,4 +31,46 @@
 
 .input-field {
     font-size: 15px;
+}
+
+#title {
+    text-align: center;
+    font-size: 40px;
+}
+
+.settings-btn {
+    border: none;
+    background-color: #FAED26;
+    height: 60px;
+    width: 100px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.settings-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
+}
+
+#set-preferences {
+    position: relative;
+    top: 120px;
+    left: -100px;
+}
+
+#set-cancel {
+    position: relative;
+    top: 120px;
+    left: 170px;
+}
+
+#set-save {
+    position: relative;
+    top: 120px;
+    left: 190px;
 }

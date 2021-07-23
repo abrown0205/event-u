@@ -19,9 +19,12 @@ import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 var bp = require('./Path.js');
 
 function Map() {
+    var storage = require('../tokenStorage.js');
+    var testArr = [];
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
     const currentUser = ud.username;
+    console.log(currentUser);
     const [values, setValues] = useState([]);
     const [events, setEvents] = useState([]);
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
@@ -137,6 +140,8 @@ function Map() {
             const res = await axios.post(url, newEvent);
             setEvents([...events, res.data]);
             setNewPlace(null);
+            const addToLike = res.data;
+            handleLike(addToLike._id);
         } catch(err) {
             console.log(err)
         }
@@ -258,6 +263,70 @@ function Map() {
           );
         });
 
+        function handleLike(itemId)
+        {
+            var _userd = localStorage.getItem('user_data');
+            var userd = JSON.parse(_userd);
+            var likedEvents = userd.likedEvents;
+            console.log(likedEvents);
+            if(likedEvents.includes(itemId)) { // remove the item from likes if it is there
+                for(var i = 0; i < likedEvents.length; i++) {
+                    if( likedEvents[i] === itemId) {
+                        likedEvents.splice(i, 1);
+                    }
+                }
+            }
+            else { // add it if it isnt
+                likedEvents.push(itemId);
+            }
+
+            testArr = likedEvents;
+            console.log(testArr);
+            addLike();
+        }
+
+        const addLike = async event =>
+        {
+            var obj = {username:ud.username,likedEvents:testArr};
+            var js = JSON.stringify(obj);
+
+            // console.log(ud.username);
+            // const update = {
+            //     username: currentUser,
+            //     likedEvents: testArr,
+            // }
+
+            var config =
+            {
+                method: 'post',
+                url: bp.buildPath('api/users/likes'),
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                },
+                data: js
+            }
+
+            await axios(config)
+                .then(function (response) {
+                    var res = response.data;
+                    if(res.error) {
+                        console.log(res.error);
+                    }
+                    else {
+                        storage.storeToken(res);
+
+                        var user = {firstName:ud.firstName,lastName:ud.lastName,preferences:ud.preferences,username:ud.username,likedEvents:testArr};
+                        localStorage.setItem('user_data', JSON.stringify(user));
+                        _ud = localStorage.getItem('user_data');
+                        ud = JSON.parse(_ud);
+                    }
+                }).catch(function(err) {
+                    console.log(err);
+                }
+                )
+        }
+
     return (
         <div className="map">
             <TopNav />
@@ -318,7 +387,7 @@ function Map() {
                                     amount of likes a post has and update the database
                                     accordingly */}
                                 <button className="res-btn" id="likes-btn" 
-                                onClick={() => {onLike(events, events._id, events.likes); setLike(events.likes + 1)}}
+                                onClick={handleLike.bind(null, events._id)}
 
                                 >likes: {events.likes}</button>
                                 {currentUser === events.createdBy && 
