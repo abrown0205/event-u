@@ -8,7 +8,7 @@
     left: 0;
     background-color: #000000;
     background-image: linear-gradient(315deg, #000000 0%, #1b1b1b 74%);
-    height: 100%;
+    height: 110%;
 }
 
 .homeBg {
@@ -96,6 +96,7 @@
     margin-left: 15px;
     margin-bottom: 50px;
 }
+
 
 #postButton {
     background-color: #222222;
@@ -325,7 +326,6 @@
 }
 
 #submitEvent {
-    margin-top: 30px;
     padding: 10px;
     border-radius: 25px;
     border: 1px solid black;
@@ -469,10 +469,13 @@
     box-shadow: 0 4px 15px 0  rgba(0, 0, 0, .25);
 }
 
+#desc-label {
+    height: 70px;
+}
+
 #submitEvent {
 
-    margin-top: 25px;
-    margin-bottom: 25px;
+    
     width: 75%;
     padding: 10px;
     font-size: 16px;
@@ -548,7 +551,7 @@
     z-index: 2;
     margin-bottom: 10px;
     position: absolute;
-    left: 50%;
+    left: 40%;
 }
 
 .editEvent {
@@ -587,12 +590,17 @@
     margin: 5px;
     width: max-content;
     color: white;
+    text-align: left;
 }
 
 #comment-box {
     resize: none;
     width: 75%;
+    margin-top: 30px;
     margin-left: 12.5%;
+    position: absolute;
+    margin-bottom: 0px;
+    float: right;
 }
 
 .addressResults {

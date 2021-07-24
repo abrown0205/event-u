@@ -647,11 +647,7 @@ function Events() {
 function AddForm()
 {
     return(
-        <div className="HomePage">
-            <div className="homeBg">
-                <Events />
-            </div>
-        </div>
+        <Events />
     );
 };
 

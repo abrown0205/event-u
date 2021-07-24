@@ -5,12 +5,12 @@ const generator = require('generate-password');
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 
+//const gen = require('random-seed'); 
 
 const url = keys.mongoURI;
 const sgMail = require('@sendgrid/mail');
 const { sendWelcomeEmail } = require("./welcome_emailer");
 
-const randomCode = Math.round(Math.random() * 999999);
 
 // Load input validation
 //const validateRegisterInput = require("../../validation/register");
@@ -23,6 +23,7 @@ const User = require("../../models/User");
 // @desc Register user
 // @access Public
 router.post("/register", async (req, res, next) => {
+  const randomCode = Math.round(Math.random() * 999999);
 
   const newUser = new User({
     username: req.body.username,
@@ -310,6 +311,35 @@ router.post("/sendPasswordResetEmail", async (req, res, next) => {
         });
     });
   })
+});
+
+router.post("/likes", async (req, res, next) => {
+  const { username, likedEvents } = req.body;
+  let query = {username:username};
+  let update = {likedEvents:likedEvents};
+  User.findOneAndUpdate(query, update).then(user => {
+    // Check if user exists
+    console.log(user);
+    var ret;
+    var firstName = user.firstName;
+    var lastName = user.lastName;
+    var userId = user._id;
+    var uname = user.username;
+    var attendedEvents = user.attendedEvents;
+    var preferences = user.preferences;
+    var email = user.email;
+    var active = user.active;
+
+    try {
+      const token = require("../../createJWT.js");
+      ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active );
+    }
+    catch(e) {
+      console.log(e);
+    }
+
+    res.status(200).json(ret);
+  });
 });
 
 module.exports = router;
