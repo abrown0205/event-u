@@ -6,6 +6,7 @@ import CreatePage from './pages/CreatePage';
 import PreferencePage from './pages/PreferencePage';
 import MapPage from './pages/MapPage';
 import CalendarPage from './pages/CalendarPage';
+import VerifyPage from './pages/VerifyPage';
 
 
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
@@ -23,6 +24,9 @@ function App() {
         </Route>
         <Route path="/signup" exact>
           <CreatePage />
+        </Route>
+        <Route path="/verify" exact>
+          <VerifyPage />
         </Route>
         <Route path="/preferences" exact>
           <PreferencePage />

@@ -1,12 +1,14 @@
+require('dotenv').config();
+
 const sgMail = require('@sendgrid/mail');
-const { sendGridKey } = require('../../config/keys');
+const sendGridKey = `${process.env.REACT_APP_SENDGRID_KEY}`;
 sgMail.setApiKey(sendGridKey);
 const express = require("express");
 const router = express.Router();
 const generator = require('generate-password');
 const bcrypt = require("bcryptjs");
 
-router.post("/endPasswordResetEmail", async (req, res, next) => {
+router.post("/sendPasswordResetEmail", async (req, res, next) => {
     const {username} = req.body;
     var firstName;
     var lastName;
@@ -51,7 +53,7 @@ router.post("/endPasswordResetEmail", async (req, res, next) => {
             email: email,
             username: userName,
             password: password
-          }, 
+        }, 
     }
 
     

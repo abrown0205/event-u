@@ -1,9 +1,14 @@
+require('dotenv').config();
+
 const sgMail = require('@sendgrid/mail');
-const { sendGridKey } = require('../../config/keys');
+const sendGridKey = `${process.env.REACT_APP_SENDGRID_KEY}`;
 sgMail.setApiKey(sendGridKey);
+const express = require("express");
+const router = express.Router();
 
 
-module.exports.sendWelcomeEmail = (email, firstName, lastName, username, randomCode) =>{
+router.post('/sendWelcomeEmail', async(req, res, next)  =>{
+    const {username, firstName, lastName, email, activationCode} = req.body;
 
     const msg = {
         to: email,
@@ -16,24 +21,19 @@ module.exports.sendWelcomeEmail = (email, firstName, lastName, username, randomC
             last_name: lastName,
             email: email,
             username: username,
-			activation_code: randomCode
-          },  
+			activation_code: activationCode
+          },
     }
 
-    
-    sgMail.send(msg).then(() => {
-    console.log('Message sent')
-}).catch((error) => {
-    console.log(error.response.body)
-    // console.log(error.response.body.errors[0].message)
-})
-    //sgMail.send(msg, function(err, info){
-    //    if(err){
-	//		console.error(err);
-    //        console.log('Email not sent');
-    //    } else {
-    //        console.log('Email Sent successfully');
-    //    }
-    //});
-
-}
+    var ret;
+    sgMail.send(msg)
+        .then(() => {
+            console.log('Message sent');
+            ret = '';
+            res.status(200).json(ret);
+        })
+        .catch((error) => {
+            ret = { error: error };
+            res.status(500).json(ret);
+        })
+});

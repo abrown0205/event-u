@@ -199,6 +199,7 @@ function Events() {
             capacity,
         }
         var obj = {event:event,editPayload};
+        console.log(obj);
         var js = JSON.stringify(obj);
 
         var config =

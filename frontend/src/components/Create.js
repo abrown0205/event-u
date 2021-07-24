@@ -1,9 +1,10 @@
 import React, { useState, Component } from 'react';
 import './css/login.css';
-
+import axios from 'axios';
 
 function Inputs() {
     var bp = require('./Path.js');
+    var storage = require('../tokenStorage.js');
 
     var createName;
     var createPassword;
@@ -13,40 +14,93 @@ function Inputs() {
 
     const [message,setMessage] = useState('');
 
+    const sendVerification = async event =>
+    {
+        var _ud = localStorage.getItem('user_data');
+        var ud = JSON.parse(_ud);
+
+        console.log(ud);
+
+        var obj = {username:ud.username,firstName:ud.firstName,lastName:ud.lastName,email:ud.email,activationCode:ud.activationCode};
+        var js = JSON.stringify(obj);
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/users/sendWelcomeEmail'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+
+        try {
+            const result = await axios(config)
+                .then(function (response) {
+                    var res = response.data;
+                    if(res.error)
+                    {
+                        setMessage('Username or email is invalid');
+                    }
+                    else
+                    {
+                        window.location.href = '/verify';
+                    }
+                })
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    }
+
     const doSignUp = async event =>
     {
         event.preventDefault();
 
 
         var obj = {username:createName.value,firstName:fname.value,lastName:lname.value,password:createPassword.value,email:email.value};
-        console.log(obj);
         var js = JSON.stringify(obj);
-        var url = bp.buildPath('api/users/register');
-        try
+        var config =
         {
-            const response = await fetch(url, 
-                {method:'POST',body:js,headers:{'Content-Type':'application/json'}});
-                
-            var res = JSON.parse(await response.text());
-
-            if(res.id <= 0)
+            method: 'post',
+            url: bp.buildPath('api/users/register'),
+            headers:
             {
-                setMessage('Failed to create new account');
-            }
-            else
-            {
-                var user = {firstName:res.firstName,lastName:res.lastName};
-                localStorage.setItem('user_data', JSON.stringify(user));
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+        await axios(config)
+        .then(function(response) {
+            var res = response.data;
+        
+            console.log(res);
+            storage.storeToken(res);
+            var jwt = require('jsonwebtoken');
+            var ud = jwt.decode(storage.retrieveToken(),{complete:true});
+            console.log(ud);
+            var firstName = ud.payload.firstName;
+            var lastName = ud.payload.lastName;
+            var username = ud.payload.username;
+            var preferences = ud.payload.preferences;
+            var likedEvents = ud.payload.likedEvents;
+            var email = ud.payload.email;
+            var attendedEvents = ud.payload.attendedEvents;
+            var userId = ud.payload._id;
+            var active = ud.payload.active;
+            var activationCode = ud.payload.activationCode;
 
-                setMessage('');
-                window.location.href = '/preferences';
-            }
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            return;
-        }
+            var user = {firstName:firstName,lastName:lastName,username:username,preferences:preferences,_id:userId,attendedEvents:attendedEvents,email:email,likedEvents:likedEvents,active:active, activationCode:activationCode};
+            console.log(user);
+            localStorage.setItem('user_data', JSON.stringify(user));
+
+            setMessage('');
+
+            sendVerification();
+        }).catch(function(error) {
+            console.log(error)
+        });
     };
 
     return(
