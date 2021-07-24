@@ -12,8 +12,6 @@ const { sendWelcomeEmail } = require("./welcome_emailer");
 
 const randomCode = Math.round(Math.random() * 999999);
 
-
-
 // Load input validation
 //const validateRegisterInput = require("../../validation/register");
 //const validateLoginInput = require("../../validation/login");
@@ -37,6 +35,7 @@ router.post("/register", async (req, res, next) => {
 	  activationCode: randomCode
   });
   var ret;
+
   User.findOne({ username: req.body.username }).then(user => {
     if (user) {
       return res.status(400).json({ username: "User already exists" });
@@ -146,32 +145,43 @@ router.post("/preferences", async (req, res, next) => {
   });
 });
 
-router.post("/likes", async (req, res, next) => {
-  const { username, likedEvents } = req.body;
-  let query = {username:username};
-  let update = {likedEvents:likedEvents};
-  User.findOneAndUpdate(query, update).then(user => {
-    // Check if user exists
-    var ret;
-    var firstName = user.firstName;
-    var lastName = user.lastName;
-    var userId = user._id;
-    var uname = user.username;
-    var attendedEvents = user.attendedEvents;
-    var preferences = user.preferences;
-    var email = user.email;
-    var active = user.active;
-    var activationCode = user.activationCode;
+router.post("/activate", async (req, res, next) => {
+  isActive = true;
 
-    try {
-      const token = require("../../createJWT.js");
-      ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active, activationCode );
+  const { username} = req.body;
+  User.findOne({ username }).then(user => {
+    // Check if user exists
+    if (!user) {
+      return res.status(400).json({ usernamenotfound: "User not found" }); 
     }
-    catch(e) {
-      console.log(e);
-    }
-    
-    res.status(200).json(ret);
+
+    let query = {username:username};
+    let update = {active:true};
+    User.findOneAndUpdate(query, update).then(user => {
+      // Check if user exists
+      var ret;
+
+      var firstName = user.firstName;
+      var lastName = user.lastName;
+      var userId = user._id;
+      var uname = user.username;
+      var attendedEvents = user.attendedEvents;
+      var likedEvents = user.likedEvents;
+      var email = user.email;
+      var active = user.active;
+      var activationCode = user.activationCode;
+      var preferences = user.preferences;
+
+      try {
+        const token = require("../../createJWT.js");
+        ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active, activationCode );
+      }
+      catch(e) {
+        console.log(e);
+      }
+      
+      res.status(200).json(ret);
+    });
   });
 });
 
@@ -300,9 +310,6 @@ router.post("/sendPasswordResetEmail", async (req, res, next) => {
         });
     });
   })
-  
-
-
 });
 
 module.exports = router;

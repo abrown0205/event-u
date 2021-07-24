@@ -17,7 +17,6 @@ import AddForm from './AddForm.js'
 
 var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);
-const currentUser = ud.username;
 
 
 
@@ -27,6 +26,8 @@ export default function FullDay(props) {
     var bp = require('./Path.js');
     //buildpath
     const app_name = 'event-u'
+    const currentUser = ud.username;
+
     function buildPath(route)
     {
         if (process.env.NODE_ENV === 'production') 
