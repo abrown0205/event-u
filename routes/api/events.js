@@ -158,11 +158,11 @@ router.post("/delete", async (req, res) => {
 })
 
 router.post("/search", async (req, res, next) => {
-    const {search} = req.body; // gets the event query and the specific method of searching
-
+    const title = req.body; // gets the event query and the specific method of searching
+    var query = title.title;
     try
     {
-        const events = await Event.find({title: search}).exec();
+        const events = await Event.find({'title': {'$regex': query,$options:'i'}}).exec();
         res.status(200).json(events);
     }
     catch(err)

@@ -65,9 +65,7 @@ function Events() {
 
     var createdBy = ud.username;
     const [eventToDelete, setEventToDelete] = useState('');
-    const [values, setValues] = useState();
     const [events, setEvents] = useState([]);
-    const [currentPlaceId, setCurrentPlaceId] = useState(null);
     const [newPlace, setNewPlace] = useState(null);
     const [title, setTitle] = useState(null);
     const [lat, setLat] = useState(null);
@@ -75,7 +73,6 @@ function Events() {
     const [category, setCategory] = useState(null);
     const [address, setAddress] = useState(null);
     const [description, setDescription] = useState(null);
-    const [likes, setLikes] = useState(0);
     const [capacity, setCapacity] = useState(0);
     const [eventMsg, setEventMsg] = useState("");
     const [currentId, setCurrentId] = useState();
@@ -1136,13 +1133,19 @@ function Events() {
 function OngoingEvents() {
     var testArr = []; // had to implement this because react fucking sucks
                       // not changing the name, but it's final
-
     const [contentStatus, displayContent] = React.useState(false);
+    const [searchStatus, displaySearch] = React.useState(false);
     const [resultList, setResultList] = useState([]);
     const [category, setCategory] = useState('');
+    const [searchVal, setSearchVal] = useState('');
+
     const [edit, setEdit] = useState(false);
     const contentProps = useSpring({
         opacity: contentStatus ? 1 : 0,
+    });
+    const searchProps = useSpring({
+
+        opacity: searchStatus ? 1 : 0,
     });
     const [likeColor, setLikeColor] = useState();
 
@@ -1197,13 +1200,70 @@ function OngoingEvents() {
         }
     };
 
+    const loadSearchResults = async event => 
+    {
+        console.log(searchVal);
+        var obj = {title:searchVal};
+        console.log(obj);
+        var js = JSON.stringify(obj);
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/events/search'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+        try {
+            const result = await axios(config)
+            .then(function (response) {
+                var res = response.data;
+                
+                for(var i = 0; i < res.length; i++) {
+                    resultArr.push(res[i]);
+                }
+                console.log(resultArr);
+                setResultList(resultArr);
+                //setResultList(res);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
+    }
+
     function handleOpenCategory(preferenceName) {
+        setResultList([]);
         var cat = preferenceName.preference;
         currentCat = cat;
         setCategory(currentCat);
         loadCategories();
-        if(contentStatus == false)
+        if(contentStatus == false) {
+            if(searchStatus != false)
+                displaySearch(a => !a);
             displayContent(a => !a);
+        }
+    }
+
+    function handleSearch() {
+        loadSearchResults();
+    }
+
+    function handleOpenSearch() {
+        //setSearchVal(searchInput)
+        //loadSearchResults();
+        setResultList([]);
+        if(searchStatus == false) {
+            if(contentStatus != false)
+                displayContent(a => !a);
+            displaySearch(a => !a);
+        }
     }
 
     var preferences = [];
@@ -1212,7 +1272,8 @@ function OngoingEvents() {
     }
 
     function getIcon(preferenceName) {
-        preferenceName = preferenceName.preference;
+        if(preferenceName.preference != null)
+            preferenceName = preferenceName.preference;
         if(preferenceName === 'Sports')
             return faRunning;
         else if(preferenceName === 'Science')
@@ -1226,6 +1287,8 @@ function OngoingEvents() {
         else if(preferenceName === 'Shopping')
             return faShoppingBag;
     }
+
+    
 
     const listCategories = preferences.map((preference) =>
         <li className="eventItem" onClick={ () => handleOpenCategory({preference}) } key={preference}><h1 className="catText">{preference}<FontAwesomeIcon className="categoryIcon" icon={getIcon({preference})} /></h1></li>
@@ -1267,6 +1330,7 @@ function OngoingEvents() {
             data: js
         }
 
+        
         await axios(config)
             .then(function (response) {
                 var res = response.data;
@@ -1289,7 +1353,7 @@ function OngoingEvents() {
         <div id="ongoing-Events">
             <ul className="ongoing-List">
                 {listCategories}
-                <li className="eventItem"><h1 className="catText">Search</h1><FontAwesomeIcon className="categoryIcon" icon={faSearch} /></li>
+                <li className="eventItem" onClick={handleOpenSearch}><h1 className="catText">Search</h1><FontAwesomeIcon className="categoryIcon" icon={faSearch} /></li>
             </ul><br />
             <animated.div className="categoryList" style={contentProps}>
                 <div id="categoryContainer">
@@ -1301,6 +1365,38 @@ function OngoingEvents() {
                                 <div className="listInfo">
                                     <FontAwesomeIcon className="likeIcon" icon={faHeart} style={likeColor} onClick={handleLike.bind(null, item._id)}/>
                                     <h1 className="itemTitle">{item.title}</h1>
+                                    <h2 className="itemCreator">Posted by: {item.createdBy}</h2>
+                                    <h3 className="itemDesc">{item.description}</h3>
+                                    <h3 className="itemAddress">{item.address}</h3>
+                                    <h3 className="itemTime">{item.startTime} to {item.endTime}</h3>
+                                    {/*(item.createdBy===ud.username) &&
+                                        <div>
+                                            <button className="customBtns" id="editBtn">Edit</button>
+                                            <button className="customBtns" id="deleteBtn">Delete</button>
+                                        </div>
+                                    */}
+                                    
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </animated.div>
+            <animated.div className="categoryList" style={searchProps}>
+                <div id="categoryContainer">
+                    <div id="closeFormNearby" onClick={() => displaySearch(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
+                    <input 
+                        type="text" 
+                        placeholder="Search for an event!"
+                        onChange={(e) => setSearchVal(e.target.value)}
+                    />
+                    <button onClick={loadSearchResults}>Search</button>
+                    <ul className="catEventList">
+                        {resultList.map((item) => (
+                            <li key={item._id} className="catEventItem">
+                                <div className="listInfo">
+                                    <FontAwesomeIcon className="likeIcon" icon={faHeart} style={likeColor} onClick={handleLike.bind(null, item._id)}/>
+                                    <h1 className="itemTitle"><FontAwesomeIcon className="myEventsIcon" icon={getIcon(item.category)} />{item.title}</h1>
                                     <h2 className="itemCreator">Posted by: {item.createdBy}</h2>
                                     <h3 className="itemDesc">{item.description}</h3>
                                     <h3 className="itemAddress">{item.address}</h3>
