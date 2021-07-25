@@ -50,6 +50,10 @@ const TopNav = () => {
         window.location.href = "/";
     }
 
+    const onClickSettings = () => {
+        window.location.href = "/settings";
+    }
+
     return(
         <div className="topContainer">
             <div className="topBar">
@@ -65,7 +69,7 @@ const TopNav = () => {
                         <h1 id="userBarHead">Welcome back {firstName} {lastName}!</h1>
                         <br />
                         <button className="userBtns" id="logoutBtn" onClick={doLogout}>Logout</button>
-                        <button className="userBtns" id="settingsBtn">Settings</button>
+                        <button className="userBtns" id="settingsBtn" onClick={onClickSettings}>Settings</button>
                     </div>
                 </div>
             </div>

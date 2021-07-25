@@ -158,8 +158,18 @@ router.post("/delete", async (req, res) => {
 })
 
 router.post("/search", async (req, res, next) => {
-    const event = req.body; // gets the event query from the caller
-    //Event.find()
+    const {search} = req.body; // gets the event query and the specific method of searching
+
+    try
+    {
+        const events = await Event.find({title: search}).exec();
+        res.status(200).json(events);
+    }
+    catch(err)
+    {
+        res.status(500).json(err);
+    }
+
 })
 
 module.exports = router;

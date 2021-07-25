@@ -342,5 +342,85 @@ router.post("/likes", async (req, res, next) => {
   });
 });
 
+const hashedPassword = async (passwd, saltRounds) => {
+  try {
+    // Generate salt
+    const salt = await bcrypt.genSalt(saltRounds);
+
+    // Hash Password and return it
+    const password = await bcrypt.hash(passwd, salt);
+    return password;
+
+  }
+  catch(err) {
+    console.log(error);
+  }
+
+  // Returns null if an error occurred
+  return null;
+}
+
+// edits the user info
+router.post("/editUser", async (req, res, next) => {
+  
+  // collects info as necessary
+  const { _id, profile } = req.body;
+  let query = { _id: _id };
+  let passwd = profile.password.toString();
+  console.log(passwd);
+
+  // hashes password
+  const password = await hashedPassword(passwd, 10);
+
+  // The update that will take place
+  const update = {
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    email: profile.email,
+    username: profile.username,
+    password: password,
+  }
+
+  console.log(update);
+  console.log(query);
+  
+  // Finds the user and updates the corresponding info
+  // Then, creates a jwt token and stores it.
+  const set = await User.findOneAndUpdate(query, { "$set": update }).then(user => {
+    console.log(user);
+    var firstName = user.firstName;
+    var lastName = user.LastName;
+    var userId = user._id;
+    var uname = user.username;
+    var attendedEvents = profile.attendedEvents;
+    var likedEvents = user.likedEvents;
+    console.log(likedEvents);
+    var preferences = user.preferences;
+    var email = user.email;
+    console.log("Name: " +  firstName);
+
+    try {
+      const token = require("../../createJWT.js");
+      var ret = token.createToken( 
+        firstName, 
+        lastName, 
+        userId, 
+        uname,
+        preferences,
+        attendedEvents,
+        likedEvents,
+        email
+      )
+      res.status(200).json(ret);
+    }
+    catch(err) {
+      console.log(err);
+    }
+
+    // Gives an Ok code of 200 and displays the token information
+  });
+});
+
+
 module.exports = router;
 
