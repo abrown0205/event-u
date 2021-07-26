@@ -35,12 +35,18 @@ body {
     font-size: 12px;
 }
 
+#new-event {
+    background-color: #5a5560;
+}
+
 .addEvent-form {
     width: 450px;
     height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    position: relative;
+    top: 30px;
 }
 
 .display-form {
@@ -50,7 +56,7 @@ body {
 }
 
 #submit-btn {
-    height: 60px;
+    height: 70px;
     background-color: #FAED26;
     border: none;
     border-top-left-radius: 10px;
@@ -60,7 +66,7 @@ body {
     cursor: pointer;
     font-size: 20px;
     position: relative;
-    top: 0px;
+    top: -50px;
     margin: 10px;
 }
 
@@ -156,6 +162,7 @@ input[type="text"] {
     width: 90px;
     background-color: #FAED26;
     border: none;
+    cursor: pointer;
 }
 
 #desc-label {
@@ -228,6 +235,17 @@ input[type="text"] {
     /* color: #FAED26; */
 }
 
+#createdBy {
+    position: relative;
+    top: -30px;
+    
+}
+
+#event-createdBy {
+    position: relative;
+    top: -30px;
+}
+
 #display-desc {
     width: 400px;
     height: 100px;
@@ -254,7 +272,8 @@ input[type="text"] {
     /* margin: 0 auto; */
     display: inline;
     position: relative;
-    top: 50px;
+    top: 5px;
+    font-size: 17px;
 }
 
 #likes-btn {
@@ -298,3 +317,4 @@ input[type="text"] {
     background-color: black;
     font-size: 42px;
 }
+

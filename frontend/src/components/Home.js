@@ -936,13 +936,8 @@ function Events() {
                                     <option className="time-options" value="23">11 PM</option>                                  
                                     
                                 </select>
-<<<<<<< HEAD
-                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => setStartMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
-=======
                                 <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => StartMin = e.target.value}>
                                     <option className="time-options" value="00">00</option>
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -957,11 +952,7 @@ function Events() {
                                     <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="13">13</option>
                                     <option className="time-options" value="14">14</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="15">15</option>
-=======
-                                    <option className="time-options" value="15">15</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="16">16</option>
                                     <option className="time-options" value="17">17</option>
                                     <option className="time-options" value="18">18</option>
@@ -971,11 +962,7 @@ function Events() {
                                     <option className="time-options" value="22">22</option>
                                     <option className="time-options" value="23">23</option>
                                     <option className="time-options" value="24">24</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="25">25</option>
-=======
-                                    <option className="time-options" value="25">25</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="26">26</option>
                                     <option className="time-options" value="27">27</option>
                                     <option className="time-options" value="28">28</option>
@@ -983,15 +970,9 @@ function Events() {
                                     <option className="time-options" value="30">30</option>
                                     <option className="time-options" value="31">31</option>
                                     <option className="time-options" value="32">32</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="44">33</option>
                                     <option className="time-options" value="34">34</option>
                                     <option className="time-options" value="35">35</option>
-=======
-                                    <option className="time-options" value="33">33</option>
-                                    <option className="time-options" value="34">34</option>
-                                    <option className="time-options" value="35">35</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="36">36</option>
                                     <option className="time-options" value="37">37</option>
                                     <option className="time-options" value="38">38</option>
@@ -1001,11 +982,7 @@ function Events() {
                                     <option className="time-options" value="42">42</option>
                                     <option className="time-options" value="43">43</option>
                                     <option className="time-options" value="44">44</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="45">45</option>
-=======
-                                    <option className="time-options" value="45">45</option>                                 
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="46">46</option>
                                     <option className="time-options" value="47">47</option>
                                     <option className="time-options" value="48">48</option>
@@ -1015,11 +992,7 @@ function Events() {
                                     <option className="time-options" value="52">52</option>
                                     <option className="time-options" value="53">53</option>
                                     <option className="time-options" value="54">54</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="55">55</option>
-=======
-                                    <option className="time-options" value="55">55</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="56">56</option>
                                     <option className="time-options" value="57">57</option>
                                     <option className="time-options" value="58">58</option>
@@ -1057,13 +1030,8 @@ function Events() {
                                     <option className="time-options" value="22">10 PM</option>
                                     <option className="time-options" value="23">11 PM</option>  
                                 </select>
-<<<<<<< HEAD
-                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => setEndMin(e.target.value)}>
-                                    <option className="time-options" value="00" selected>00</option>
-=======
                                 <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => EndMin = e.target.value}>
                                 <option className="time-options" value="00">00</option>
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
                                     <option className="time-options" value="03">03</option>
@@ -1078,11 +1046,7 @@ function Events() {
                                     <option className="time-options" value="12">12</option>
                                     <option className="time-options" value="13">13</option>
                                     <option className="time-options" value="14">14</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="15">15</option>
-=======
-                                    <option className="time-options" value="15">15</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="16">16</option>
                                     <option className="time-options" value="17">17</option>
                                     <option className="time-options" value="18">18</option>
@@ -1092,11 +1056,7 @@ function Events() {
                                     <option className="time-options" value="22">22</option>
                                     <option className="time-options" value="23">23</option>
                                     <option className="time-options" value="24">24</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="25">25</option>
-=======
-                                    <option className="time-options" value="25">25</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="26">26</option>
                                     <option className="time-options" value="27">27</option>
                                     <option className="time-options" value="28">28</option>
@@ -1104,15 +1064,9 @@ function Events() {
                                     <option className="time-options" value="30">30</option>
                                     <option className="time-options" value="31">31</option>
                                     <option className="time-options" value="32">32</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="44">33</option>
                                     <option className="time-options" value="34">34</option>
                                     <option className="time-options" value="35">35</option>
-=======
-                                    <option className="time-options" value="33">33</option>
-                                    <option className="time-options" value="34">34</option>
-                                    <option className="time-options" value="35">35</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="36">36</option>
                                     <option className="time-options" value="37">37</option>
                                     <option className="time-options" value="38">38</option>
@@ -1122,11 +1076,7 @@ function Events() {
                                     <option className="time-options" value="42">42</option>
                                     <option className="time-options" value="43">43</option>
                                     <option className="time-options" value="44">44</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="45">45</option>
-=======
-                                    <option className="time-options" value="45">45</option>                                 
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="46">46</option>
                                     <option className="time-options" value="47">47</option>
                                     <option className="time-options" value="48">48</option>
@@ -1136,11 +1086,7 @@ function Events() {
                                     <option className="time-options" value="52">52</option>
                                     <option className="time-options" value="53">53</option>
                                     <option className="time-options" value="54">54</option>
-<<<<<<< HEAD
                                     <option className="time-options" value="55">55</option>
-=======
-                                    <option className="time-options" value="55">55</option>                                    
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     <option className="time-options" value="56">56</option>
                                     <option className="time-options" value="57">57</option>
                                     <option className="time-options" value="58">58</option>

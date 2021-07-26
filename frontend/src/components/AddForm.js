@@ -342,6 +342,7 @@ function Events() {
                                     <option id="cat-options" value="Music">Music</option>
                                     <option id="cat-options" value="Shopping">Shopping</option>
                                     <option id="cat-options" value="Studying">Studying</option>
+                                    <option id="cat-options" value="Social">Social</option>
                                 </select>
                             </label>
                             <label className="label" id="add-label">address:

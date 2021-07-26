@@ -10,23 +10,38 @@
 }
 
 .settings-form {
-    background-color: white;
+    /* background-color: #5a5560;
     width: 650px;
     height: 550px;
     border: none;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-right-radius: 10px;*/
     position: absolute;
     top: 100px;
-    left: 600px;
+    left: 500px;
     box-shadow: 0 4px 15px 0 ;
+    display: inline-table;
+    font-size: 24px;
+    text-align: left;
+    border: 4px solid #FAED26;
+    border-radius: 25px;
+    padding: 15px;
+    padding-right: 25px;
+    /* width: 25%; */
+    width: 750px;
+    height: 550px;
+    background-color: rgb(12, 12, 12);
+    box-shadow: 0 4px 15px 0  #FAED26;
+    z-index: 2;
+    overflow: visible;
 }
 
 .input-label {
     width: max-content;
     margin: 5px;
+    color: #FAED26;
 }
 
 .input-field {
@@ -36,10 +51,11 @@
 #title {
     text-align: center;
     font-size: 40px;
+    color: #FAED26;
 }
 
 .settings-btn {
-    border: none;
+    /* border: none;
     background-color: #FAED26;
     height: 60px;
     width: 100px;
@@ -51,24 +67,46 @@
     border-bottom-right-radius: 10px;
     margin: 5px;
     font-size: 15px;
+    cursor: pointer; */
+    /* color: #FAED26; */
+    /* position: absolute; */
+    padding: 10px;
+    /* height: 40px; */
+    /* width: 15%; */
+    border-radius: 25px;
+    border: 2px solid #FAED26;
+    margin-inline: 5px;
+    margin-top: -45px;
     cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    /* left: 42.25%; */
+    /* box-shadow: 0 4px 15px 0  #FAED26; */
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    position: relative;
+    top: 50px;
 }
 
 .settings-btn:hover {
     transition: .5s;
-    background-color: #cfc31cfa;
+    background-color: black;
+    color: #FAED26;
 }
 
 #set-preferences {
-    left: 280px;
+    left: 450px;
 }
 
 #set-cancel {
-    left: 290px;
+    left: 460px;
 }
 
 #set-save {
-    left: 300px;
+    left: 470px;
 }
 
 #pass-btn {
@@ -81,4 +119,14 @@
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+#email-text {
+    position: relative;
+    left: 60px;
+}
+
+#pass-text {
+    position: relative;
+    left: 10px;
 }

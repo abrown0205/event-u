@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './css/settings.css';
+import { useSpring, animated } from 'react-spring';
 
 var bp = require('./Path.js');
 
@@ -87,63 +88,70 @@ function Settings() {
                 }
             });
             console.log("User successfully updated");
-            window.location.href="/home";
+            // window.location.href="/home";
         }
         catch(err) {
             console.log(err);
         }
     }
 
+    const props = useSpring({
+        from: {y: 700, opacity: 0},
+        to: {y: 0, opacity: 1}
+    });
+
+    const divProps = useSpring({
+        from: {y: 700, opacity: 0},
+        to: {y: 45, opacity: 1}
+    });
+
     return (
         <div className="settings">
-            <div className="settings-form">
+            <animated.div style={divProps} className="settings-form">
                 <h2 id="title">Edit Form</h2>
                 <form>
-                    <label className="input-label">First Name
-                        <input 
-                            type="text"
-                            placeholder="Change first name"
-                            className="input-field"
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </label>
-                    <label className="input-label">Last Name
-                        <input 
-                            type="text"
-                            placeholder="Change last name"
-                            className="input-field"
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                    </label>
-                    <label className="input-label">Email
-                        <input 
-                            type="text"
-                            placeholder="Change email"
-                            className="input-field"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </label>
-                    <label className="input-label">Username
-                        <input 
-                            type="text"
-                            placeholder="Change username"
-                            className="input-field"
-                            onChange={(e) => setUserName(e.target.value)}
-                        />
-                    </label>
-                    <label className="input-label">Password
-                        <input 
-                            type="text"
-                            placeholder="Change password"
-                            className="input-field"
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </label>
-                    <button className="settings-btn" id="set-preferences" onClick={onClickUpdatePref}>preferences</button>
+                    <label className="input-label">First Name</label>
+                    <input 
+                        type="text"
+                        placeholder="Change first name"
+                        className="input-field"
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                    <label className="input-label">Last Name</label>
+                    <input 
+                        type="text"
+                        placeholder="Change last name"
+                        className="input-field"
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                    <label className="input-label">Email</label>
+                    <input 
+                        type="text"
+                        placeholder="Change email"
+                        className="input-field"
+                        id="email-text"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <label className="input-label">Username</label>
+                    <input 
+                        type="text"
+                        placeholder="Change username"
+                        className="input-field"
+                        onChange={(e) => setUserName(e.target.value)}
+                    />
+                    <label className="input-label">Password</label>
+                    <input 
+                        type="text"
+                        placeholder="Change password"
+                        className="input-field"
+                        id="pass-text"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button style={props} className="settings-btn" id="set-preferences" onClick={onClickUpdatePref}>preferences</button>
                     <button className="settings-btn" id="set-cancel" onClick={onClickCancel}>Cancel</button>
-                    <button className="settings-btn" id="set-save" onClick={(e) => changeSettings(e)}>Save</button>
+                    <animated.button className="settings-btn" id="set-save" onClick={(e) => changeSettings(e)}>Save</animated.button>
                 </form>
-            </div>
+            </animated.div>
         </div>
     )
 }

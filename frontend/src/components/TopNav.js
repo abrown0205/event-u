@@ -54,10 +54,6 @@ const TopNav = () => {
         window.location.href = "/";
     }
 
-    const onClickSettings = () => {
-        window.location.href = "/settings";
-    }
-
     return(
         <div className="topContainer">
             <div className="topBar">

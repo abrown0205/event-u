@@ -96,31 +96,18 @@ router.post("/login", async (req, res, next) => {
         var attendedEvents = user.attendedEvents;
         var likedEvents = user.likedEvents;
         var email = user.email;
-<<<<<<< HEAD
-		    var active = user.active;
-
-=======
         var active = user.active;
         var activationCode = user.activationCode;
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
         var ret;
         
         try {
           const token = require("../../createJWT.js");
-<<<<<<< HEAD
-          ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active );
-=======
           ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active, activationCode );
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
         }
         catch(e) {
           e = {error:e.message};
         }
-<<<<<<< HEAD
-        res.status(200).json(ret);
-=======
         return res.status(200).json(ret);
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
       } 
       else {
         return res.status(400).json({ passwordincorrect: "Password incorrect" });
@@ -433,128 +420,6 @@ router.post("/editUser", async (req, res, next) => {
     // Gives an Ok code of 200 and displays the token information
   });
 });
-
-// hashes any password passed to it
-const hashedPassword = async (passwd, saltRounds) => {
-  try {
-    // Generate salt
-    const salt = await bcrypt.genSalt(saltRounds);
-
-    // Hash Password and return it
-    const password = await bcrypt.hash(passwd, salt);
-    return password;
-
-  }
-  catch(err) {
-    console.log(error);
-  }
-
-  // Returns null if an error occurred
-  return null;
-}
-
-// edits the user info
-router.post("/editUser", async (req, res, next) => {
-  
-  // collects info as necessary
-  const { _id, profile } = req.body;
-  let query = { _id: _id };
-  let update;  
-
-  // The update that will take place
-  if (profile.password == null) {
-    update = {
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-      email: profile.email,
-      username: profile.username,
-    }
-  }
-  else {
-    let passwd = profile.password.toString();
-    
-    // hashes password
-    const password = await hashedPassword(passwd, 10);
-    
-    update = {
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-      email: profile.email,
-      username: profile.username,
-      password: password,
-    }
-  }
-
-  console.log(update);
-  console.log(query);
-  
-  // Finds the user and updates the corresponding info
-  // Then, creates a jwt token and stores it.
-  const set = await User.findOneAndUpdate(query, { "$set": update }).then(user => {
-    console.log(user);
-    var firstName = user.firstName;
-    var lastName = user.LastName;
-    var userId = user._id;
-    var uname = user.username;
-    var attendedEvents = profile.attendedEvents;
-    var likedEvents = user.likedEvents;
-    console.log(likedEvents);
-    var preferences = user.preferences;
-    var email = user.email;
-    console.log("Name: " +  firstName);
-
-    try {
-      const token = require("../../createJWT.js");
-      var ret = token.createToken( 
-        firstName, 
-        lastName, 
-        userId, 
-        uname,
-        preferences,
-        attendedEvents,
-        likedEvents,
-        email
-      )
-      res.status(200).json(ret);
-    }
-    catch(err) {
-      console.log(err);
-    }
-
-    // Gives an Ok code of 200 and displays the token information
-  });
-});
-
-router.post("/likes", async (req, res, next) => {
-  const { username, likedEvents } = req.body;
-  let query = {username:username};
-  let update = {likedEvents:likedEvents};
-  User.findOneAndUpdate(query, update).then(user => {
-    // Check if user exists
-    console.log(user);
-    var ret;
-    var firstName = user.firstName;
-    var lastName = user.lastName;
-    var userId = user._id;
-    var uname = user.username;
-    var attendedEvents = user.attendedEvents;
-    var preferences = user.preferences;
-    var email = user.email;
-    var active = user.active;
-
-    try {
-      const token = require("../../createJWT.js");
-      ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active );
-    }
-    catch(e) {
-      console.log(e);
-    }
-
-    res.status(200).json(ret);
-  });
-});
-
-
 
 module.exports = router;
 

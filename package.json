@@ -28,11 +28,8 @@
     "mongoose": "^5.13.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-<<<<<<< HEAD
     "sendgrid-mail": "^0.0.3",
-=======
     "random-seed": "^0.3.0",
->>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
     "validator": "^13.6.0"
   }
 }
