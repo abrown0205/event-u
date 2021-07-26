@@ -37,41 +37,50 @@ body {
 
 .addEvent-form {
     width: 450px;
-    height: 650px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
- .mapboxgl-popup-close-button {
+
+.display-form {
+    width: 450px;
+    height: 680px;
+    /* background-color: #5a5560; */
+}
+
+#submit-btn {
+    height: 60px;
+    background-color: #FAED26;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    position: relative;
+    top: 0px;
+    margin: 10px;
+}
+
+.mapboxgl-popup-close-button {
      font-size: 40px;
      width: 40px;
  }
 
 .form-header {
+    margin: 0px;
     font-size: 35px;
     text-align: center;
     color: black;
 }
 
 .label {
-    /* display: inline-block; */
-    /* width: 350px; */
-    /* text-align: right; */
     margin: 5px;
     width: max-content;
     
 }
-
-/* .input-field {
-    border: none;
-    margin: 5px;
-    padding: 5px;
-    display: inline-block;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-} */
 
 input[type="text"] {
     padding: 10px;
@@ -173,7 +182,7 @@ input[type="text"] {
     width: 45px;
 }
 
-#submit-btn {
+/* #submit-btn {
     height: 60px;
     background-color: #FAED26;
     border: none;
@@ -183,6 +192,14 @@ input[type="text"] {
     border-bottom-right-radius: 10px;
     cursor: pointer;
     font-size: 20px;
+    position: relative;
+    top: 20px;
+    margin: 10px;
+} */
+
+#submit-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
 }
 
 .edit-btns {
@@ -205,10 +222,24 @@ input[type="text"] {
 
 .result-label {
     border-bottom: .5px solid #FAED26;
-    width: 350px;
+    width: max-content;
     font-size: 20px;
     margin: 3px 0;
     /* color: #FAED26; */
+}
+
+#display-desc {
+    width: 400px;
+    height: 100px;
+    overflow: auto;
+}
+
+#display-desc:hover {
+    cursor: auto;
+}
+
+.event-details {
+    margin: 10px 0;
 }
 
 .res-btn {
@@ -220,6 +251,10 @@ input[type="text"] {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     cursor: pointer;
+    /* margin: 0 auto; */
+    display: inline;
+    position: relative;
+    top: 50px;
 }
 
 #likes-btn {
@@ -233,6 +268,7 @@ input[type="text"] {
 
 #delete-btn {
     background-color: #FAED26;
+    left: 150px;
 }
 
 #delete-btn:hover {
@@ -242,6 +278,7 @@ input[type="text"] {
 
 #edit-btn {
     background-color: #FAED26;
+    left: 140px;
 }
 
 #edit-btn:hover {

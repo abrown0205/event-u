@@ -180,8 +180,6 @@ function Map() {
         catch(err) {
             console.log(err);
         }
-
-
     }
 
     // Adds a like to an event
@@ -371,25 +369,42 @@ function Map() {
                         closeOnClick={false}
                         anchor="left"
                         onClose={() => setCurrentPlaceId(null)}
+                        style ={{
+                            color: "#5a5560"
+                        }}
                     >
                         {!edit && 
-                            <div className="addEvent-form" id="result-popup">
+                            <div className="display-form" id="result-popup">
                                 <h4 className="form-header">{events.title}</h4>
                                 <label className="result-label">Address</label>
-                                <p>{events.address}</p>
-                                <p>startTime: {events.startTime}</p>
-                                <p>endTime: {events.endTime}</p>
-                                <p>capacity: {events.capacity}</p>
-                                <label>Description</label>
-                                <p>{events.description}</p>
-                                <p>createdBy: {events.createdBy}</p>
+                                <p className="event-details">{events.address}</p>
+                                <label className="result-label">Starts</label>
+                                <p className="event-details">{events.startTime}</p>
+                                <label className="result-label">Ends</label>
+                                <p className="event-details">{events.endTime}</p>
+                                <label className="result-label">Capacity</label>
+                                <p className="event-details">{events.capacity}</p>
+                                <label className="result-label">Description</label>
+                                <p className="event-details" id="display-desc">{events.description}</p>
+                                <label className="result-label">Posted By</label>
+                                <p className="event-details">{events.createdBy}</p>
                                 {/* Use the useState above for likes to update the 
                                     amount of likes a post has and update the database
                                     accordingly */}
-                                <button className="res-btn" id="likes-btn" 
-                                onClick={handleLike.bind(null, events._id)}
-
-                                >likes: {events.likes}</button>
+                                <button 
+                                    className="res-btn" 
+                                    id="likes-btn" 
+                                    onClick={handleLike.bind(null, events._id)}
+                                >
+                                    like {events.likes}
+                                </button>
+                                {currentUser === events.createdBy && 
+                                    <button className="res-btn" id="edit-btn"
+                                        onClick={() => setEdit(true)}
+                                    >
+                                        edit
+                                    </button>
+                                }
                                 {currentUser === events.createdBy && 
                                     <button className="res-btn" id="delete-btn"
                                         onClick={() => 
@@ -402,13 +417,6 @@ function Map() {
                                         }
                                     >
                                         delete
-                                    </button>
-                                }
-                                {currentUser === events.createdBy && 
-                                    <button className="res-btn" id="edit-btn"
-                                        onClick={() => setEdit(true)}
-                                    >
-                                        edit
                                     </button>
                                 }
                             </div>
@@ -430,10 +438,11 @@ function Map() {
                                     <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
                                         <option id="cat-options" value="Music">Music</option>
                                         <option id="cat-options" value="Studying">Studying</option>
-                                        <option id="cat-options" value="Arts/Culture">Arts & Culture</option>
+                                        <option id="cat-options" value="Arts & Culture">Arts & Culture</option>
                                         <option id="cat-options" value="Shopping">Shopping</option>
                                         <option id="cat-options" value="Science">Science</option>
                                         <option id="cat-options" value="Sports">Sports</option>
+                                        <option id="cat-options" value="Social">Social</option>
                                     </select>
                                     </label>
                                     {/* <label className="label" id="add-label">address:
@@ -535,10 +544,10 @@ function Map() {
                                         <option className="time-options" value="58">58</option>
                                         <option className="time-options" value="59">59</option>
                                     </select>
-                                    <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
+                                    {/* <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
                                         <option className="time-options" value="AM">AM</option>
                                         <option className="time-options" value="PM">PM</option>
-                                    </select>
+                                    </select> */}
                                     </label>
                                     <label className="label" id="endTime-label">end time:
                                     <select className="time" id="time-hour-select" onChange={(e) => setEndHour(e.target.value)}>
@@ -617,10 +626,10 @@ function Map() {
                                         <option className="time-options" value="58">58</option>
                                         <option className="time-options" value="59">59</option>
                                     </select>
-                                    <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
+                                    {/* <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
                                         <option className="time-options" value="AM">AM</option>
                                         <option className="time-options" value="PM">PM</option>
-                                    </select>
+                                    </select> */}
                                     </label>
                                     <label className="label" id="desc-label" >description:</label>
                                     <textarea 
@@ -674,10 +683,11 @@ function Map() {
                                 <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
                                     <option id="cat-options" value="Music">Music</option>
                                     <option id="cat-options" value="Studying">Studying</option>
-                                    <option id="cat-options" value="Arts/Culture">Arts & Culture</option>
+                                    <option id="cat-options" value="Arts & Culture">Arts & Culture</option>
                                     <option id="cat-options" value="Shopping">Shopping</option>
                                     <option id="cat-options" value="Science">Science</option>
                                     <option id="cat-options" value="Sports">Sports</option>
+                                    <option id="cat-options" value="Social">Social</option>
                                 </select>
                                 </label>
                                 {/* <label className="label" id="add-label">address:
@@ -779,10 +789,10 @@ function Map() {
                                     <option className="time-options" value="58">58</option>
                                     <option className="time-options" value="59">59</option>
                                 </select>
-                                <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
+                                {/* <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
                                     <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
-                                </select>
+                                </select> */}
                                 </label>
                                 <label className="label" id="endTime-label">end time:
                                 <select className="time" id="time-hour-select" onChange={(e) => setEndHour(e.target.value)}>
@@ -861,16 +871,16 @@ function Map() {
                                     <option className="time-options" value="58">58</option>
                                     <option className="time-options" value="59">59</option>
                                 </select>
-                                <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
+                                {/* <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
                                     <option className="time-options" value="AM">AM</option>
                                     <option className="time-options" value="PM">PM</option>
-                                </select>
+                                </select> */}
                                 </label>
                                 <label className="label" id="desc-label" >description:</label>
                                 <textarea 
                                     id="comment-box" 
                                     placeholder="Comments..." 
-                                    rows="9" 
+                                    rows="6" 
                                     cols="40"
                                     onChange={(e) => setDescription(e.target.value)}
                                     />

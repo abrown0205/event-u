@@ -16,10 +16,12 @@ function Settings() {
     const [username, setUserName] = useState(ud.username);
     const [password, setPassword] = useState();
     const [email, setEmail] = useState(ud.email);
+    const [displayed, setDisplayed] = useState(false);
     const [message, setMessage] = useState('');
     const changePassword = (e, bool) => {
         e.preventDefault();
         setPassOption(bool);
+        setDisplayed(bool);
     }
     
     const onClickUpdatePref = (e) => {
@@ -85,7 +87,7 @@ function Settings() {
                 }
             });
             console.log("User successfully updated");
-            // window.location.href="/home";
+            window.location.href="/home";
         }
         catch(err) {
             console.log(err);
@@ -129,22 +131,14 @@ function Settings() {
                             onChange={(e) => setUserName(e.target.value)}
                         />
                     </label>
-                    <button className="password-btn" 
-                        onClick={(e) => changePassword(e, true)}
-                        onDoubleClick={(e) => changePassword(e, false)}
-                        >
-                            Change Password
-                        </button>
-                    {passOption && 
-                        <label className="input-label">Password
-                            <input 
-                                type="text"
-                                placeholder="Change password"
-                                className="input-field"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </label>
-                    }
+                    <label className="input-label">Password
+                        <input 
+                            type="text"
+                            placeholder="Change password"
+                            className="input-field"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </label>
                     <button className="settings-btn" id="set-preferences" onClick={onClickUpdatePref}>preferences</button>
                     <button className="settings-btn" id="set-cancel" onClick={onClickCancel}>Cancel</button>
                     <button className="settings-btn" id="set-save" onClick={(e) => changeSettings(e)}>Save</button>

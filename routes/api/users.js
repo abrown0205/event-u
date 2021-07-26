@@ -211,19 +211,30 @@ router.post("/editUser", async (req, res, next) => {
   // collects info as necessary
   const { _id, profile } = req.body;
   let query = { _id: _id };
-  let passwd = profile.password.toString();
-  console.log(passwd);
-
-  // hashes password
-  const password = await hashedPassword(passwd, 10);
+  let update;  
 
   // The update that will take place
-  const update = {
-    firstName: profile.firstName,
-    lastName: profile.lastName,
-    email: profile.email,
-    username: profile.username,
-    password: password,
+  if (profile.password == null) {
+    update = {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      username: profile.username,
+    }
+  }
+  else {
+    let passwd = profile.password.toString();
+    
+    // hashes password
+    const password = await hashedPassword(passwd, 10);
+    
+    update = {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      username: profile.username,
+      password: password,
+    }
   }
 
   console.log(update);
