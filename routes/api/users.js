@@ -332,22 +332,30 @@ router.post("/editUser", async (req, res, next) => {
   const { _id, profile } = req.body;
   let query = { _id: _id };
   let passwd = profile.password.toString();
-  console.log(passwd);
-
-  // hashes password
-  const password = await hashedPassword(passwd, 10);
-
-  // The update that will take place
-  const update = {
-    firstName: profile.firstName,
-    lastName: profile.lastName,
-    email: profile.email,
-    username: profile.username,
-    password: password,
+  let update;
+  if(passwd.length == 0) {
+      // The update that will take place
+    update = {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      username: profile.username,
+    }
+  }
+  else {
+      // hashes password
+    const password = await hashedPassword(passwd, 10);
+      // The update that will take place
+    update = {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      username: profile.username,
+      password: password,
+    }
   }
 
-  console.log(update);
-  console.log(query);
+
   
   // Finds the user and updates the corresponding info
   // Then, creates a jwt token and stores it.
