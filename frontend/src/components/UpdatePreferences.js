@@ -20,6 +20,7 @@ function ListElements() {
             {interest: "Shopping"},
             {interest: "Science"},
             {interest: "Sports"},
+            {interest: "Social"},
         ];
 
         setInterestState(

@@ -1,6 +1,6 @@
 import './css/home.css';
-import { faPlus, faTimesCircle, faRunning, faFlask, faUserGraduate, faPalette, faGuitar, faShoppingBag, faSearch, faHeart, faSync } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from 'react';
+import { faPlus, faTimesCircle, faRunning, faFlask, faUserGraduate, faPalette, faGuitar, faShoppingBag, faSearch, faHeart, faSync, faHandHoldingHeart } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from 'react';
 import TopNav from '../components/TopNav';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSpring, animated } from 'react-spring';
@@ -22,13 +22,6 @@ var ud = JSON.parse(_ud);
 
 const initialList = [];
 
-
-// function AddEvent() {
-//     // this will redirect you to the page for adding events
-//     // window.location.href="http://localhost:3000";
-// }
-
-
 var Month = format(new Date(), "MM");
 var Day = "01";
 var Year= format(new Date(), "yyyy");
@@ -46,6 +39,46 @@ function Events() {
     var testArr = [];
 
     const [name, setName] = useState('');
+
+    useEffect(() => {
+        const getEventsOnLoad = async () => {
+            var bp = require('./Path.js');
+            var storage = require('../tokenStorage.js');
+            var jwt = require('jsonwebtoken');
+
+            var userd = jwt.decode(storage.retrieveToken(),{complete:true});
+            var userLiked = userd.payload.likedEvents;
+            
+            var obj = {likedEvents:userLiked};
+            var js = JSON.stringify(obj);
+            var config =
+            {
+                method: 'post',
+                url: bp.buildPath('api/events/userevents'),
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                },
+                data: js
+            }
+
+            try {
+                const result = await axios(config)
+                    .then(function (response) {
+                        var res = response.data;
+                        setUserEvents(res);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+            catch(e)
+            {
+                console.log(e);
+            }
+        }
+        getEventsOnLoad();
+    })
 
     const [contentStatus, displayContent] = React.useState(false);
 
@@ -430,6 +463,8 @@ function Events() {
             return faGuitar;
         else if(preferenceName === 'Shopping')
             return faShoppingBag;
+        else if(preferenceName === 'Social')
+            return faHandHoldingHeart;
     }
 
     function compareIds(x)
@@ -460,7 +495,7 @@ function Events() {
             <div className="vl"></div>
             <div className="eventHolder">
                 <ul className="eventList">
-                    <button className="refreshButton" onClick={fetchEvents}><FontAwesomeIcon icon={faSync} /></button>
+                    {/*<button className="refreshButton" onClick={fetchEvents}><FontAwesomeIcon icon={faSync} /></button>*/}
                     {userEvents.map((item) => (
                         <li key={item._id} className="catEventItem">
                             <FontAwesomeIcon className="likeIconMyEvents" icon={faHeart} onClick={handleLike.bind(null, item._id)}/>
@@ -478,7 +513,7 @@ function Events() {
                                         <div className="eventPostContainer">
                                             <div>
                                                 <div id="closeForm" onClick={() => displayEdit(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
-                                                <form className="eventForm" onSubmit={handleEventUpdate} autoComplete="off">
+                                                <form className="eventForm" id='editForm' onSubmit={handleEventUpdate} autoComplete="off">
                                                     <h4 className="form-header">Edit an Event!</h4>
                                                     <label className="label" id="name-label">title:
                                                         <input
@@ -789,7 +824,7 @@ function Events() {
                                                         />
                                                     </label>
                                                     <div className="submitContainer">
-                                                        <button type ="submit" id="submitEvent">Add Event</button>
+                                                        <button type ="submit" id="submitEvent">Save Event</button>
                                                     </div>
                                                     <span className="eventError">{eventMsg}</span>
                                                 </form>
@@ -1286,12 +1321,14 @@ function OngoingEvents() {
             return faGuitar;
         else if(preferenceName === 'Shopping')
             return faShoppingBag;
+        else if(preferenceName === 'Social')
+            return faHandHoldingHeart;
     }
 
     
 
     const listCategories = preferences.map((preference) =>
-        <li className="eventItem" onClick={ () => handleOpenCategory({preference}) } key={preference}><h1 className="catText">{preference}<FontAwesomeIcon className="categoryIcon" icon={getIcon({preference})} /></h1></li>
+        <li className="eventItem" onClick={ () => handleOpenCategory({preference}) } key={preference}><h1 className="catText">{preference}</h1><FontAwesomeIcon className="categoryIcon" id={preference.preference} icon={getIcon({preference})} /></li>
     );
 
     function handleLike(itemId)
@@ -1348,6 +1385,24 @@ function OngoingEvents() {
             }) 
     }
 
+    function checkDisplay(div) {
+        if(div == 'search') {
+            if(searchStatus == false) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else if(div == 'cat') {
+            if(contentStatus == false) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    }
     
     return (
         <div id="ongoing-Events">
@@ -1356,7 +1411,7 @@ function OngoingEvents() {
                 <li className="eventItem" onClick={handleOpenSearch}><h1 className="catText">Search</h1><FontAwesomeIcon className="categoryIcon" icon={faSearch} /></li>
             </ul><br />
             <animated.div className="categoryList" style={contentProps}>
-                <div id="categoryContainer">
+                {checkDisplay('cat') && <div id="categoryContainer">
                     <div id="closeFormNearby" onClick={() => displayContent(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
                     <h1 className="listHeader">{category}</h1>
                     <ul className="catEventList">
@@ -1380,17 +1435,18 @@ function OngoingEvents() {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div>}
             </animated.div>
             <animated.div className="categoryList" style={searchProps}>
-                <div id="categoryContainer">
-                    <div id="closeFormNearby" onClick={() => displaySearch(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
+                {checkDisplay('search') && <div id="categoryContainer">
+                    {checkDisplay('search') && <div id="closeFormNearby" onClick={() => displaySearch(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>}
                     <input 
                         type="text" 
                         placeholder="Search for an event!"
                         onChange={(e) => setSearchVal(e.target.value)}
                     />
-                    <button onClick={loadSearchResults}>Search</button>
+                    <button id="submitEvent" onClick={loadSearchResults}>Search</button>
+                    <br />
                     <ul className="catEventList">
                         {resultList.map((item) => (
                             <li key={item._id} className="catEventItem">
@@ -1412,7 +1468,7 @@ function OngoingEvents() {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div>}
             </animated.div>
         </div>
     );
