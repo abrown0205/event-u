@@ -12,6 +12,33 @@ function Login()
 
     const [message,setMessage] = useState('');
 
+    const doForgot = async event => {
+        event.preventDefault();
+
+        var obj = {username:loginName.value};
+        var js = JSON.stringify(obj);
+
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/users/sendPasswordResetEmail'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+        axios(config)
+            .then(function (response) {
+                var res = response.data;
+                setMessage('Password reset, check email associated with your account');
+            })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    }
+
     const doLogin = async event =>
     {
         event.preventDefault();
@@ -52,10 +79,21 @@ function Login()
                     var email = ud.payload.email;
                     var attendedEvents = ud.payload.attendedEvents;
                     var userId = ud.payload._id;
+                    var active = ud.payload.active;
+                    var activationCode = ud.payload.activationCode;
 
-                    var user = {firstName:firstName,lastName:lastName,username:username,preferences:preferences,_id:userId,attendedEvents:attendedEvents,email:email,likedEvents:likedEvents};
-                    localStorage.setItem('user_data', JSON.stringify(user));
-                    window.location.href = '/home';
+                    if(ud.payload.active === false)
+                    {
+                        var user = {firstName:firstName,lastName:lastName,username:username,preferences:preferences,_id:userId,attendedEvents:attendedEvents,email:email,likedEvents:likedEvents,active:active,activationCode:activationCode};
+                        localStorage.setItem('user_data', JSON.stringify(user));
+                        window.location.href = '/verify';
+                    }
+                    else
+                    {
+                        var user = {firstName:firstName,lastName:lastName,username:username,preferences:preferences,_id:userId,attendedEvents:attendedEvents,email:email,likedEvents:likedEvents,active:active};
+                        localStorage.setItem('user_data', JSON.stringify(user));
+                        window.location.href = '/home';
+                    }
                 }
             })
             .catch(function (error) {
@@ -74,7 +112,7 @@ function Login()
                 <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c} /> <br />
                 <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c}/><br />
                 <input type="submit" id="loginButton" value="Sign In" onClick={doLogin} />
-                <h3 id="forgotPass">Forgot Password? <a id="forgotBtn">Click here</a></h3>
+                <h3 id="forgotPass">Forgot Password? <a onClick={doForgot} id="forgotBtn">Click here</a></h3>
                 <span id="loginResult">{message}</span>
                 <h3 id="redirectText">Don't have an account?<a href="/signup" id="redirectButton"> Sign Up!</a></h3>
             </div>

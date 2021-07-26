@@ -120,7 +120,11 @@ const HeaderText2 = ({}) => {
         from: { y: 700, opacity: 0 },
         to: {y: 75, opacity: 1}
     });
+<<<<<<< HEAD
     return<animated.h2 style={props} id="welcomeParagraph">Let's get to know you better, select some of the following general interests:</animated.h2>;
+=======
+    return<animated.h2 style={props} id="welcomeParagraph">Want to update your preferences? Select some of the following general interests:</animated.h2>;
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
 };
 
 const SubmitButton = ({}) => {

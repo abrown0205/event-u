@@ -10,7 +10,6 @@ var ud = JSON.parse(_ud);
 
 const TopNav = () => {
     var currentUrl = window.location.pathname;
-    console.log(currentUrl);
     var firstName = ud.firstName;
     var lastName = ud.lastName;
     var username = ud.username;
@@ -53,6 +52,10 @@ const TopNav = () => {
     function doLogout() {
         localStorage.clear();
         window.location.href = "/";
+    }
+
+    const onClickSettings = () => {
+        window.location.href = "/settings";
     }
 
     return(

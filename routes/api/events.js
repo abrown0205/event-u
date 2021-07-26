@@ -127,6 +127,8 @@ router.post("/updateLikes", async (req, res) => {
 })
 
 router.post("/userevents", async (req, res, next) => {
+    // grabs all the events a user has liked and returns them to be put in local storage
+    // utilized for when the page updates with new liked events
     try {
         const {likedEvents} = req.body;
         console.log(likedEvents);
@@ -180,6 +182,21 @@ router.post("/delete", async (req, res) => {
     } catch(err) {
         res.status(500).json(err);
     }
+})
+
+router.post("/search", async (req, res, next) => {
+    const title = req.body; // gets the event query and the specific method of searching
+    var query = title.title;
+    try
+    {
+        const events = await Event.find({'title': {'$regex': query,$options:'i'}}).exec();
+        res.status(200).json(events);
+    }
+    catch(err)
+    {
+        res.status(500).json(err);
+    }
+
 })
 
 module.exports = router;

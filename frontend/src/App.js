@@ -6,6 +6,10 @@ import CreatePage from './pages/CreatePage';
 import PreferencePage from './pages/PreferencePage';
 import MapPage from './pages/MapPage';
 import CalendarPage from './pages/CalendarPage';
+<<<<<<< HEAD
+=======
+import VerifyPage from './pages/VerifyPage';
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
 import SettingsPage from './pages/SettingsPage';
 import UpdatePrefPage from './pages/UpdatePrefPage';
 
@@ -25,6 +29,9 @@ function App() {
         </Route>
         <Route path="/signup" exact>
           <CreatePage />
+        </Route>
+        <Route path="/verify" exact>
+          <VerifyPage />
         </Route>
         <Route path="/preferences" exact>
           <PreferencePage />

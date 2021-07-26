@@ -180,6 +180,11 @@ function Map() {
         catch(err) {
             console.log(err);
         }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
     }
 
     // Adds a like to an event
@@ -374,6 +379,7 @@ function Map() {
                         }}
                     >
                         {!edit && 
+<<<<<<< HEAD
                             <div className="display-form" id="result-popup">
                                 <h4 className="form-header">{events.title}</h4>
                                 <label className="result-label">Address</label>
@@ -405,6 +411,25 @@ function Map() {
                                         edit
                                     </button>
                                 }
+=======
+                            <div className="addEvent-form" id="result-popup">
+                                <h4 className="form-header">{events.title}</h4>
+                                <label className="result-label">Address</label>
+                                <p>{events.address}</p>
+                                <p>startTime: {events.startTime}</p>
+                                <p>endTime: {events.endTime}</p>
+                                <p>capacity: {events.capacity}</p>
+                                <label>Description</label>
+                                <p>{events.description}</p>
+                                <p>createdBy: {events.createdBy}</p>
+                                {/* Use the useState above for likes to update the 
+                                    amount of likes a post has and update the database
+                                    accordingly */}
+                                <button className="res-btn" id="likes-btn" 
+                                onClick={handleLike.bind(null, events._id)}
+
+                                >likes: {events.likes}</button>
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                 {currentUser === events.createdBy && 
                                     <button className="res-btn" id="delete-btn"
                                         onClick={() => 
@@ -419,6 +444,16 @@ function Map() {
                                         delete
                                     </button>
                                 }
+<<<<<<< HEAD
+=======
+                                {currentUser === events.createdBy && 
+                                    <button className="res-btn" id="edit-btn"
+                                        onClick={() => setEdit(true)}
+                                    >
+                                        edit
+                                    </button>
+                                }
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                             </div>
                         }
                         {edit && 
@@ -438,11 +473,18 @@ function Map() {
                                     <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
                                         <option id="cat-options" value="Music">Music</option>
                                         <option id="cat-options" value="Studying">Studying</option>
+<<<<<<< HEAD
                                         <option id="cat-options" value="Arts & Culture">Arts & Culture</option>
                                         <option id="cat-options" value="Shopping">Shopping</option>
                                         <option id="cat-options" value="Science">Science</option>
                                         <option id="cat-options" value="Sports">Sports</option>
                                         <option id="cat-options" value="Social">Social</option>
+=======
+                                        <option id="cat-options" value="Arts/Culture">Arts & Culture</option>
+                                        <option id="cat-options" value="Shopping">Shopping</option>
+                                        <option id="cat-options" value="Science">Science</option>
+                                        <option id="cat-options" value="Sports">Sports</option>
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     </select>
                                     </label>
                                     {/* <label className="label" id="add-label">address:
@@ -544,10 +586,17 @@ function Map() {
                                         <option className="time-options" value="58">58</option>
                                         <option className="time-options" value="59">59</option>
                                     </select>
+<<<<<<< HEAD
                                     {/* <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
                                         <option className="time-options" value="AM">AM</option>
                                         <option className="time-options" value="PM">PM</option>
                                     </select> */}
+=======
+                                    <select className="time" id="am/pm" onChange={(e) => setStartAMPM(e.target.value)}>
+                                        <option className="time-options" value="AM">AM</option>
+                                        <option className="time-options" value="PM">PM</option>
+                                    </select>
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     </label>
                                     <label className="label" id="endTime-label">end time:
                                     <select className="time" id="time-hour-select" onChange={(e) => setEndHour(e.target.value)}>
@@ -626,10 +675,17 @@ function Map() {
                                         <option className="time-options" value="58">58</option>
                                         <option className="time-options" value="59">59</option>
                                     </select>
+<<<<<<< HEAD
                                     {/* <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
                                         <option className="time-options" value="AM">AM</option>
                                         <option className="time-options" value="PM">PM</option>
                                     </select> */}
+=======
+                                    <select className="time" id="am/pm" onChange={(e) => setEndAMPM(e.target.value)}>
+                                        <option className="time-options" value="AM">AM</option>
+                                        <option className="time-options" value="PM">PM</option>
+                                    </select>
+>>>>>>> 1210dd8a5756e4a5280edf665b0d101fea0d896a
                                     </label>
                                     <label className="label" id="desc-label" >description:</label>
                                     <textarea 
