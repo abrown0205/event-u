@@ -16,6 +16,7 @@ import {
     isExists
   } from "date-fns";
 import useOnclickOutside from "react-cool-onclickoutside";
+import ConfirmDelete from 'ConfirmDelete.js';
 
 var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);

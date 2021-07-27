@@ -22,7 +22,7 @@ router.post("/editevent", async (req, res, next) => {
         const update = {
             title: editPayload.title,
             category: editPayload.category,
-            address: editPayload.category,
+            address: editPayload.address,
             lat: editPayload.lat,
             long: editPayload.long,
             startTime: editPayload.startTime,
