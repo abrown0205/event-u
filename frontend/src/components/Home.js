@@ -487,12 +487,13 @@ function Events() {
 
     return(
         <div className="myEvents">
-            <br /><br /><br />
             <h1 id="eventsHeader">My Events</h1>
+            <div className="topEventsContainer">
             <div id="postContainer" onClick={() => displayContent(a => !a)} value={name}>
                 <button id="postButton"><FontAwesomeIcon icon={faPlus}/></button>
             </div>
             <div className="vl"></div>
+            </div>
             <div className="eventHolder">
                 <ul className="eventList">
                     {/*<button className="refreshButton" onClick={fetchEvents}><FontAwesomeIcon icon={faSync} /></button>*/}
@@ -503,6 +504,7 @@ function Events() {
                             <h2 className="itemCreator">Posted by: {item.createdBy}</h2>
                             <h3 className="itemDesc">{item.description}</h3>
                             <h3 className="itemAddress">{item.address}</h3>
+                            <h3 className="itemDate">{item.date}</h3>
                             <h3 className="itemTime">{item.startTime} to {item.endTime}</h3>
                             {(item.createdBy===ud.username) &&
                                 <div>
@@ -533,6 +535,7 @@ function Events() {
                                                             <option id="cat-options" value="Music">Music</option>
                                                             <option id="cat-options" value="Shopping">Shopping</option>
                                                             <option id="cat-options" value="Studying">Studying</option>
+                                                            <option id="cat-options" value="Social">Social</option>
                                                         </select>
                                                     </label>
                                                     <label className="label" id="add-label">address:
@@ -863,6 +866,7 @@ function Events() {
                                     <option id="cat-options" value="Music">Music</option>
                                     <option id="cat-options" value="Shopping">Shopping</option>
                                     <option id="cat-options" value="Studying">Studying</option>
+                                    <option id="cat-options" value="Social">Social</option>
                                 </select>
                             </label>
                             <label className="label" id="add-label">address:
@@ -1160,7 +1164,6 @@ function Events() {
                 </div>
             </animated.div>
 
-            
         </div>
     );
 };

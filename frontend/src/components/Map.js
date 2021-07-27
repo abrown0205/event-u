@@ -218,6 +218,13 @@ function Map() {
             const res = await axios.post(url, eventDelete);
             console.log("Item successfully deleted");
             console.log(events);
+            var x = events;
+            for(var i = 0; i < x.length; i++) {
+                if(id == x[i]._id) {
+                    x.splice(i, 1);
+                }
+            }
+            setEvents(x);
             setConfirmDialog({
                 ...confirmDialog,
                 isOpen: false
