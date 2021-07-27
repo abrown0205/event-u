@@ -86,7 +86,7 @@ router.post("/login", async (req, res, next) => {
 
     if (!user) {
       console.log('here');
-      res.status(400).json({ usernamenotfound: "User not found" });
+      res.status(400).json({ error: "User not found" });
     }
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -113,7 +113,7 @@ router.post("/login", async (req, res, next) => {
         res.status(200).json(ret);
       } 
       else {
-        res.status(400).json({ passwordincorrect: "Password incorrect" });
+        res.status(400).json({ error: "Password incorrect" });
       }
     });
   });

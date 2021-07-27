@@ -307,7 +307,13 @@ function Map() {
             const res = await axios.post(url, eventDelete);
             console.log("Item successfully deleted");
             console.log(events);
-            // setEvents(res.data);
+            var x = events;
+            for(var i = 0; i < x.length; i++) {
+                if(id == x[i]._id) {
+                    x.splice(i, 1);
+                }
+            }
+            setEvents(x);
             setConfirmDialog({
                 ...confirmDialog,
                 isOpen: false
@@ -1097,7 +1103,7 @@ function Map() {
                                     rows="6" 
                                     cols="40"
                                     onChange={(e) => setDescription(e.target.value)}
-                                    />
+                                />
                                 <label className="label" id="cap-label">capacity:
                                 <input 
                                     type="number" 
