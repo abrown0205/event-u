@@ -29,7 +29,8 @@ const UserSchema = new Schema({
             'studying',
             'arts & culture',
             'shopping',
-            'science'
+            'science',
+            'social'
           ],
           description: 'must be one of the enum options'
         }

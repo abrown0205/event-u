@@ -78,12 +78,15 @@ router.post("/register", async (req, res, next) => {
 // @access Public
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
-
+  console.log(username + password);
   // Find user by email
   User.findOne({ username }).then(user => {
     // Check if user exists
+    console.log(user);
+
     if (!user) {
-      return res.status(400).json({ usernamenotfound: "User not found" });
+      console.log('here');
+      res.status(400).json({ usernamenotfound: "User not found" });
     }
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -107,10 +110,10 @@ router.post("/login", async (req, res, next) => {
         catch(e) {
           e = {error:e.message};
         }
-        return res.status(200).json(ret);
+        res.status(200).json(ret);
       } 
       else {
-        return res.status(400).json({ passwordincorrect: "Password incorrect" });
+        res.status(400).json({ passwordincorrect: "Password incorrect" });
       }
     });
   });
@@ -146,45 +149,7 @@ router.post("/preferences", async (req, res, next) => {
   });
 });
 
-router.post("/activate", async (req, res, next) => {
-  isActive = true;
 
-  const { username} = req.body;
-  User.findOne({ username }).then(user => {
-    // Check if user exists
-    if (!user) {
-      return res.status(400).json({ usernamenotfound: "User not found" }); 
-    }
-
-    let query = {username:username};
-    let update = {active:true};
-    User.findOneAndUpdate(query, update).then(user => {
-      // Check if user exists
-      var ret;
-
-      var firstName = user.firstName;
-      var lastName = user.lastName;
-      var userId = user._id;
-      var uname = user.username;
-      var attendedEvents = user.attendedEvents;
-      var likedEvents = user.likedEvents;
-      var email = user.email;
-      var active = user.active;
-      var activationCode = user.activationCode;
-      var preferences = user.preferences;
-
-      try {
-        const token = require("../../createJWT.js");
-        ret = token.createToken( firstName, lastName, userId, uname, preferences, attendedEvents, likedEvents, email, active, activationCode );
-      }
-      catch(e) {
-        console.log(e);
-      }
-      
-      res.status(200).json(ret);
-    });
-  });
-});
 
 router.post("/activate", async (req, res, next) => {
   const { username, active} = req.body;
@@ -367,22 +332,30 @@ router.post("/editUser", async (req, res, next) => {
   const { _id, profile } = req.body;
   let query = { _id: _id };
   let passwd = profile.password.toString();
-  // console.log(passwd);
-
-  // hashes password
-  const password = await hashedPassword(passwd, 10);
-
-  // The update that will take place
-  const update = {
-    firstName: profile.firstName,
-    lastName: profile.lastName,
-    email: profile.email,
-    username: profile.username,
-    password: password,
+  let update;
+  if(passwd.length == 0) {
+      // The update that will take place
+    update = {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      username: profile.username,
+    }
+  }
+  else {
+      // hashes password
+    const password = await hashedPassword(passwd, 10);
+      // The update that will take place
+    update = {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      username: profile.username,
+      password: password,
+    }
   }
 
-  // console.log(update);
-  // console.log(query);
+
   
   // Finds the user and updates the corresponding info
   // Then, creates a jwt token and stores it.

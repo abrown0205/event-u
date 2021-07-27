@@ -8,7 +8,9 @@
     left: 0;
     background-color: #000000;
     background-image: linear-gradient(315deg, #000000 0%, #1b1b1b 74%);
-    height: 110%;
+    height: auto;
+    height: 180%;
+    overflow-y: hidden;
 }
 
 .homeBg {
@@ -22,6 +24,10 @@
     width: 100%;
     background: white;
     z-index: 6;
+}
+
+#editForm {
+
 }
 
 .topBar {
@@ -119,8 +125,8 @@
 }
 
 .eventItem {
-    height: 175px;
-    width: 175px;
+    height: 140px;
+    width: 140px;
     border-radius: 10px;
     border: 1px solid #FAED26;
     float: left;
@@ -150,12 +156,12 @@
 
 .categoryIcon {
     color: #FAED26;
-    font-size: 120px;
     margin: 0;
     text-align: center;
     display: block;
-    margin-left: 20%;
-    margin-top: 10px;
+    margin-left: 22.5%;
+    margin-top: 5px;
+    font-size: 90px;
 }
 
 #feed {
@@ -225,18 +231,25 @@
     width: 25%;
 }
 
-.eventList {
-    float: right;
-    width: 75%;
-    margin-right: 7.5%;
+.eventHolder {
     background-color: #000;
     background-image: linear-gradient(
         315deg, #555555 0%,
         #858585 74%
     );
-    padding-bottom: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    float: right;
+    width: 75%;
+    margin-right: 7.5%;
+    
     border-radius: 25px;
+}
+
+.eventList {
     position: relative;
+    height: 400px;
+    overflow: scroll;
 }
 
 .refreshButton {
@@ -634,6 +647,9 @@
         #858585 74%
     );
     border-radius: 25px;
+    position: absolute;
+    top: 250px;
+    left: 10%;
 }
 
 .listHeader {
@@ -643,7 +659,8 @@
 }
 
 .catEventList {
-    padding-bottom: 30px;
+    overflow: scroll;
+    height: 350px;
 }
 
 .catEventItem {
@@ -697,4 +714,6 @@
 
 #categoryContainer {
     position: relative;
+    padding-bottom: 30px;
 }
+
