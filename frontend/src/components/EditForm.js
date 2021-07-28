@@ -84,29 +84,14 @@ function Events(item) {
 
 
     
-    const handleSubmit = async (e) => {
-        // var newStartHour, newEndHour;
-        // if(startAMPM === "PM"){
-        //     console.log("we in the if startAMPM");
-        //     newStartHour = (parseInt(startHour) + 12);
-        //     setStartHour(newStartHour.toString());
-        // }
-        // if(endAMPM === "PM"){
-        //     console.log("we in the if endAMPM");
-        //     newEndHour = (parseInt(endHour) + 12);
-        //     setEndHour(newEndHour.toString());
-        // }
-        // var startTimeString = year + "-" + month + "-" + day + "T" + startHour + ":" + startMin;
-        // var endTimeString = year + "-" + month + "-" + day + "T" + endHour + ":" + endMin;
-
+    const handleEventUpdate = async (e) => {
         const startTimeString = Year + "-" + Month + "-" + Day + "T" + StartHour + ":" + StartMin;
         const endTimeString = Year + "-" + Month + "-" + Day + "T" + EndHour + ":" + EndMin;
       
 
         startTime = startTimeString;
         endTime = endTimeString;
-       
-        
+
         e.preventDefault();
         if(title === null) {
             setEventMsg("Invalid title");
@@ -120,11 +105,11 @@ function Events(item) {
             setEventMsg("Invalid address");
             return;
         }
-        else if(startTime === null || !isDate(parseISO(startTime))) {
+        else if(startTime === null) {
             setEventMsg("Invalid start time");
             return;
         }
-        else if(endTime === null || !isExists(parseInt(Year),parseInt(Month),parseInt(Day)) ) {
+        else if(endTime === null) {
             setEventMsg("Invalid end time");
             return;
         }
@@ -136,9 +121,9 @@ function Events(item) {
             setEventMsg("Insert a capacity");
             return;
         }
-
-
-        const newEvent = {
+        
+        const event = currentId;
+        const editPayload = {
             title,
             category,
             address,
@@ -151,21 +136,34 @@ function Events(item) {
             // likes,
             capacity,
         }
+        var obj = {event:event,editPayload};
+        var js = JSON.stringify(obj);
 
-        console.log(newEvent);
-        try {
-            const url = bp.buildPath("api/events/newevent");
-
-            const res = await axios.post(url, newEvent);
-            setEvents([...events, res.data]);
-            const addToLike = res.data;
-            handleLike(addToLike._id);
-            setNewPlace(null);
-            setEventMsg('');
-            displayContent(a => !a);
-        } catch(err) {
-            console.log(err)
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/events/editevent'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
         }
+
+        axios(config)
+            .then(function (response) {
+                var res = response.data;
+                if(res.error) {
+                    setEventMsg('Unable to submit, try again');
+                }
+                else {
+                    setEventMsg('');
+                    displayEdit(a => !a);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
     
 
@@ -322,8 +320,8 @@ function Events(item) {
                 <div className="eventPostContainer">
                     <div>
                         <div id="closeForm" onClick={() => displayContent(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
-                        <form className="eventForm" onSubmit={handleSubmit} autoComplete="off">
-                            <h4 className="form-header">Add an Event!</h4>
+                        <form className="eventForm" onSubmit={handleEventUpdate} autoComplete="off">
+                            <h4 className="form-header">Edit Your Event!</h4>
                             <label className="label" id="name-label">title:
                                 <input
                                     type="text"
@@ -629,7 +627,7 @@ function Events(item) {
                                 />
                             </label>
                             <div className="submitContainer">
-                                <button type ="submit" id="submitEvent">Add Event</button>
+                                <button type ="submit" id="submitEvent">Edit Event</button>
                             </div>
                             <span className="eventError">{eventMsg}</span>
                         </form>
@@ -644,7 +642,7 @@ function Events(item) {
 
 
 
-function AddForm()
+function EditForm()
 {
     return(
         <div className="HomePage">
@@ -655,4 +653,4 @@ function AddForm()
     );
 };
 
-export default AddForm;
+export default EditForm;
