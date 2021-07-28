@@ -19,21 +19,22 @@ import {
   } from "date-fns";
 
 var bp = require('./Path.js');
+var Month = format(new Date(), "MM");
+var Day = "01";
+var Year= format(new Date(), "yyyy");
+var StartHour = "12";
+var StartMin = "00";
+var EndHour = "12";
+var EndMin = "00";
+var startTime;
+var endTime;
+
 
 function Map() {
     var storage = require('../tokenStorage.js');
     var testArr = [];
     var _ud = localStorage.getItem('user_data');
     var ud = JSON.parse(_ud);
-    var Month = format(new Date(), "MM");
-    var Day = "01";
-    var Year= format(new Date(), "yyyy");
-    var StartHour = "12";
-    var StartMin = "00";
-    var EndHour = "12";
-    var EndMin = "00";
-    var startTime;
-    var endTime;
     const currentUser = ud.username;
     const [values, setValues] = useState([]);
     const [events, setEvents] = useState([]);
@@ -202,8 +203,8 @@ function Map() {
         const endTimeString = Year + "-" + Month + "-" + Day + "T" + EndHour + ":" + EndMin;
       
 
-        const startTime = startTimeString;
-        const endTime = endTimeString;
+        startTime = startTimeString;
+        endTime = endTimeString;
 
         if(title === null) {
             setEventMsg("Invalid title");
