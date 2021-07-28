@@ -13,10 +13,12 @@ import "./css/calendar.css";
 import useOnclickOutside from "react-cool-onclickoutside";
 import ConfirmDelete from './ConfirmDelete.js';
 import AddForm from './AddForm.js'
+import EditForm from './EditForm.js'
 
 
 var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);
+
 
 
 
@@ -48,6 +50,9 @@ export default function FullDay(props) {
         subTitle: ''
     })
     const [isAddOpen, setIsAddOpen] = useState(false);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [title, setTitle] = useState("notSetBro");
+    const [event, setEvent] = useState(null);
     
     
 
@@ -109,7 +114,60 @@ export default function FullDay(props) {
         }
     }
 
+    //Likes
+    var testArr = [];
 
+    function handleLike(itemId)
+    {
+        var _userd = localStorage.getItem('user_data');        
+        var userd = JSON.parse(_userd);
+        var likedEvents = userd.likedEvents;
+        if(likedEvents.includes(itemId)) { // remove the item from likes if it is there
+            for(var i = 0; i < likedEvents.length; i++) {
+                if( likedEvents[i] === itemId) {
+                    likedEvents.splice(i, 1);
+                }
+            }
+        }
+        else { // add it if it isnt
+            likedEvents.push(itemId);
+        }
+
+        testArr = likedEvents;
+        addLike();
+    }
+
+    const addLike = async event =>
+    {
+        var obj = {username:ud.username,likedEvents:testArr};
+        var js = JSON.stringify(obj);
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/users/likes'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
+        }
+
+        await axios(config)
+            .then(function (response) {
+                var res = response.data;
+                if(res.error) {
+                    console.log(res.error);
+                }
+                else {
+                    storage.storeToken(res);
+                    
+                    var user = {firstName:ud.firstName,lastName:ud.lastName,preferences:ud.preferences,username:ud.username,likedEvents:testArr};
+                    localStorage.setItem('user_data', JSON.stringify(user));
+                    _ud = localStorage.getItem('user_data');
+                    ud = JSON.parse(_ud);
+                }
+            }) 
+    }
     
     
 
@@ -117,25 +175,38 @@ export default function FullDay(props) {
 
     return(
         <div>
+            <div>            
             {/* delete dialog */}
             <ConfirmDelete 
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
             <h1>{format(parseISO(props.date), "MMMM dd")}</h1><br />
-            <button onClick={ () => setIsAddOpen(!isAddOpen)}>add event</button><br/><br/>
+            <button className="calendarButton" onClick={ () => setIsAddOpen(!isAddOpen)}>add event</button><br/><br/>
             <ul className="fullEventList">
             {
                 calEvents.map(event => 
                     <li key={event._id} className="fullListItem">
                         <h2>{event.title} </h2>
-                        <button>like</button> 
-                        <button>edit</button>
+                        <button className="calendarButton" onClick={ () => {
+                                handleLike.bind(null, event._id);
+                                console.log(event.likes);
+                            }
+                        }>like</button>
+
+                        {/* edit button displays if creator */}
+                        {currentUser === event.createdBy &&  
+                            <button className="calendarButton" onClick={ () => {                                     
+                                    setIsEditOpen(!isEditOpen);
+                                    setEvent(event);
+                                }}>edit</button>
+                        }
                         
 
                         {/* delete button displays if creator */}
                         {currentUser === event.createdBy && 
-                            <button  
+                            <button 
+                                className="calendarButton" 
                                 onClick={() => 
                                     setConfirmDialog({
                                         isOpen: true,
@@ -156,21 +227,34 @@ export default function FullDay(props) {
                         {event.address}<br />
                         {event.description}<br />
                         created by {event.createdBy}<br />
-                        likes {event.likes}<br />
-                        capacity {event.capacity}<br />
+                        
+                        {(event.likes === undefined) ? <div>likes 0<br /></div> : <div>likes {event.likes}<br /></div>}
+                        capacity {event.capacity}<br /><br />
+
+                        
+                        
                         
                         
                     </li>        
                 )
             }
             </ul>
+            </div>
 
             {/* Add Event Form */}
             {isAddOpen ? 
-            <div>
+            <div style={{top: "300px"}}>
                 <AddForm/>
             </div>
-            : null}   
+            : null}
+
+            {/* Edit Event Form */}
+            {isEditOpen ? 
+            <div style={{top: "300px"}}>                
+                <EditForm event={event}/>
+            </div>
+            : null}
+
         </div>
     );
 

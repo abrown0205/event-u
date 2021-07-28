@@ -42,7 +42,7 @@ var endTime;
 
 
 
-function Events(item) {
+function Events() {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     var testArr = [];
@@ -647,11 +647,7 @@ function Events(item) {
 function AddForm()
 {
     return(
-        <div className="HomePage">
-            <div className="homeBg">
-                <Events />
-            </div>
-        </div>
+        <Events />
     );
 };
 
