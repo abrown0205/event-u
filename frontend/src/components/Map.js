@@ -465,9 +465,6 @@ function Map() {
                         closeOnClick={false}
                         anchor="left"
                         onClose={() => setCurrentPlaceId(null)}
-                        style ={{
-                            color: "#5a5560"
-                        }}
                     >
                         {!edit && 
                             <div className="display-form" id="result-popup">
