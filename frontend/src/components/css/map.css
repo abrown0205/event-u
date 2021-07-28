@@ -35,10 +35,6 @@ body {
     font-size: 12px;
 }
 
-#new-event {
-    background-color: #5a5560;
-}
-
 .addEvent-form {
     width: 450px;
     height: 600px;
@@ -325,3 +321,26 @@ input[type="text"] {
     font-size: 42px;
 }
 
+.outer-form {
+    border-radius: 40px;
+    background-color: #000000;
+    background-image: linear-gradient(
+        315deg, #555555 0%,
+        #858585 74%
+    );
+    /* color: yellow;
+    z-index: 2; */
+}
+
+/* .mapboxgl-popup-content {
+    border-radius: 40px;
+    background: #5a5560;
+    background-image: linear-gradient(
+        315deg, #555555 0%,
+        #858585 74%
+    );
+} */
+
+/* #new-event {
+    background-color: #5a5560;
+} */
