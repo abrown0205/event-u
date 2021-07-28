@@ -37,41 +37,52 @@ body {
 
 .addEvent-form {
     width: 450px;
-    height: 650px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    position: relative;
+    top: 30px;
 }
- .mapboxgl-popup-close-button {
+
+.display-form {
+    width: 450px;
+    height: 680px;
+    /* background-color: #5a5560; */
+}
+
+#submit-btn {
+    height: 70px;
+    background-color: #FAED26;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    position: relative;
+    top: -50px;
+    margin: 10px;
+}
+
+.mapboxgl-popup-close-button {
      font-size: 40px;
      width: 40px;
  }
 
 .form-header {
+    margin: 0px;
     font-size: 35px;
     text-align: center;
     color: black;
 }
 
 .label {
-    /* display: inline-block; */
-    /* width: 350px; */
-    /* text-align: right; */
     margin: 5px;
     width: max-content;
     
 }
-
-/* .input-field {
-    border: none;
-    margin: 5px;
-    padding: 5px;
-    display: inline-block;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-} */
 
 input[type="text"] {
     padding: 10px;
@@ -147,6 +158,7 @@ input[type="text"] {
     width: 90px;
     background-color: #FAED26;
     border: none;
+    cursor: pointer;
 }
 
 #desc-label {
@@ -157,13 +169,13 @@ input[type="text"] {
 
 #comment-box {
     position: relative;
-    top: -55px;
+    top: -80px;
     font-size: 15px;
 }
 
 #cap-label {
     position: relative;
-    top: -55px;
+    top: -75px;
     color: black;
 }
 
@@ -173,7 +185,7 @@ input[type="text"] {
     width: 45px;
 }
 
-#submit-btn {
+/* #submit-btn {
     height: 60px;
     background-color: #FAED26;
     border: none;
@@ -183,14 +195,72 @@ input[type="text"] {
     border-bottom-right-radius: 10px;
     cursor: pointer;
     font-size: 20px;
+    position: relative;
+    top: 20px;
+    margin: 10px;
+} */
+
+#submit-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
+}
+
+.edit-btns {
+    height: 60px;
+    background-color: #FAED26;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 3px;
+    position: relative;
+    top: -65px;
+}
+
+.edit-btns:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
+}
+
+#edit-title {
+    position: relative;
+    top: -15px;
 }
 
 .result-label {
     border-bottom: .5px solid #FAED26;
-    width: 350px;
+    width: max-content;
     font-size: 20px;
     margin: 3px 0;
     /* color: #FAED26; */
+}
+
+#createdBy {
+    position: relative;
+    top: -30px;
+    
+}
+
+#event-createdBy {
+    position: relative;
+    top: -30px;
+}
+
+#display-desc {
+    width: 400px;
+    height: 100px;
+    overflow: auto;
+}
+
+#display-desc:hover {
+    cursor: auto;
+}
+
+.event-details {
+    margin: 10px 0;
 }
 
 .res-btn {
@@ -202,6 +272,11 @@ input[type="text"] {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     cursor: pointer;
+    /* margin: 0 auto; */
+    display: inline;
+    position: relative;
+    top: 5px;
+    font-size: 17px;
 }
 
 #likes-btn {
@@ -215,9 +290,20 @@ input[type="text"] {
 
 #delete-btn {
     background-color: #FAED26;
+    left: 150px;
 }
 
 #delete-btn:hover {
+    transition: .5s;
+    background-color: #cfc31cfa;
+}
+
+#edit-btn {
+    background-color: #FAED26;
+    left: 140px;
+}
+
+#edit-btn:hover {
     transition: .5s;
     background-color: #cfc31cfa;
 }
@@ -234,3 +320,27 @@ input[type="text"] {
     background-color: black;
     font-size: 42px;
 }
+
+.outer-form {
+    border-radius: 40px;
+    background-color: #000000;
+    background-image: linear-gradient(
+        315deg, #555555 0%,
+        #858585 74%
+    );
+    /* color: yellow;
+    z-index: 2; */
+}
+
+/* .mapboxgl-popup-content {
+    border-radius: 40px;
+    background: #5a5560;
+    background-image: linear-gradient(
+        315deg, #555555 0%,
+        #858585 74%
+    );
+} */
+
+/* #new-event {
+    background-color: #5a5560;
+} */

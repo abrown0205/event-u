@@ -78,6 +78,7 @@ router.post("/register", async (req, res, next) => {
 // @access Public
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
+  var pword = password;
   // Find user by email
   User.findOne({ username }).then(user => {
     // Check if user exists
@@ -86,7 +87,7 @@ router.post("/login", async (req, res, next) => {
       res.status(400).json({ error: "User not found" });
     }
     // Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
+    bcrypt.compare(pword, user.password).then(isMatch => {
       if (isMatch) {
         var firstName = user.firstName;
         var lastName = user.lastName;
