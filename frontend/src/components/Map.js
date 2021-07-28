@@ -475,9 +475,9 @@ function Map() {
                                 <label className="result-label">Address</label>
                                 <p className="event-details">{events.address}</p>
                                 <label className="result-label">Starts</label>
-                                <p className="event-details">{events.startTime}</p>
+                                <p className="event-details">{format(parseISO(events.startTime), "MMMM dd, yyyy hh:MM a")}</p>
                                 <label className="result-label">Ends</label>
-                                <p className="event-details">{events.endTime}</p>
+                                <p className="event-details">{format(parseISO(events.endTime), "hh:MM a")}</p>
                                 <label className="result-label">Capacity</label>
                                 <p className="event-details">{events.capacity}</p>
                                 <label className="result-label">Description</label>

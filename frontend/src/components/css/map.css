@@ -47,7 +47,7 @@ body {
 
 .display-form {
     width: 450px;
-    height: 680px;
+    height: 675px;
     /* background-color: #5a5560; */
 }
 
@@ -76,6 +76,9 @@ body {
     font-size: 35px;
     text-align: center;
     color: black;
+    overflow: auto;
+    height: 50px;
+    width: 400px;
 }
 
 .label {
