@@ -78,14 +78,11 @@ router.post("/register", async (req, res, next) => {
 // @access Public
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
-  console.log(username + password);
   // Find user by email
   User.findOne({ username }).then(user => {
     // Check if user exists
-    console.log(user);
 
     if (!user) {
-      console.log('here');
       res.status(400).json({ error: "User not found" });
     }
     // Check password
@@ -152,7 +149,7 @@ router.post("/preferences", async (req, res, next) => {
 
 
 router.post("/activate", async (req, res, next) => {
-  const { username, active} = req.body;
+  const { username, active } = req.body;
   User.findOne({ username }).then(user => {
     // Check if user exists
     if (!user) {
@@ -222,15 +219,12 @@ router.post('/sendWelcomeEmail', async(req, res, next)  =>{
 
 router.post("/sendPasswordResetEmail", async (req, res, next) => {
   const {username} = req.body;
-  console.log(username);
   var firstName;
   var lastName;
   var email;
   var userName;
   var password;
   User.findOne({username: username}).then(user => {
-    console.log(username);
-    console.log(user);
     firstName = user.firstName;
     lastName = user.lastName;
     email = user.email;
@@ -262,7 +256,6 @@ router.post("/sendPasswordResetEmail", async (req, res, next) => {
                 password: password
             }, 
           }
-          console.log(msg);
           
           sgMail.send(msg).then(() => {
             console.log('Message sent');
@@ -284,7 +277,6 @@ router.post("/likes", async (req, res, next) => {
   let update = {likedEvents:likedEvents};
   User.findOneAndUpdate(query, update).then(user => {
     // Check if user exists
-    console.log(user);
     var ret;
     var firstName = user.firstName;
     var lastName = user.lastName;
@@ -354,9 +346,6 @@ router.post("/editUser", async (req, res, next) => {
       password: password,
     }
   }
-
-
-  
   // Finds the user and updates the corresponding info
   // Then, creates a jwt token and stores it.
   const set = await User.findOneAndUpdate(query, { "$set": update }).then(user => {
@@ -366,10 +355,8 @@ router.post("/editUser", async (req, res, next) => {
     var uname = user.username;
     var attendedEvents = profile.attendedEvents;
     var likedEvents = user.likedEvents;
-    console.log(likedEvents);
     var preferences = user.preferences;
     var email = user.email;
-    console.log("Name: " +  firstName);
 
     try {
       const token = require("../../createJWT.js");
