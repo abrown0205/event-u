@@ -348,3 +348,11 @@ input[type="text"] {
 /* #new-event {
     background-color: #5a5560;
 } */
+
+.mapboxgl-canvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
