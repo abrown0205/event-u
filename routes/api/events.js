@@ -18,8 +18,6 @@ router.post("/editevent", async (req, res, next) => {
     try {
         const {event, editPayload} = req.body;
         let query={_id:event};
-        console.log(query);
-        console.log(editPayload);
         const update = {
             title: editPayload.title,
             category: editPayload.category,
@@ -32,8 +30,7 @@ router.post("/editevent", async (req, res, next) => {
             description: editPayload.description,
             capacity: editPayload.capacity
         }
-        console.log(update);
-        const updatedEvent = await Event.findOneAndUpdate(query, {"$set": update}).exec();
+        const updatedEvent = Event.findOneAndUpdate(query, {"$set": update}).exec();
         res.status(200).json(updatedEvent);
     }
     catch(err) {
@@ -89,7 +86,6 @@ router.post("/findcat", async (req, res, next) => {
     try {
         const {category} = req.body;
         const events = await Event.find({category:category}).exec();
-        console.log(events);
         res.status(200).json(events);
     }
     catch(err) {
@@ -131,7 +127,6 @@ router.post("/userevents", async (req, res, next) => {
     // utilized for when the page updates with new liked events
     try {
         const {likedEvents} = req.body;
-        console.log(likedEvents);
         const events = await Event.find(
             {'_id': {$in: likedEvents}}
         );
@@ -172,7 +167,6 @@ router.post("/delete", async (req, res) => {
                 if(docs === null){
                     res.status(500).json("error: no event found with id: " + req.body._id)
                 } else {
-                    console.log("Deleted Event : ", docs);
                     res.status(200).json("Deleted event with id: " + req.body._id);
                 }
 

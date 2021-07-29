@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import { faPlus, faTimesCircle, faRunning, faFlask, faUserGraduate, faPalette, faGuitar, faShoppingBag, faSearch, faHeart, faSync } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   addDays,
   format,
@@ -113,10 +115,10 @@ export default function Month(props) {
 
         <div>
             {isOpen ? <div className="fullday">
-                <span className="closeFullDay" onClick={() => setIsOpen(false)}>
-                    x
-                </span>
+                
+                <div id="closeFullDay" onClick={() => setIsOpen(!isOpen)}><FontAwesomeIcon icon={faTimesCircle} /></div>
                 <FullDay date={format(fullDay, apiDateFormat)} />
+                
             </div> : null}
 
             <div className="calendargrid">
@@ -132,7 +134,7 @@ export default function Month(props) {
                 {/* Days in the Calendar */}
                 {
                     month.map((day) => (
-                        <div onClick={() => {setIsOpen(!isOpen); setFullDay(day)}}>
+                        <div key={format(day, "y-MM-dd")} onClick={() => {setIsOpen(!isOpen); setFullDay(day)}}>
                         <div className={`${dayColor(day)}`} key={format(day, "yyyy-MM-dd")}>
                             
                             <span>{format(day, "dd")}</span>

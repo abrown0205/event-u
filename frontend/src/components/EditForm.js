@@ -17,6 +17,7 @@ import {
   } from "date-fns";
 import useOnclickOutside from "react-cool-onclickoutside";
 
+
 var _ud = localStorage.getItem('user_data');
 var ud = JSON.parse(_ud);
 
@@ -36,13 +37,22 @@ var StartHour = "12";
 var StartMin = "00";
 var EndHour = "12";
 var EndMin = "00";
-var startTime;
-var endTime;
+
+var Title = "unset";
+var Lat;
+var Long;
+var Description;
+var Capacity;
+var EditID;
+var Category;
+var Address;
+var CreatedBy;
 
 
 
 
-function Events() {
+
+export default function EditForm(props) {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
     var testArr = [];
@@ -50,6 +60,7 @@ function Events() {
     const [name, setName] = useState('');
 
     const [contentStatus, displayContent] = React.useState(true);
+    
 
     const contentProps = useSpring({
         opacity: contentStatus ? 1 : 0,
@@ -62,8 +73,25 @@ function Events() {
         marginTop: editStatus ? -250 : -1000
     })
 
-    const [userEvents, setUserEvents] = useState([]);
-    //var userLiked = ud.likedEvents;
+    //Load Props into Globals
+    Title = props.event.title;
+    Description = props.event.description;
+    Category = props.event.category;
+    Lat = props.event.lat;
+    Long = props.event.long;
+    Month = format(parseISO(props.event.startTime), "MM");
+    Day = format(parseISO(props.event.startTime), "dd");
+    Year = format(parseISO(props.event.startTime), "yyyy");
+    Address = props.event.address;
+    StartHour = format(parseISO(props.event.startTime), "HH");
+    StartMin = format(parseISO(props.event.startTime), "mm");
+    EndHour = format(parseISO(props.event.endTime), "HH");
+    EndMin = format(parseISO(props.event.endTime), "mm");
+    Capacity = props.event.capacity;
+    EditID = props.event._id;
+    CreatedBy = props.event.createdBy;
+    console.log(EditID);
+
 
     var createdBy = ud.username;
     const [eventToDelete, setEventToDelete] = useState('');
@@ -71,42 +99,49 @@ function Events() {
     const [events, setEvents] = useState([]);
     const [currentPlaceId, setCurrentPlaceId] = useState(null);
     const [newPlace, setNewPlace] = useState(null);
-    const [title, setTitle] = useState(null);
-    const [lat, setLat] = useState(null);
-    const [long, setLong] = useState(null);
-    const [category, setCategory] = useState(null);
-    const [address, setAddress] = useState(null);    
-    const [description, setDescription] = useState(null);
+    const [title, setTitle] = useState(Title);
+    const [lat, setLat] = useState(Lat);
+    const [long, setLong] = useState(Long);
+    const [category, setCategory] = useState(Category);
+    const [address, setAddress] = useState(Address);
+    const [startHour, setStartHour] = useState(StartHour);
+    const [startMin, setStartMin] = useState(StartMin);
+    const [startAMPM, setStartAMPM] = useState('AM');
+    const [startTime, setStartTime] = useState(null);
+    const [endHour, setEndHour] = useState(EndHour);
+    const [endMin, setEndMin] = useState(EndMin);
+    const [endAMPM, setEndAMPM] = useState('AM');
+    const [endTime, setEndTime] = useState(null);
+    const [description, setDescription] = useState(Description);
     const [likes, setLikes] = useState(0);
-    const [capacity, setCapacity] = useState(0);
+    const [capacity, setCapacity] = useState(Capacity);
     const [eventMsg, setEventMsg] = useState("");
     const [currentId, setCurrentId] = useState();
+    const[year, setYear] = useState(Year);
+    const[month, setMonth] = useState(Month);
+    const[day, setDay] = useState(Day);
+
+    
 
 
     
-    const handleSubmit = async (e) => {
-        // var newStartHour, newEndHour;
-        // if(startAMPM === "PM"){
-        //     console.log("we in the if startAMPM");
-        //     newStartHour = (parseInt(startHour) + 12);
-        //     setStartHour(newStartHour.toString());
-        // }
-        // if(endAMPM === "PM"){
-        //     console.log("we in the if endAMPM");
-        //     newEndHour = (parseInt(endHour) + 12);
-        //     setEndHour(newEndHour.toString());
-        // }
-        // var startTimeString = year + "-" + month + "-" + day + "T" + startHour + ":" + startMin;
-        // var endTimeString = year + "-" + month + "-" + day + "T" + endHour + ":" + endMin;
 
-        const startTimeString = Year + "-" + Month + "-" + Day + "T" + StartHour + ":" + StartMin;
-        const endTimeString = Year + "-" + Month + "-" + Day + "T" + EndHour + ":" + EndMin;
+ 
+ 
+    
+ 
+
+
+
+    
+    const handleEventUpdate = async (e) => {
+        const startTimeString = year + "-" + month + "-" + day + "T" + startHour + ":" + startMin;
+        const endTimeString = year + "-" + month + "-" + day + "T" + endHour + ":" + endMin;
       
 
-        startTime = startTimeString;
-        endTime = endTimeString;
-       
-        
+        var startTime = startTimeString;
+        var endTime = endTimeString;
+
         e.preventDefault();
         if(title === null) {
             setEventMsg("Invalid title");
@@ -120,11 +155,11 @@ function Events() {
             setEventMsg("Invalid address");
             return;
         }
-        else if(startTime === null || !isDate(parseISO(startTime))) {
+        else if(startTime === null) {
             setEventMsg("Invalid start time");
             return;
         }
-        else if(endTime === null || !isExists(parseInt(Year),parseInt(Month),parseInt(Day)) ) {
+        else if(endTime === null) {
             setEventMsg("Invalid end time");
             return;
         }
@@ -136,9 +171,9 @@ function Events() {
             setEventMsg("Insert a capacity");
             return;
         }
-
-
-        const newEvent = {
+        
+        const event = EditID;
+        const editPayload = {
             title,
             category,
             address,
@@ -151,21 +186,39 @@ function Events() {
             // likes,
             capacity,
         }
+        var obj = {event:event,editPayload};
+        var js = JSON.stringify(obj);
 
-        console.log(newEvent);
-        try {
-            const url = bp.buildPath("api/events/newevent");
+        console.log("we made it to generating the event");
+        console.log(obj);
+        console.log(editPayload);
+        console.log("editID: " + EditID);
 
-            const res = await axios.post(url, newEvent);
-            setEvents([...events, res.data]);
-            const addToLike = res.data;
-            handleLike(addToLike._id);
-            setNewPlace(null);
-            setEventMsg('');
-            displayContent(a => !a);
-        } catch(err) {
-            console.log(err)
+        var config =
+        {
+            method: 'post',
+            url: bp.buildPath('api/events/editevent'),
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            data: js
         }
+
+        axios(config)
+            .then(function (response) {
+                var res = response.data;
+                if(res.error) {
+                    setEventMsg('Unable to submit, try again');
+                }
+                else {
+                    setEventMsg('');
+                    displayEdit(a => !a);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
     
 
@@ -223,94 +276,13 @@ function Events() {
         );
     });
 
-    function handleLike(itemId)
-    {
-        var _userd = localStorage.getItem('user_data');
-        var userd = JSON.parse(_userd);
-        var likedEvents = userd.likedEvents;
-        if(likedEvents.includes(itemId)) { // remove the item from likes if it is there
-            for(var i = 0; i < likedEvents.length; i++) {
-                if( likedEvents[i] === itemId) {
-                    likedEvents.splice(i, 1);
-                }
-            }
-        }
-        else { // add it if it isnt
-            likedEvents.push(itemId);
-        }
-
-        testArr = likedEvents;
-        addLike();
-    }
-
-    const addLike = async event =>
-    {
-        var obj = {username:ud.username,likedEvents:testArr};
-        var js = JSON.stringify(obj);
-        var config =
-        {
-            method: 'post',
-            url: bp.buildPath('api/users/likes'),
-            headers:
-            {
-                'Content-Type': 'application/json',
-            },
-            data: js
-        }
-
-        await axios(config)
-            .then(function (response) {
-                var res = response.data;
-                if(res.error) {
-                    console.log(res.error);
-                }
-                else {
-                    storage.storeToken(res);
-
-                    var user = {firstName:ud.firstName,lastName:ud.lastName,preferences:ud.preferences,username:ud.username,likedEvents:testArr};
-                    localStorage.setItem('user_data', JSON.stringify(user));
-                    _ud = localStorage.getItem('user_data');
-                    ud = JSON.parse(_ud);
-                }
-            })
-    }
+    
 
 
 
 
-    function getIcon(preferenceName)
-    {
-        if(preferenceName === 'Sports')
-            return faRunning;
-        else if(preferenceName === 'Science')
-            return faFlask;
-        else if(preferenceName === 'Studying')
-            return faUserGraduate;
-        else if(preferenceName === 'Arts & Culture')
-            return faPalette;
-        else if(preferenceName === 'Music')
-            return faGuitar;
-        else if(preferenceName === 'Shopping')
-            return faShoppingBag;
-    }
 
-    function compareIds(x)
-    {
-        if(x === currentId)
-            return true;
-        return false;
-    }
-
-    function handleOpenEdit(itemId, itemAddress, itemTitle, itemCategory, itemCapacity, itemDesc)
-    {
-        displayEdit(a => !a);
-        setCurrentId(itemId);
-        setAddress(itemAddress);
-        setTitle(itemTitle);
-        setCategory(itemCategory);
-        setCapacity(itemCapacity);
-        setDescription(itemDesc)
-    }
+  
 
     return(
         <div >
@@ -322,19 +294,20 @@ function Events() {
                 <div className="eventPostContainer">
                     <div>
                         <div id="closeForm" onClick={() => displayContent(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
-                        <form className="eventForm" onSubmit={handleSubmit} autoComplete="off">
-                            <h4 className="form-header">Add an Event!</h4>
+                        <form className="eventForm" onSubmit={handleEventUpdate} autoComplete="off">
+                            <h4 className="form-header">Edit Your Event!</h4>
                             <label className="label" id="name-label">title:
                                 <input
                                     type="text"
                                     className="input-field"
                                     id="name-input"
                                     placeholder="Enter title..."
+                                    defaultValue = {Title}
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </label>
                             <label className="label" id="cat-label">category:
-                                <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
+                                <select id="options-list" defaultValue={Category} onChange={(e) => setCategory(e.target.value)}>
                                     <option id="cat-options" value={null}></option>
                                     <option id="cat-options" value="Arts & Culture">Arts & Culture</option>
                                     <option id="cat-options" value="Sports">Sports</option>
@@ -342,7 +315,6 @@ function Events() {
                                     <option id="cat-options" value="Music">Music</option>
                                     <option id="cat-options" value="Shopping">Shopping</option>
                                     <option id="cat-options" value="Studying">Studying</option>
-                                    <option id="cat-options" value="Social">Social</option>
                                 </select>
                             </label>
                             <label className="label" id="add-label">address:
@@ -352,6 +324,7 @@ function Events() {
                                     className="input-field"
                                     id="add-input"
                                     placeholder="Enter address..."
+                                    defaultValue = {Address}
                                     onChange={handleAddressInput}
                                     />
                                     {status === "OK" && <ul className="addressUl">{renderSuggestions()}</ul>}
@@ -359,7 +332,7 @@ function Events() {
                             </label>
 
                             <label className="label" id="desc-label">Date:
-                                <select className="time" id="date-month-select" defaultValue={format(new Date(), "MM")} onChange={(e) => Month = e.target.value}>
+                                <select className="time" id="date-month-select" defaultValue={Month} onChange={(e) => setMonth(e.target.value)}>
                                     <option className="date-options" value="01">January</option>
                                     <option className="date-options" value="02">February</option>
                                     <option className="date-options" value="03">March</option>
@@ -373,7 +346,7 @@ function Events() {
                                     <option className="date-options" value="11">November</option>
                                     <option className="date-options" value="12">December</option>
                                 </select>
-                                <select className="time" id="date-month-select" defaultValue={format(new Date(), "dd")} onChange={(e) => Day = e.target.value}>
+                                <select className="time" id="date-month-select" defaultValue={Day} onChange={(e) => setDay(e.target.value)}>
                                     <option className="date-options" value="01">01</option>
                                     <option className="date-options" value="02">02</option>
                                     <option className="date-options" value="03">03</option>
@@ -406,7 +379,7 @@ function Events() {
                                     <option className="date-options" value="30">30</option>
                                     <option className="date-options" value="31">31</option>
                                 </select>
-                                <select className="time" id="date-month-select" defaultValue={format(new Date(), "yyyy")} onChange={(e) => Year = e.target.value}>
+                                <select className="time" id="date-month-select" defaultValue={Year} onChange={(e) => setYear(e.target.value)}>
                                     <option className="date-options" value="2021">2021</option>
                                     <option className="date-options" value="2022">2022</option>
                                     <option className="date-options" value="2023">2023</option>
@@ -423,7 +396,7 @@ function Events() {
                             
                             
                             <label className="label" id="startTime-label">start time:
-                                <select className="time" defaultValue="12" id="time-hour-select" onChange={(e) => StartHour = e.target.value}>
+                                <select className="time" defaultValue={StartHour} id="time-hour-select"  onChange={(e) => setStartHour(e.target.value)}>
                                     <option className="time-options" value="00">12 AM</option>
                                     <option className="time-options" value="01">1 AM</option>
                                     <option className="time-options" value="02">2 AM</option>
@@ -450,7 +423,7 @@ function Events() {
                                     <option className="time-options" value="23">11 PM</option>                                  
                                     
                                 </select>
-                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => StartMin = e.target.value}>
+                                <select className="time" id="time-min-select" defaultValue={StartMin} onChange={(e) => setStartMin(e.target.value)}>
                                     <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
@@ -518,7 +491,7 @@ function Events() {
                                 </select> */}
                             </label>
                             <label className="label" id="endTime-label">end time:
-                                <select className="time" id="time-hour-select" defaultValue="12" onChange={(e) => EndHour = e.target.value}>
+                                <select className="time" id="time-hour-select" defaultValue={EndHour} onChange={(e) => setEndHour(e.target.value)}>
                                 <option className="time-options" value="00">12 AM</option>
                                     <option className="time-options" value="01">1 AM</option>
                                     <option className="time-options" value="02">2 AM</option>
@@ -544,7 +517,7 @@ function Events() {
                                     <option className="time-options" value="22">10 PM</option>
                                     <option className="time-options" value="23">11 PM</option>  
                                 </select>
-                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => EndMin = e.target.value}>
+                                <select className="time" id="time-min-select" defaultValue={EndMin} onChange={(e) => setEndMin(e.target.value)}>
                                 <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
@@ -616,6 +589,7 @@ function Events() {
                             <textarea
                                 id="comment-box"
                                 placeholder="Comments..."
+                                defaultValue = {Description}
                                 rows="9"
                                 cols="40"
                                 onChange={(e) => setDescription(e.target.value)}
@@ -626,11 +600,12 @@ function Events() {
                                     className="input-field"
                                     id="cap-input"
                                     min="0"
+                                    defaultValue={Capacity}
                                     onChange={(e) => setCapacity(e.target.value)}
                                 />
                             </label>
                             <div className="submitContainer">
-                                <button type ="submit" id="submitEvent">Add Event</button>
+                                <button type ="submit" id="submitEvent">Edit Event</button>
                             </div>
                             <span className="eventError">{eventMsg}</span>
                         </form>
@@ -641,15 +616,3 @@ function Events() {
         </div>
     );
 };
-
-
-
-
-function AddForm()
-{
-    return(
-        <Events />
-    );
-};
-
-export default AddForm;
