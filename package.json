@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
     "@sendgrid/mail": "^7.4.5",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -26,10 +28,8 @@
     "mongoose": "^5.13.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "sendgrid-mail": "^0.0.3",
     "random-seed": "^0.3.0",
     "validator": "^13.6.0"
-  },
-  "devDependencies": {
-    "jest": "^27.0.6"
   }
 }
