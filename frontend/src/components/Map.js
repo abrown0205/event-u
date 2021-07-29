@@ -1,10 +1,7 @@
 import React from 'react'
 import ReactMapGL, { Marker, Popup } from 'react-map-gl'
 // import 'mapbox-gl/dist/mapbox-gl.css';
-// import mapboxgl from 'mapbox-gl';
-
-// // eslint-disable-next-line import/no-webpack-loader-syntax
-// mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+import mapboxgl from 'mapbox-gl';
 import { useState, useEffect } from 'react';
 import "../components/css/map.css";
 import { AirportShuttle, Room, Star } from '@material-ui/icons'
@@ -26,6 +23,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 //mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 // eslint-disable-next-line; 
 // import '/no-webpack-loader-syntax';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 
 var bp = require('./Path.js');
