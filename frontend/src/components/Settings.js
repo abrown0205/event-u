@@ -110,46 +110,59 @@ function Settings() {
             <animated.div style={divProps} className="settings-form">
                 <h2 id="title">Edit Form</h2>
                 <form>
-                    <label className="input-label">First Name</label>
-                    <input 
-                        type="text"
-                        placeholder="Change first name"
-                        className="input-field"
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <label className="input-label">Last Name</label>
-                    <input 
-                        type="text"
-                        placeholder="Change last name"
-                        className="input-field"
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
-                    <label className="input-label">Email</label>
-                    <input 
-                        type="text"
-                        placeholder="Change email"
-                        className="input-field"
-                        id="email-text"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <label className="input-label">Username</label>
-                    <input 
-                        type="text"
-                        placeholder="Change username"
-                        className="input-field"
-                        onChange={(e) => setUserName(e.target.value)}
-                    />
-                    <label className="input-label">Password</label>
-                    <input 
-                        type="text"
-                        placeholder="Change password"
-                        className="input-field"
-                        id="pass-text"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <button style={props} className="settings-btn" id="set-preferences" onClick={onClickUpdatePref}>preferences</button>
+                    <label className="input-label">First Name
+                        <input 
+                            type="text"
+                            placeholder="Change first name"
+                            className="input-field"
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                    </label>
+                    <label className="input-label">Last Name
+                        <input 
+                            type="text"
+                            placeholder="Change last name"
+                            className="input-field"
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </label>
+                    <label className="input-label">Email
+                        <input 
+                            type="text"
+                            placeholder="Change email"
+                            className="input-field"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </label>
+                    <label className="input-label">Username
+                        <input 
+                            type="text"
+                            placeholder="Change username"
+                            className="input-field"
+                            onChange={(e) => setUserName(e.target.value)}
+                        />
+                    </label>
+                    <button className="password-btn" 
+                        onClick={(e) => changePassword(e, true)}
+                        onDoubleClick={(e) => changePassword(e, false)}
+                        >
+                            Change Password
+                        </button>
+                    {passOption && 
+                        <label className="input-label">Password
+                            <input 
+                                type="text"
+                                placeholder="Change password"
+                                className="input-field"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </label>
+                    }
+                    <div className="settingsBtnContain">
+                    <button className="settings-btn" id="set-preferences" onClick={onClickUpdatePref}>preferences</button>
                     <button className="settings-btn" id="set-cancel" onClick={onClickCancel}>Cancel</button>
-                    <animated.button className="settings-btn" id="set-save" onClick={(e) => changeSettings(e)}>Save</animated.button>
+                    <button className="settings-btn" id="set-save" onClick={(e) => changeSettings(e)}>Save</button>
+                    </div>
                 </form>
             </animated.div>
         </div>

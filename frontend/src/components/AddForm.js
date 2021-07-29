@@ -314,10 +314,6 @@ function Events() {
 
     return(
         <div >
-            
-            
-
-
             <animated.div className="addEvent" style={contentProps}>
                 <div className="eventPostContainer">
                     <div>
@@ -346,17 +342,18 @@ function Events() {
                                 </select>
                             </label>
                             <label className="label" id="add-label">address:
-                                <div ref={ref}>
-                                    <input
-                                    type="text"
-                                    className="input-field"
-                                    id="add-input"
-                                    placeholder="Enter address..."
-                                    onChange={handleAddressInput}
-                                    />
-                                    {status === "OK" && <ul className="addressUl">{renderSuggestions()}</ul>}
-                                </div>
-                            </label>
+                                    <div ref={ref}>
+                                        <input
+                                        value={value}
+                                        type="text" 
+                                        className="input-field" 
+                                        id="add-input" 
+                                        placeholder="Enter address..."
+                                        onChange={handleAddressInput}
+                                        />
+                                        {status === "OK" && <ul className="addressUl">{renderSuggestions()}</ul>}
+                                    </div>
+                                </label>
 
                             <label className="label" id="desc-label">Date:
                                 <select className="time" id="date-month-select" defaultValue={format(new Date(), "MM")} onChange={(e) => Month = e.target.value}>
@@ -612,14 +609,15 @@ function Events() {
                                 </select> */}
                             </label>                          
 
-                            <label className="label" id="desc-label" >description:</label>
+                            <label className="label" id="desc-label" >description:
                             <textarea
                                 id="comment-box"
                                 placeholder="Comments..."
-                                rows="9"
+                                rows="3"
                                 cols="40"
                                 onChange={(e) => setDescription(e.target.value)}
-                            />
+                            /></label>
+                            
                             <label className="label" id="cap-label">capacity:
                                 <input
                                     type="number"
@@ -637,7 +635,6 @@ function Events() {
                     </div>
                 </div>
             </animated.div>
-
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactMapGL, { Marker, Popup } from 'react-map-gl'
 // import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import "../components/css/map.css";
 import { AirportShuttle, Room, Star } from '@material-ui/icons'
 import axios from 'axios';
@@ -20,11 +20,6 @@ import {
     isExists
   } from "date-fns";
 import 'mapbox-gl/dist/mapbox-gl.css';
-//mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
-// eslint-disable-next-line; 
-// import '/no-webpack-loader-syntax';
-// eslint-disable-next-line import/no-webpack-loader-syntax
-mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 
 // comment
@@ -69,6 +64,7 @@ function Map() {
         title: '', 
         subTitle: ''
     })
+    const mapContainer = useRef(null);
 
     const [viewPort, setViewPort] = useState({
         latitude: 28.60236,
@@ -438,8 +434,8 @@ function Map() {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
+            <div className="mapContainer">
             <ReactMapGL
-
                 // The following three lines of code displays the map along with the appropriate styling.
                 mapboxApiAccessToken={"pk.eyJ1IjoiZWxyNDI0IiwiYSI6ImNrcXM5cGdvZTFtbjUybnFsZTF1N2c5bmkifQ.1e0zeu37TrBHe_TiqmjNVw"}
                 mapStyle="mapbox://styles/elr424/ckqsacra23gy117r0j9otwx4x"
@@ -448,6 +444,7 @@ function Map() {
                 // Enables the user to move around on the map. Only temporary.
                 onViewportChange={(newView) => setViewPort(newView)}
                 onDblClick = {handleAddClick}
+                ref={mapContainer}
             >
                 {/* Places all events stored in the database onto the map*/}
                 {events.map(events =>(
@@ -1169,6 +1166,7 @@ function Map() {
                     </Popup>
                 )} 
             </ReactMapGL>
+            </div>
         </div>
 
     )
