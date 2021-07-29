@@ -46,8 +46,9 @@ body {
 }
 
 .display-form {
-    width: 450px;
-    height: 680px;
+    width: 470px;
+    height: 700px;
+    overflow: auto;
     /* background-color: #5a5560; */
 }
 
@@ -76,6 +77,9 @@ body {
     font-size: 35px;
     text-align: center;
     color: black;
+    /* overflow: auto; */
+    /* height: 50px;
+    width: 400px; */
 }
 
 .label {
@@ -274,8 +278,8 @@ input[type="text"] {
     cursor: pointer;
     /* margin: 0 auto; */
     display: inline;
-    position: relative;
-    top: 5px;
+    position: absolute;
+    top: 655px;
     font-size: 17px;
 }
 
