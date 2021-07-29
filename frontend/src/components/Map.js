@@ -18,6 +18,9 @@ import {
     isExists
   } from "date-fns";
 
+const mapKey = process.env.REACT_APP_MAPBOXKEY;
+console.log(mapKey);
+
 var bp = require('./Path.js');
 var Month = format(new Date(), "MM");
 var Day = "01";
