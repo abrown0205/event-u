@@ -1,5 +1,10 @@
 import React from 'react'
 import ReactMapGL, { Marker, Popup } from 'react-map-gl'
+// import 'mapbox-gl/dist/mapbox-gl.css';
+// import mapboxgl from 'mapbox-gl';
+
+// // eslint-disable-next-line import/no-webpack-loader-syntax
+// mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 import { useState, useEffect } from 'react';
 import "../components/css/map.css";
 import { AirportShuttle, Room, Star } from '@material-ui/icons'
@@ -17,6 +22,11 @@ import {
     isDate,
     isExists
   } from "date-fns";
+import 'mapbox-gl/dist/mapbox-gl.css';
+//mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+// eslint-disable-next-line; 
+// import '/no-webpack-loader-syntax';
+
 
 var bp = require('./Path.js');
 var Month = format(new Date(), "MM");
