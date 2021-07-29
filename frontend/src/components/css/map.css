@@ -278,8 +278,8 @@ input[type="text"] {
     cursor: pointer;
     /* margin: 0 auto; */
     display: inline;
-    position: relative;
-    top: 5px;
+    position: absolute;
+    top: 655px;
     font-size: 17px;
 }
 

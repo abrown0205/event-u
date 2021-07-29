@@ -489,7 +489,7 @@ function Map() {
                                     id="likes-btn" 
                                     onClick={handleLike.bind(null, events._id)}
                                 >
-                                    like {events.likes}
+                                    like
                                 </button>
                                 {currentUser === events.createdBy && 
                                     <button className="res-btn" id="edit-btn"
