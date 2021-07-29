@@ -26,7 +26,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
-
+// comment
 var bp = require('./Path.js');
 var Month = format(new Date(), "MM");
 var Day = "01";
