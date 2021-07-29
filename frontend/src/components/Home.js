@@ -506,7 +506,7 @@ function Events() {
                             <h3 className="itemDesc">{item.description}</h3>
                             <h3 className="itemAddress">{item.address}</h3>
                             <h3 className="itemDate">{item.date}</h3>
-                            <h3 className="itemTime">{item.startTime} to {item.endTime}</h3>
+                            <h3 className="itemTime">{format(parseISO(item.startTime), "MMMM dd, yyyy hh:MM a")} to {format(parseISO(item.endTime), "hh:MM a")}</h3>
                             {(item.createdBy===ud.username) &&
                                 <div>
                                     <button className="customBtns" id="editBtn" onClick={handleOpenEdit.bind(null, item._id, item.address, item.title, item.category, item.capacity, item.description)}>Edit</button>
@@ -1427,7 +1427,7 @@ function OngoingEvents() {
                                     <h2 className="itemCreator">Posted by: {item.createdBy}</h2>
                                     <h3 className="itemDesc">{item.description}</h3>
                                     <h3 className="itemAddress">{item.address}</h3>
-                                    <h3 className="itemTime">{item.startTime} to {item.endTime}</h3>
+                                    <h3 className="itemTime">{format(parseISO(item.startTime), "MMMM dd, yyyy hh:MM a")} to {format(parseISO(item.endTime), "hh:MM a")}</h3>
                                     {/*(item.createdBy===ud.username) &&
                                         <div>
                                             <button className="customBtns" id="editBtn">Edit</button>
@@ -1460,7 +1460,7 @@ function OngoingEvents() {
                                     <h2 className="itemCreator">Posted by: {item.createdBy}</h2>
                                     <h3 className="itemDesc">{item.description}</h3>
                                     <h3 className="itemAddress">{item.address}</h3>
-                                    <h3 className="itemTime">{item.startTime} to {item.endTime}</h3>
+                                    <h3 className="itemTime">{format(parseISO(item.startTime), "MMMM dd, yyyy hh:MM a")} to {format(parseISO(item.endTime), "hh:MM a")}</h3>
                                     {/*(item.createdBy===ud.username) &&
                                         <div>
                                             <button className="customBtns" id="editBtn">Edit</button>

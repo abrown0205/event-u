@@ -615,10 +615,10 @@
 #comment-box {
     resize: none;
     width: 75%;
-    margin-top: 30px;
+    margin-top: 55px;
     margin-left: 12.5%;
     position: absolute;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
     float: right;
 }
 
@@ -656,6 +656,11 @@
     position: absolute;
     top: 250px;
     left: 10%;
+}
+
+#cap-label {
+    margin-top: 20px;
+    margin-bottom: -20px;
 }
 
 .listHeader {
