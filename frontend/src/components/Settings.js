@@ -131,6 +131,7 @@ function Settings() {
                             type="text"
                             placeholder="Change email"
                             className="input-field"
+                            id="email-text"
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </label>
@@ -142,22 +143,14 @@ function Settings() {
                             onChange={(e) => setUserName(e.target.value)}
                         />
                     </label>
-                    <button className="password-btn" 
-                        onClick={(e) => changePassword(e, true)}
-                        onDoubleClick={(e) => changePassword(e, false)}
-                        >
-                            Change Password
-                        </button>
-                    {passOption && 
-                        <label className="input-label">Password
-                            <input 
-                                type="text"
-                                placeholder="Change password"
-                                className="input-field"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </label>
-                    }
+                    <label className="input-label">Password
+                        <input 
+                            type="text"
+                            placeholder="Change password"
+                            className="input-field"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </label>
                     <div className="settingsBtnContain">
                     <button className="settings-btn" id="set-preferences" onClick={onClickUpdatePref}>preferences</button>
                     <button className="settings-btn" id="set-cancel" onClick={onClickCancel}>Cancel</button>

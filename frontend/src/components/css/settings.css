@@ -48,6 +48,11 @@
     font-size: 15px;
 }
 
+#email-text {
+    position: absolute;
+    left: 20px;
+}
+
 #title {
     text-align: center;
     font-size: 40px;
@@ -87,8 +92,9 @@
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-    position: relative;
-    top: 50px;
+    position: absolute;
+    top: 550px;
+
 }
 
 .settings-btn:hover {
@@ -98,15 +104,15 @@
 }
 
 #set-preferences {
-    left: 450px;
+    left: 480px;
 }
 
 #set-cancel {
-    left: 460px;
+    left: 610px;
 }
 
 #set-save {
-    left: 470px;
+    left: 700px;
 }
 
 #pass-btn {

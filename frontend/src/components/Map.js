@@ -194,6 +194,7 @@ function Map() {
             const addToLike = res.data;
             handleLike(addToLike._id);
             setEventMsg('');
+            setEdit(false);
         } catch(err) {
             console.log(err)
         }
@@ -524,7 +525,7 @@ function Map() {
                         {edit && 
                             <div className="editEvents">
                                 <h4 className="form-header" id="edit-title">Edit Event</h4>
-                                <form className="addEvent-form">
+                                <form className="editEvent-form">
                                     <label className="label" id="name-label">title: 
                                     <input 
                                         type="text" 
