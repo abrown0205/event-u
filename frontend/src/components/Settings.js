@@ -145,9 +145,11 @@ function Settings() {
                             />
                         </label>
                     }
+                    <div className="settingsBtnContain">
                     <button className="settings-btn" id="set-preferences" onClick={onClickUpdatePref}>preferences</button>
                     <button className="settings-btn" id="set-cancel" onClick={onClickCancel}>Cancel</button>
                     <button className="settings-btn" id="set-save" onClick={(e) => changeSettings(e)}>Save</button>
+                    </div>
                 </form>
             </div>
         </div>

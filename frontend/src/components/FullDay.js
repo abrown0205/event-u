@@ -82,7 +82,6 @@ export default function FullDay(props) {
                     end : endDate
                 }
                 );
-                console.log(res.data);
                 setCalEvents(res.data);
             } catch(err) {
                 console.log(err);
@@ -115,7 +114,6 @@ export default function FullDay(props) {
     }
 
     //Likes
-    var testArr = [];
 
     function handleLike(itemId)
     {
@@ -188,11 +186,7 @@ export default function FullDay(props) {
                 calEvents.map(event => 
                     <li key={event._id} className="fullListItem">
                         <h2>{event.title} </h2>
-                        <button className="calendarButton" onClick={ () => {
-                                handleLike.bind(null, event._id);
-                                console.log(event.likes);
-                            }
-                        }>like</button>
+                        <button className="calendarButton" onClick={handleLike.bind(null, event._id)}>like</button>
 
                         {/* edit button displays if creator */}
                         {currentUser === event.createdBy &&  

@@ -294,20 +294,19 @@ export default function EditForm(props) {
                 <div className="eventPostContainer">
                     <div>
                         <div id="closeForm" onClick={() => displayContent(a => !a)}><FontAwesomeIcon icon={faTimesCircle} /></div>
-                        <form className="eventForm" onSubmit={handleEventUpdate} autoComplete="off">
-                            <h4 className="form-header">Edit Your Event!</h4>
+                        <form className="eventForm" id='editForm' onSubmit={handleEventUpdate} autoComplete="off">
+                            <h4 className="form-header">Edit an Event!</h4>
                             <label className="label" id="name-label">title:
                                 <input
                                     type="text"
                                     className="input-field"
                                     id="name-input"
                                     placeholder="Enter title..."
-                                    defaultValue = {Title}
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </label>
                             <label className="label" id="cat-label">category:
-                                <select id="options-list" defaultValue={Category} onChange={(e) => setCategory(e.target.value)}>
+                                <select id="options-list" onChange={(e) => setCategory(e.target.value)}>
                                     <option id="cat-options" value={null}></option>
                                     <option id="cat-options" value="Arts & Culture">Arts & Culture</option>
                                     <option id="cat-options" value="Sports">Sports</option>
@@ -315,16 +314,17 @@ export default function EditForm(props) {
                                     <option id="cat-options" value="Music">Music</option>
                                     <option id="cat-options" value="Shopping">Shopping</option>
                                     <option id="cat-options" value="Studying">Studying</option>
+                                    <option id="cat-options" value="Social">Social</option>
                                 </select>
                             </label>
                             <label className="label" id="add-label">address:
                                 <div ref={ref}>
-                                    <input
-                                    type="text"
-                                    className="input-field"
-                                    id="add-input"
+                                    <input 
+                                    value={value}
+                                    type="text" 
+                                    className="input-field" 
+                                    id="add-input" 
                                     placeholder="Enter address..."
-                                    defaultValue = {Address}
                                     onChange={handleAddressInput}
                                     />
                                     {status === "OK" && <ul className="addressUl">{renderSuggestions()}</ul>}
@@ -332,7 +332,7 @@ export default function EditForm(props) {
                             </label>
 
                             <label className="label" id="desc-label">Date:
-                                <select className="time" id="date-month-select" defaultValue={Month} onChange={(e) => setMonth(e.target.value)}>
+                                <select className="time" id="date-month-select" defaultValue={format(new Date(), "MM")} onChange={(e) => Month = e.target.value}>
                                     <option className="date-options" value="01">January</option>
                                     <option className="date-options" value="02">February</option>
                                     <option className="date-options" value="03">March</option>
@@ -346,7 +346,7 @@ export default function EditForm(props) {
                                     <option className="date-options" value="11">November</option>
                                     <option className="date-options" value="12">December</option>
                                 </select>
-                                <select className="time" id="date-month-select" defaultValue={Day} onChange={(e) => setDay(e.target.value)}>
+                                <select className="time" id="date-month-select" defaultValue={format(new Date(), "dd")} onChange={(e) => Day = e.target.value}>
                                     <option className="date-options" value="01">01</option>
                                     <option className="date-options" value="02">02</option>
                                     <option className="date-options" value="03">03</option>
@@ -379,7 +379,7 @@ export default function EditForm(props) {
                                     <option className="date-options" value="30">30</option>
                                     <option className="date-options" value="31">31</option>
                                 </select>
-                                <select className="time" id="date-month-select" defaultValue={Year} onChange={(e) => setYear(e.target.value)}>
+                                <select className="time" id="date-month-select" defaultValue={format(new Date(), "yyyy")} onChange={(e) => Year = e.target.value}>
                                     <option className="date-options" value="2021">2021</option>
                                     <option className="date-options" value="2022">2022</option>
                                     <option className="date-options" value="2023">2023</option>
@@ -396,7 +396,7 @@ export default function EditForm(props) {
                             
                             
                             <label className="label" id="startTime-label">start time:
-                                <select className="time" defaultValue={StartHour} id="time-hour-select"  onChange={(e) => setStartHour(e.target.value)}>
+                                <select className="time" defaultValue="12" id="time-hour-select" onChange={(e) => StartHour = e.target.value}>
                                     <option className="time-options" value="00">12 AM</option>
                                     <option className="time-options" value="01">1 AM</option>
                                     <option className="time-options" value="02">2 AM</option>
@@ -423,7 +423,7 @@ export default function EditForm(props) {
                                     <option className="time-options" value="23">11 PM</option>                                  
                                     
                                 </select>
-                                <select className="time" id="time-min-select" defaultValue={StartMin} onChange={(e) => setStartMin(e.target.value)}>
+                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => StartMin = e.target.value}>
                                     <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
@@ -491,7 +491,7 @@ export default function EditForm(props) {
                                 </select> */}
                             </label>
                             <label className="label" id="endTime-label">end time:
-                                <select className="time" id="time-hour-select" defaultValue={EndHour} onChange={(e) => setEndHour(e.target.value)}>
+                                <select className="time" id="time-hour-select" defaultValue="12" onChange={(e) => EndHour = e.target.value}>
                                 <option className="time-options" value="00">12 AM</option>
                                     <option className="time-options" value="01">1 AM</option>
                                     <option className="time-options" value="02">2 AM</option>
@@ -517,7 +517,7 @@ export default function EditForm(props) {
                                     <option className="time-options" value="22">10 PM</option>
                                     <option className="time-options" value="23">11 PM</option>  
                                 </select>
-                                <select className="time" id="time-min-select" defaultValue={EndMin} onChange={(e) => setEndMin(e.target.value)}>
+                                <select className="time" id="time-min-select" defaultValue="00" onChange={(e) => EndMin = e.target.value}>
                                 <option className="time-options" value="00">00</option>
                                     <option className="time-options" value="01">01</option>
                                     <option className="time-options" value="02">02</option>
@@ -585,34 +585,34 @@ export default function EditForm(props) {
                                 </select> */}
                             </label>                          
 
-                            <label className="label" id="desc-label" >description:</label>
-                            <textarea
-                                id="comment-box"
-                                placeholder="Comments..."
-                                defaultValue = {Description}
-                                rows="9"
-                                cols="40"
-                                onChange={(e) => setDescription(e.target.value)}
-                            />
-                            <label className="label" id="cap-label">capacity:
+                            <label className="label" id="desc-label" >description:
+                                <textarea
+                                    rows="3"
+                                    cols="40"
+                                    id="comment-box"
+                                    placeholder="Comments..."
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </label>
+                            
+                            <br />
+                            <label className="label" id="cap-label">Capacity:
                                 <input
                                     type="number"
                                     className="input-field"
                                     id="cap-input"
                                     min="0"
-                                    defaultValue={Capacity}
                                     onChange={(e) => setCapacity(e.target.value)}
                                 />
                             </label>
                             <div className="submitContainer">
-                                <button type ="submit" id="submitEvent">Edit Event</button>
+                                <button type ="submit" id="submitEvent">Save Event</button>
                             </div>
                             <span className="eventError">{eventMsg}</span>
                         </form>
                     </div>
                 </div>
             </animated.div>
-
         </div>
     );
 };
