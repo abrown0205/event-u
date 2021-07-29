@@ -23,8 +23,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 //mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 // eslint-disable-next-line; 
 // import '/no-webpack-loader-syntax';
-// // eslint-disable-next-line import/no-webpack-loader-syntax
-//mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+/* eslint import/no-webpack-loader-syntax: off */
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 // comment
 var bp = require('./Path.js');
